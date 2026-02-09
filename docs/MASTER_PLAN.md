@@ -29,10 +29,12 @@ AMI es un instituto educativo de trading que necesita una plataforma web profesi
 | **Pasarela de pagos** | Stripe + Laravel Cashier | Integración nativa con Laravel. API excelente. Soporte global. |
 | **Stack completo** | TALL Stack | **T**ailwind CSS + **A**lpine.js + **L**ivewire + **L**aravel. Ecosistema unificado. |
 
+| **Video hosting** | Bunny.net Stream | CDN global, pricing competitivo, API simple, player embebido personalizable. |
+| **Tema visual** | Dark/Light con dark por defecto | Estilo TradingView. Profesional, moderno, orientado a traders. Logos dinámicos según tema. |
+
 ### Decisiones Pendientes (resolver en Phase 0)
 
 1. **Hosting:** VPS con Laravel Forge vs PaaS (Laravel Cloud, Railway)
-2. **Video hosting:** Vimeo OTT vs YouTube unlisted vs almacenamiento propio (S3)
 
 ---
 

@@ -25,5 +25,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CourseSeeder::class);
         $this->call(PlanSeeder::class);
+        $this->call(TradePairSeeder::class);
+        $this->call(ManualTradeSeeder::class);
+        $this->call(TradeEntrySeeder::class);
+        $this->call(JournalSummarySeeder::class);
     }
 }

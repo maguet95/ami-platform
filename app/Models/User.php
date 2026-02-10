@@ -49,6 +49,9 @@ class User extends Authenticatable implements FilamentUser
         'twitter_handle',
         'trading_since',
         'is_profile_public',
+        'share_manual_journal',
+        'share_automatic_journal',
+        'automatic_journal_account_type',
         'total_xp',
         'current_streak',
         'longest_streak',
@@ -77,6 +80,8 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
             'trading_since' => 'date',
             'is_profile_public' => 'boolean',
+            'share_manual_journal' => 'boolean',
+            'share_automatic_journal' => 'boolean',
             'last_active_date' => 'date',
         ];
     }
@@ -133,6 +138,13 @@ class User extends Authenticatable implements FilamentUser
     public function journalSummaries(): HasMany
     {
         return $this->hasMany(JournalSummary::class);
+    }
+
+    // Manual Journal (Bitacora)
+
+    public function manualTrades(): HasMany
+    {
+        return $this->hasMany(ManualTrade::class);
     }
 
     // Gamification relationships

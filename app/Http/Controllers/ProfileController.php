@@ -68,6 +68,9 @@ class ProfileController extends Controller
         }
 
         $data['is_profile_public'] = $request->boolean('is_profile_public');
+        $data['share_manual_journal'] = $request->boolean('share_manual_journal');
+        $data['share_automatic_journal'] = $request->boolean('share_automatic_journal');
+        $data['automatic_journal_account_type'] = $request->input('automatic_journal_account_type');
 
         $user->update($data);
 

@@ -1,14 +1,17 @@
 <?php
 
 use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\ManualJournalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\RankingController;
+use App\Http\Controllers\ManualJournalExportController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\TradingStatsController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +53,9 @@ Route::middleware('auth')->group(function () {
 
     // Trading Journal (premium)
     Route::get('/journal', [JournalController::class, 'index'])->name('journal');
+    Route::get('/journal/estadisticas', [TradingStatsController::class, 'automaticStats'])->name('journal.stats');
+    Route::get('/journal/exportar/excel', [JournalController::class, 'exportExcel'])->name('journal.export.excel');
+    Route::get('/journal/exportar/pdf', [JournalController::class, 'exportPdf'])->name('journal.export.pdf');
 
     // Subscription Routes
     Route::post('/suscripcion/{plan:slug}/checkout', [SubscriptionController::class, 'checkout'])
@@ -57,6 +63,22 @@ Route::middleware('auth')->group(function () {
         ->name('subscription.checkout');
     Route::get('/suscripcion/exito', [SubscriptionController::class, 'success'])->name('subscription.success');
     Route::get('/suscripcion/portal', [SubscriptionController::class, 'portal'])->name('subscription.portal');
+
+    // Manual Journal (Bitacora) — free for all authenticated users
+    Route::prefix('bitacora')->name('bitacora.')->group(function () {
+        Route::get('/', [ManualJournalController::class, 'index'])->name('index');
+        Route::get('/estadisticas', [TradingStatsController::class, 'manualStats'])->name('stats');
+        Route::get('/exportar/excel', [ManualJournalExportController::class, 'exportExcel'])->name('export.excel');
+        Route::get('/exportar/pdf', [ManualJournalExportController::class, 'exportPdf'])->name('export.pdf');
+        Route::get('/crear', [ManualJournalController::class, 'create'])->name('create');
+        Route::post('/', [ManualJournalController::class, 'store'])->name('store');
+        Route::get('/{trade}', [ManualJournalController::class, 'show'])->name('show');
+        Route::get('/{trade}/editar', [ManualJournalController::class, 'edit'])->name('edit');
+        Route::put('/{trade}', [ManualJournalController::class, 'update'])->name('update');
+        Route::delete('/{trade}', [ManualJournalController::class, 'destroy'])->name('destroy');
+        Route::post('/{trade}/duplicar', [ManualJournalController::class, 'duplicate'])->name('duplicate');
+        Route::delete('/imagen/{image}', [ManualJournalController::class, 'destroyImage'])->name('image.destroy');
+    });
 
     // Student Routes
     Route::get('/mis-cursos', [StudentCourseController::class, 'index'])->name('student.courses');

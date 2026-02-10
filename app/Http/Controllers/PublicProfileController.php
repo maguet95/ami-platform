@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\TradingStatsService;
 
 class PublicProfileController extends Controller
 {
@@ -27,9 +28,37 @@ class PublicProfileController extends Controller
         $completedLessons = $user->getCompletedLessonsCount();
         $rank = $user->getRank();
 
+        // Journal stats for public profile
+        $manualJournalStats = null;
+        $manualEquityCurve = null;
+        $manualPairDistribution = null;
+        $automaticJournalStats = null;
+        $automaticEquityCurve = null;
+        $automaticPairDistribution = null;
+
+        if ($user->share_manual_journal) {
+            $manualService = TradingStatsService::manual($user->id);
+            $manualJournalStats = $manualService->getOverviewMetrics();
+            if ($manualJournalStats['total_trades'] > 0) {
+                $manualEquityCurve = $manualService->getEquityCurve();
+                $manualPairDistribution = $manualService->getPairDistribution();
+            }
+        }
+
+        if ($user->share_automatic_journal) {
+            $autoService = TradingStatsService::automatic($user->id);
+            $automaticJournalStats = $autoService->getOverviewMetrics();
+            if ($automaticJournalStats['total_trades'] > 0) {
+                $automaticEquityCurve = $autoService->getEquityCurve();
+                $automaticPairDistribution = $autoService->getPairDistribution();
+            }
+        }
+
         return view('profile.public-show', compact(
             'user', 'achievements', 'recentXp',
-            'completedCourses', 'completedLessons', 'rank', 'isOwner'
+            'completedCourses', 'completedLessons', 'rank', 'isOwner',
+            'manualJournalStats', 'manualEquityCurve', 'manualPairDistribution',
+            'automaticJournalStats', 'automaticEquityCurve', 'automaticPairDistribution',
         ));
     }
 }

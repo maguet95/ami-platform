@@ -172,6 +172,66 @@
                     @enderror
                 </div>
 
+                {{-- Journal Sharing Section --}}
+                <div class="pt-6 border-t border-surface-700/50">
+                    <h4 class="text-sm font-semibold text-white mb-1">Compartir Journal</h4>
+                    <p class="text-xs text-surface-500 mb-4">Decide que estadisticas de trading mostrar en tu perfil publico.</p>
+
+                    <div class="space-y-3">
+                        {{-- Share manual journal --}}
+                        <div class="flex items-center justify-between p-3 bg-surface-800/50 rounded-xl"
+                             x-data="{ shareManual: {{ $user->share_manual_journal ? 'true' : 'false' }} }">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-surface-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-white">Bitacora Manual</p>
+                                    <p class="text-xs text-surface-500">Mostrar estadisticas de tu journal manual.</p>
+                                </div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="hidden" name="share_manual_journal" value="0">
+                                <input type="checkbox" name="share_manual_journal" value="1"
+                                       class="sr-only peer" x-model="shareManual"
+                                       {{ $user->share_manual_journal ? 'checked' : '' }}>
+                                <div class="w-11 h-6 bg-surface-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#fff] after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-ami-500"></div>
+                            </label>
+                        </div>
+
+                        {{-- Share automatic journal --}}
+                        <div class="p-3 bg-surface-800/50 rounded-xl space-y-3"
+                             x-data="{ shareAutomatic: {{ $user->share_automatic_journal ? 'true' : 'false' }} }">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-surface-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-white">Journal Automatico</p>
+                                        <p class="text-xs text-surface-500">Mostrar estadisticas del journal automatico.</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="hidden" name="share_automatic_journal" value="0">
+                                    <input type="checkbox" name="share_automatic_journal" value="1"
+                                           class="sr-only peer" x-model="shareAutomatic"
+                                           {{ $user->share_automatic_journal ? 'checked' : '' }}>
+                                    <div class="w-11 h-6 bg-surface-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#fff] after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-ami-500"></div>
+                                </label>
+                            </div>
+                            <div x-show="shareAutomatic" x-cloak>
+                                <label for="automatic_journal_account_type" class="block text-xs text-surface-500 mb-1">Tipo de cuenta (transparencia)</label>
+                                <input type="text" name="automatic_journal_account_type" id="automatic_journal_account_type"
+                                       value="{{ old('automatic_journal_account_type', $user->automatic_journal_account_type) }}"
+                                       placeholder="ej. Demo MT5, Real Binance"
+                                       class="w-full bg-surface-800 border border-surface-700 rounded-lg px-3 py-2 text-sm text-white placeholder-surface-600 focus:border-ami-500 focus:ring-1 focus:ring-ami-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="flex justify-end pt-4 border-t border-surface-700/50">
                     <button type="submit"
                             class="px-6 py-2.5 text-sm font-semibold text-white bg-ami-500 hover:bg-ami-600 rounded-xl transition-all duration-200 shadow-lg shadow-ami-500/25">

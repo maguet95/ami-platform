@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JournalController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
@@ -26,7 +27,9 @@ Route::controller(PageController::class)->group(function () {
 Route::get('/planes', [SubscriptionController::class, 'index'])->name('pricing');
 
 // Stripe Webhook
-Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])->name('stripe.webhook');
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])
+    ->middleware('throttle:webhooks')
+    ->name('stripe.webhook');
 
 // Public Profiles & Ranking
 Route::get('/ranking', [RankingController::class, 'index'])->name('ranking');
@@ -45,8 +48,13 @@ Route::middleware('auth')->group(function () {
     // Achievements
     Route::get('/logros', [AchievementController::class, 'index'])->name('achievements');
 
+    // Trading Journal (premium)
+    Route::get('/journal', [JournalController::class, 'index'])->name('journal');
+
     // Subscription Routes
-    Route::post('/suscripcion/{plan:slug}/checkout', [SubscriptionController::class, 'checkout'])->name('subscription.checkout');
+    Route::post('/suscripcion/{plan:slug}/checkout', [SubscriptionController::class, 'checkout'])
+        ->middleware('throttle:checkout')
+        ->name('subscription.checkout');
     Route::get('/suscripcion/exito', [SubscriptionController::class, 'success'])->name('subscription.success');
     Route::get('/suscripcion/portal', [SubscriptionController::class, 'portal'])->name('subscription.portal');
 

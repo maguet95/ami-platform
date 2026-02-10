@@ -123,6 +123,18 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasActiveSubscription();
     }
 
+    // Journal relationships
+
+    public function tradeEntries(): HasMany
+    {
+        return $this->hasMany(TradeEntry::class);
+    }
+
+    public function journalSummaries(): HasMany
+    {
+        return $this->hasMany(JournalSummary::class);
+    }
+
     // Gamification relationships
 
     public function achievements(): BelongsToMany

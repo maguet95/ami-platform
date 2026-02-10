@@ -11,14 +11,14 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         $enrollments = $user->enrollments()->with('course')->active()->get();
-        $enrolledCount = $user->enrollments()->count();
+        $enrolledCount = $enrollments->count();
         $completedLessons = $user->getCompletedLessonsCount();
 
         // Estimate study hours from completed lessons (avg ~15 min each)
         $studyHours = round($completedLessons * 0.25, 1);
 
         // Average progress across active enrollments
-        $avgProgress = $enrollments->count() > 0
+        $avgProgress = $enrolledCount > 0
             ? (int) round($enrollments->avg('progress_percent'))
             : 0;
 
@@ -34,12 +34,10 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        // Current enrollment to continue
-        $currentEnrollment = $user->enrollments()
-            ->with('course')
-            ->active()
+        // Current enrollment to continue (from already loaded collection)
+        $currentEnrollment = $enrollments
             ->where('progress_percent', '<', 100)
-            ->orderBy('updated_at', 'desc')
+            ->sortByDesc('updated_at')
             ->first();
 
         return view('dashboard', compact(

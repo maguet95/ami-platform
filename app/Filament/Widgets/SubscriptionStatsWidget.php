@@ -9,7 +9,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class SubscriptionStatsWidget extends StatsOverviewWidget
 {
-    protected static ?int $sort = 0;
+    protected static ?int $sort = 1;
 
     protected function getStats(): array
     {

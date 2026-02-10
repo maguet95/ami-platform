@@ -22,7 +22,8 @@
         {{-- Logo --}}
         <div class="relative mb-8">
             <a href="{{ route('home') }}">
-                <img src="{{ asset('images/logos/logo-dark.jpg') }}" alt="AMI" class="h-12 rounded">
+                <img src="{{ asset('images/logos/logo-dark.jpg') }}" alt="AMI" class="h-12 rounded dark:block hidden">
+                <img src="{{ asset('images/logos/logo-light.jpg') }}" alt="AMI" class="h-12 rounded dark:hidden block">
             </a>
         </div>
 

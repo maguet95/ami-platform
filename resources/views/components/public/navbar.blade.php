@@ -41,6 +41,10 @@
                    class="px-4 py-2 text-sm font-medium text-surface-300 hover:text-white hover:bg-surface-800/60 rounded-lg transition-all duration-200">
                     Contacto
                 </a>
+                <a href="{{ route('ranking') }}"
+                   class="px-4 py-2 text-sm font-medium text-surface-300 hover:text-white hover:bg-surface-800/60 rounded-lg transition-all duration-200">
+                    Ranking
+                </a>
             </div>
 
             <!-- Right Side: Theme Toggle + CTA -->
@@ -105,6 +109,7 @@
                 <a href="{{ route('courses') }}" class="block px-4 py-3 text-surface-300 hover:text-white hover:bg-surface-800/60 rounded-lg transition-all">Cursos</a>
                 <a href="{{ route('pricing') }}" class="block px-4 py-3 text-surface-300 hover:text-white hover:bg-surface-800/60 rounded-lg transition-all">Planes</a>
                 <a href="{{ route('contact') }}" class="block px-4 py-3 text-surface-300 hover:text-white hover:bg-surface-800/60 rounded-lg transition-all">Contacto</a>
+                <a href="{{ route('ranking') }}" class="block px-4 py-3 text-surface-300 hover:text-white hover:bg-surface-800/60 rounded-lg transition-all">Ranking</a>
             </div>
             <div class="pt-4 mt-4 border-t border-surface-700/50 space-y-2 px-4">
                 <button onclick="toggleTheme()" class="w-full flex items-center gap-2 py-3 text-surface-400 hover:text-white">

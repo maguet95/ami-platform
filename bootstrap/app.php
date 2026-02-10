@@ -14,6 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'stripe/*',
         ]);
+
+        $middleware->appendToGroup('web', \App\Http\Middleware\RecordDailyLogin::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

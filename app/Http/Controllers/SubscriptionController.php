@@ -29,11 +29,16 @@ class SubscriptionController extends Controller
                 ->with('error', 'Este plan aún no está configurado para pagos.');
         }
 
-        return $user->newSubscription('default', $plan->stripe_price_id)
-            ->checkout([
-                'success_url' => route('subscription.success') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => route('pricing'),
-            ]);
+        try {
+            return $user->newSubscription('default', $plan->stripe_price_id)
+                ->checkout([
+                    'success_url' => route('subscription.success') . '?session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url' => route('pricing'),
+                ]);
+        } catch (\Exception $e) {
+            return redirect()->route('pricing')
+                ->with('error', 'El sistema de pagos no está disponible en este momento. Intenta más tarde.');
+        }
     }
 
     public function success(Request $request)
@@ -43,6 +48,18 @@ class SubscriptionController extends Controller
 
     public function portal(Request $request)
     {
-        return $request->user()->redirectToBillingPortal(route('dashboard'));
+        $user = $request->user();
+
+        if (! $user->stripe_id || ! $user->hasActiveSubscription()) {
+            return redirect()->route('pricing')
+                ->with('info', 'No tienes una suscripción activa. Elige un plan para comenzar.');
+        }
+
+        try {
+            return $user->redirectToBillingPortal(route('dashboard'));
+        } catch (\Exception $e) {
+            return redirect()->route('pricing')
+                ->with('error', 'El portal de pagos no está disponible en este momento. Intenta más tarde.');
+        }
     }
 }

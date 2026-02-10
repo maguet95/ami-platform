@@ -6,6 +6,7 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,7 +21,16 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasRole('admin');
+        return match ($panel->getId()) {
+            'admin' => $this->hasRole('admin'),
+            'instructor' => $this->hasRole(['instructor', 'admin']),
+            default => false,
+        };
+    }
+
+    public function instructorCourses(): HasMany
+    {
+        return $this->hasMany(Course::class, 'instructor_id');
     }
 
     /**
@@ -32,6 +42,17 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'username',
+        'bio',
+        'avatar',
+        'location',
+        'twitter_handle',
+        'trading_since',
+        'is_profile_public',
+        'total_xp',
+        'current_streak',
+        'longest_streak',
+        'last_active_date',
     ];
 
     /**
@@ -54,6 +75,9 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'trading_since' => 'date',
+            'is_profile_public' => 'boolean',
+            'last_active_date' => 'date',
         ];
     }
 
@@ -83,7 +107,11 @@ class User extends Authenticatable implements FilamentUser
 
     public function hasActiveSubscription(): bool
     {
-        return $this->subscribed('default');
+        try {
+            return $this->subscribed('default');
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public function canAccessCourse(Course $course): bool
@@ -93,5 +121,74 @@ class User extends Authenticatable implements FilamentUser
         }
 
         return $this->hasActiveSubscription();
+    }
+
+    // Gamification relationships
+
+    public function achievements(): BelongsToMany
+    {
+        return $this->belongsToMany(Achievement::class, 'user_achievements')
+            ->withPivot('earned_at');
+    }
+
+    public function xpTransactions(): HasMany
+    {
+        return $this->hasMany(XpTransaction::class);
+    }
+
+    public function loginLogs(): HasMany
+    {
+        return $this->hasMany(UserLoginLog::class);
+    }
+
+    // Gamification helpers
+
+    public function addXp(int $amount, string $type, string $description, ?string $refType = null, ?int $refId = null): void
+    {
+        $this->xpTransactions()->create([
+            'amount' => $amount,
+            'type' => $type,
+            'description' => $description,
+            'reference_type' => $refType,
+            'reference_id' => $refId,
+        ]);
+
+        $this->increment('total_xp', $amount);
+    }
+
+    public function getLevel(): int
+    {
+        // Every 100 XP = 1 level, minimum level 1
+        return max(1, (int) floor($this->total_xp / 100) + 1);
+    }
+
+    public function getLevelProgress(): int
+    {
+        // Percentage towards next level
+        return $this->total_xp % 100;
+    }
+
+    public function getRank(): int
+    {
+        return self::where('total_xp', '>', $this->total_xp)
+            ->where('is_profile_public', true)
+            ->count() + 1;
+    }
+
+    public function getCompletedCoursesCount(): int
+    {
+        return $this->enrollments()->where('status', 'completed')->count();
+    }
+
+    public function getCompletedLessonsCount(): int
+    {
+        return $this->lessonProgress()->where('is_completed', true)->count();
+    }
+
+    public function recordLogin(): void
+    {
+        $today = now()->toDateString();
+
+        $this->loginLogs()->firstOrCreate(['logged_in_at' => $today]);
     }
 }

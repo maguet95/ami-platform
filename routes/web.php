@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicProfileController;
+use App\Http\Controllers\RankingController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\WebhookController;
@@ -24,15 +28,22 @@ Route::get('/planes', [SubscriptionController::class, 'index'])->name('pricing')
 // Stripe Webhook
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])->name('stripe.webhook');
 
+// Public Profiles & Ranking
+Route::get('/ranking', [RankingController::class, 'index'])->name('ranking');
+Route::get('/trader/{user:username}', [PublicProfileController::class, 'show'])->name('profile.public');
+
 // Authenticated Routes
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/perfil', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/perfil', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/perfil/publico', [ProfileController::class, 'editPublic'])->name('profile.edit-public');
+    Route::patch('/perfil/publico', [ProfileController::class, 'updatePublic'])->name('profile.update-public');
+
+    // Achievements
+    Route::get('/logros', [AchievementController::class, 'index'])->name('achievements');
 
     // Subscription Routes
     Route::post('/suscripcion/{plan:slug}/checkout', [SubscriptionController::class, 'checkout'])->name('subscription.checkout');

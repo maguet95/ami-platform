@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Lesson;
 use App\Models\LessonProgress;
+use App\Services\GamificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -90,12 +91,27 @@ class StudentCourseController extends Controller
             ->active()
             ->firstOrFail();
 
+        $alreadyCompleted = LessonProgress::where('user_id', $user->id)
+            ->where('lesson_id', $lesson->id)
+            ->where('is_completed', true)
+            ->exists();
+
         LessonProgress::updateOrCreate(
             ['user_id' => $user->id, 'lesson_id' => $lesson->id],
             ['is_completed' => true, 'completed_at' => now()]
         );
 
         $enrollment->recalculateProgress();
+
+        // Gamification
+        if (! $alreadyCompleted) {
+            $gamification = app(GamificationService::class);
+            $gamification->onLessonCompleted($user, $lesson);
+
+            if ($enrollment->progress_percent >= 100) {
+                $gamification->onCourseCompleted($user, $course);
+            }
+        }
 
         // Find next lesson
         $nextLesson = $this->getNextLesson($course, $lesson);

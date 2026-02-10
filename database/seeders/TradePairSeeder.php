@@ -34,6 +34,15 @@ class TradePairSeeder extends Seeder
             ['symbol' => 'SPX500', 'market' => 'stocks', 'display_name' => 'S&P 500'],
             ['symbol' => 'NAS100', 'market' => 'stocks', 'display_name' => 'Nasdaq 100'],
             ['symbol' => 'US30', 'market' => 'stocks', 'display_name' => 'Dow Jones 30'],
+            ['symbol' => 'DAX40', 'market' => 'stocks', 'display_name' => 'DAX 40'],
+            ['symbol' => 'FTSE100', 'market' => 'stocks', 'display_name' => 'FTSE 100'],
+            ['symbol' => 'NIKKEI225', 'market' => 'stocks', 'display_name' => 'Nikkei 225'],
+
+            // Commodities
+            ['symbol' => 'XAGUSD', 'market' => 'commodities', 'display_name' => 'Plata/Dolar'],
+            ['symbol' => 'WTIUSD', 'market' => 'commodities', 'display_name' => 'Petroleo WTI'],
+            ['symbol' => 'BRENTUSD', 'market' => 'commodities', 'display_name' => 'Petroleo Brent'],
+            ['symbol' => 'NATGASUSD', 'market' => 'commodities', 'display_name' => 'Gas Natural'],
         ];
 
         foreach ($pairs as $pair) {

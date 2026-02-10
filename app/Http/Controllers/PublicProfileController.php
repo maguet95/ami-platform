@@ -8,7 +8,9 @@ class PublicProfileController extends Controller
 {
     public function show(User $user)
     {
-        if (! $user->is_profile_public) {
+        $isOwner = auth()->check() && auth()->id() === $user->id;
+
+        if (! $user->is_profile_public && ! $isOwner) {
             abort(404);
         }
 
@@ -27,7 +29,7 @@ class PublicProfileController extends Controller
 
         return view('profile.public-show', compact(
             'user', 'achievements', 'recentXp',
-            'completedCourses', 'completedLessons', 'rank'
+            'completedCourses', 'completedLessons', 'rank', 'isOwner'
         ));
     }
 }

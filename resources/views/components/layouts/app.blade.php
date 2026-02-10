@@ -24,7 +24,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="min-h-screen bg-surface-950 text-surface-100 dark:bg-surface-950 dark:text-surface-100
+<body class="min-h-screen bg-surface-950 text-surface-100
              light:bg-surface-50 light:text-surface-900 antialiased">
 
     <x-public.navbar />

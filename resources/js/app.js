@@ -1,5 +1,11 @@
 import './bootstrap';
 
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
+
 // Theme toggle (dark/light) - dark by default
 function initTheme() {
     const stored = localStorage.getItem('ami-theme');

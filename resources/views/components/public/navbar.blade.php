@@ -55,14 +55,21 @@
                     </svg>
                 </button>
 
-                <a href="{{ route('login') }}"
-                   class="px-4 py-2 text-sm font-medium text-surface-300 hover:text-white transition-colors duration-200">
-                    Iniciar Sesión
-                </a>
-                <a href="{{ route('register') }}"
-                   class="px-5 py-2.5 text-sm font-semibold text-white bg-ami-500 hover:bg-ami-600 rounded-lg transition-all duration-200 shadow-lg shadow-ami-500/25 hover:shadow-ami-500/40">
-                    Comenzar Ahora
-                </a>
+                @auth
+                    <a href="{{ route('dashboard') }}"
+                       class="px-5 py-2.5 text-sm font-semibold text-white bg-ami-500 hover:bg-ami-600 rounded-lg transition-all duration-200 shadow-lg shadow-ami-500/25 hover:shadow-ami-500/40">
+                        Mi Plataforma
+                    </a>
+                @else
+                    <a href="{{ route('login') }}"
+                       class="px-4 py-2 text-sm font-medium text-surface-300 hover:text-white transition-colors duration-200">
+                        Iniciar Sesión
+                    </a>
+                    <a href="{{ route('register') }}"
+                       class="px-5 py-2.5 text-sm font-semibold text-white bg-ami-500 hover:bg-ami-600 rounded-lg transition-all duration-200 shadow-lg shadow-ami-500/25 hover:shadow-ami-500/40">
+                        Comenzar Ahora
+                    </a>
+                @endauth
             </div>
 
             <!-- Mobile Menu Button -->
@@ -101,8 +108,12 @@
                     </svg>
                     Cambiar tema
                 </button>
-                <a href="{{ route('login') }}" class="block w-full text-center py-3 text-surface-300 hover:text-white rounded-lg border border-surface-700 transition-all">Iniciar Sesión</a>
-                <a href="{{ route('register') }}" class="block w-full text-center py-3 text-white bg-ami-500 hover:bg-ami-600 rounded-lg font-semibold transition-all">Comenzar Ahora</a>
+                @auth
+                    <a href="{{ route('dashboard') }}" class="block w-full text-center py-3 text-white bg-ami-500 hover:bg-ami-600 rounded-lg font-semibold transition-all">Mi Plataforma</a>
+                @else
+                    <a href="{{ route('login') }}" class="block w-full text-center py-3 text-surface-300 hover:text-white rounded-lg border border-surface-700 transition-all">Iniciar Sesión</a>
+                    <a href="{{ route('register') }}" class="block w-full text-center py-3 text-white bg-ami-500 hover:bg-ami-600 rounded-lg font-semibold transition-all">Comenzar Ahora</a>
+                @endauth
             </div>
         </div>
     </div>

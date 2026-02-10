@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+
 class PageController extends Controller
 {
     public function home()
@@ -21,7 +23,12 @@ class PageController extends Controller
 
     public function courses()
     {
-        return view('pages.courses');
+        $courses = Course::published()
+            ->withCount('modules', 'lessons')
+            ->orderBy('sort_order')
+            ->get();
+
+        return view('pages.courses', compact('courses'));
     }
 
     public function contact()

@@ -11,6 +11,45 @@
         <p class="mt-1 text-sm text-surface-400">Continúa tu formación como trader profesional.</p>
     </div>
 
+    {{-- Subscription Banner --}}
+    @if(Auth::user()->hasActiveSubscription())
+        <div class="mb-8 bg-bullish/5 border border-bullish/20 rounded-2xl p-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-bullish/10 rounded-xl flex items-center justify-center">
+                    <svg class="w-5 h-5 text-bullish" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-bullish">Membresía Activa</p>
+                    <p class="text-xs text-surface-400">Tienes acceso completo a todos los cursos premium.</p>
+                </div>
+            </div>
+            <a href="{{ route('subscription.portal') }}"
+               class="px-4 py-2 text-xs font-medium text-surface-300 bg-surface-800 hover:bg-surface-700 border border-surface-700 rounded-lg transition-all">
+                Administrar
+            </a>
+        </div>
+    @else
+        <div class="mb-8 bg-ami-500/5 border border-ami-500/20 rounded-2xl p-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-ami-500/10 rounded-xl flex items-center justify-center">
+                    <svg class="w-5 h-5 text-ami-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-white">Desbloquea todo el contenido</p>
+                    <p class="text-xs text-surface-400">Accede a cursos premium con una membresía.</p>
+                </div>
+            </div>
+            <a href="{{ route('pricing') }}"
+               class="px-4 py-2 text-xs font-semibold text-white bg-ami-500 hover:bg-ami-600 rounded-lg transition-all shadow-lg shadow-ami-500/25">
+                Ver Planes
+            </a>
+        </div>
+    @endif
+
     {{-- Stats Grid --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div class="bg-surface-900/80 border border-surface-700/50 rounded-2xl p-5">

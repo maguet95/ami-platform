@@ -3,6 +3,8 @@
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentCourseController;
+use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
 // Public Pages
@@ -16,6 +18,12 @@ Route::controller(PageController::class)->group(function () {
     Route::get('/privacidad', 'privacy')->name('privacy');
 });
 
+// Pricing (public)
+Route::get('/planes', [SubscriptionController::class, 'index'])->name('pricing');
+
+// Stripe Webhook
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])->name('stripe.webhook');
+
 // Authenticated Routes
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -25,6 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/perfil', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/perfil', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Subscription Routes
+    Route::post('/suscripcion/{plan:slug}/checkout', [SubscriptionController::class, 'checkout'])->name('subscription.checkout');
+    Route::get('/suscripcion/exito', [SubscriptionController::class, 'success'])->name('subscription.success');
+    Route::get('/suscripcion/portal', [SubscriptionController::class, 'portal'])->name('subscription.portal');
 
     // Student Routes
     Route::get('/mis-cursos', [StudentCourseController::class, 'index'])->name('student.courses');

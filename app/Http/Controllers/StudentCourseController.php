@@ -25,6 +25,12 @@ class StudentCourseController extends Controller
     {
         $user = Auth::user();
 
+        // Check subscription for premium courses (progress is preserved)
+        if (! $course->is_free && ! $user->hasActiveSubscription()) {
+            return redirect()->route('pricing')
+                ->with('error', 'Tu suscripción ha expirado. Renueva para seguir aprendiendo — tu progreso está guardado.');
+        }
+
         $enrollment = $user->enrollments()
             ->where('course_id', $course->id)
             ->active()
@@ -46,6 +52,12 @@ class StudentCourseController extends Controller
     public function lesson(Course $course, Lesson $lesson)
     {
         $user = Auth::user();
+
+        // Check subscription for premium courses
+        if (! $course->is_free && ! $user->hasActiveSubscription()) {
+            return redirect()->route('pricing')
+                ->with('error', 'Tu suscripción ha expirado. Renueva para seguir aprendiendo — tu progreso está guardado.');
+        }
 
         $user->enrollments()
             ->where('course_id', $course->id)
@@ -107,10 +119,10 @@ class StudentCourseController extends Controller
             abort(404);
         }
 
-        // For now, only free courses can be enrolled directly
-        if (! $course->is_free) {
-            return redirect()->route('courses')
-                ->with('error', 'Este curso requiere pago. Las membresías estarán disponibles próximamente.');
+        // Premium courses require an active subscription
+        if (! $course->is_free && ! $user->hasActiveSubscription()) {
+            return redirect()->route('pricing')
+                ->with('error', 'Este curso requiere una suscripción activa.');
         }
 
         Enrollment::create([

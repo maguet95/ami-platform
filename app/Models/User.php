@@ -10,12 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, HasRoles, Notifiable;
+    use Billable, HasFactory, HasRoles, Notifiable;
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -76,5 +77,21 @@ class User extends Authenticatable implements FilamentUser
     public function isEnrolledIn(Course $course): bool
     {
         return $this->enrollments()->where('course_id', $course->id)->active()->exists();
+    }
+
+    // Subscription helpers
+
+    public function hasActiveSubscription(): bool
+    {
+        return $this->subscribed('default');
+    }
+
+    public function canAccessCourse(Course $course): bool
+    {
+        if ($course->is_free) {
+            return true;
+        }
+
+        return $this->hasActiveSubscription();
     }
 }

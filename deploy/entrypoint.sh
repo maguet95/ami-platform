@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 echo "========================================="
 echo "  AMI Platform — Container Starting"
@@ -7,9 +6,23 @@ echo "========================================="
 
 cd /var/www/html
 
+# ─── Debug: Show DB config ──────────────────────────────────────────────
+echo "[0/5] Checking environment..."
+echo "  DB_CONNECTION=${DB_CONNECTION:-not set (will default to sqlite!)}"
+echo "  DATABASE_URL=${DATABASE_URL:+SET (hidden)}"
+echo "  REDIS_URL=${REDIS_URL:+SET (hidden)}"
+echo "  APP_ENV=${APP_ENV:-not set}"
+
+if [ -z "$DB_CONNECTION" ]; then
+    echo "  WARNING: DB_CONNECTION not set! Setting to pgsql..."
+    export DB_CONNECTION=pgsql
+fi
+
 # ─── Run Migrations ─────────────────────────────────────────────────────
 echo "[1/5] Running migrations..."
-php artisan migrate --force
+if ! php artisan migrate --force; then
+    echo "  WARNING: Migrations had errors. Continuing anyway..."
+fi
 
 # ─── Cache Configuration ────────────────────────────────────────────────
 echo "[2/5] Caching configuration..."

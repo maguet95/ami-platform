@@ -64,21 +64,25 @@
                 </div>
 
                 {{-- Stats --}}
-                <div class="mt-16 grid grid-cols-3 gap-8 max-w-lg"
+                <div class="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-xl"
                      x-data="{ show: false }" x-init="setTimeout(() => show = true, 1000)" x-show="show"
                      x-transition:enter="transition ease-out duration-700"
                      x-transition:enter-start="opacity-0 translate-y-8"
                      x-transition:enter-end="opacity-100 translate-y-0">
                     <div>
-                        <div class="text-2xl sm:text-3xl font-bold text-white">500+</div>
+                        <div class="text-2xl sm:text-3xl font-bold text-white">{{ $stats['students'] }}</div>
                         <div class="text-sm text-surface-400 mt-1">Estudiantes</div>
                     </div>
                     <div>
-                        <div class="text-2xl sm:text-3xl font-bold text-white">15+</div>
+                        <div class="text-2xl sm:text-3xl font-bold text-white">{{ $stats['courses'] }}</div>
                         <div class="text-sm text-surface-400 mt-1">Cursos</div>
                     </div>
                     <div>
-                        <div class="text-2xl sm:text-3xl font-bold text-white">98%</div>
+                        <div class="text-2xl sm:text-3xl font-bold text-white">{{ $stats['hours'] }}</div>
+                        <div class="text-sm text-surface-400 mt-1">Horas de contenido</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold text-white">{{ $stats['satisfaction'] }}</div>
                         <div class="text-sm text-surface-400 mt-1">Satisfacción</div>
                     </div>
                 </div>

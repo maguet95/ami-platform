@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Services\PlatformStatsService;
 
 class PageController extends Controller
 {
-    public function home()
+    public function home(PlatformStatsService $statsService)
     {
-        return view('pages.home');
+        $stats = $statsService->getHomeStats();
+
+        return view('pages.home', compact('stats'));
     }
 
     public function about()

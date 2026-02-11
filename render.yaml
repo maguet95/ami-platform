@@ -1,0 +1,101 @@
+# =============================================================================
+# AMI Platform — Render Infrastructure as Code
+# =============================================================================
+# Deploy: Connect this repo to Render, it will auto-detect render.yaml
+# Docs: https://render.com/docs/infrastructure-as-code
+# =============================================================================
+
+services:
+  - type: web
+    name: ami-web
+    runtime: docker
+    plan: starter
+    region: oregon
+    healthCheckPath: /
+    envVars:
+      - key: APP_NAME
+        value: AMI
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        value: https://amiglobal.pro
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_LOCALE
+        value: es
+      - key: APP_FALLBACK_LOCALE
+        value: es
+      - key: LOG_CHANNEL
+        value: stack
+      - key: LOG_STACK
+        value: stderr
+      - key: LOG_LEVEL
+        value: warning
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ami-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: ami-redis
+          type: redis
+          property: connectionString
+      - key: REDIS_CLIENT
+        value: predis
+      - key: SESSION_DRIVER
+        value: redis
+      - key: QUEUE_CONNECTION
+        value: redis
+      - key: CACHE_STORE
+        value: redis
+      - key: FILESYSTEM_DISK
+        value: r2
+      - key: MAIL_MAILER
+        value: resend
+      - key: RESEND_KEY
+        sync: false
+      - key: MAIL_FROM_ADDRESS
+        value: hola@amiglobal.pro
+      - key: MAIL_FROM_NAME
+        value: "AMI - Alpha Markets Institute"
+      - key: STRIPE_KEY
+        sync: false
+      - key: STRIPE_SECRET
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: CASHIER_CURRENCY
+        value: usd
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URL
+        value: https://amiglobal.pro/auth/google/callback
+      - key: CLOUDFLARE_R2_ACCESS_KEY_ID
+        sync: false
+      - key: CLOUDFLARE_R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: CLOUDFLARE_R2_BUCKET
+        value: ami-uploads
+      - key: CLOUDFLARE_R2_URL
+        sync: false
+      - key: CLOUDFLARE_R2_ENDPOINT
+        sync: false
+      - key: JOURNAL_ENABLED
+        value: "true"
+
+databases:
+  - name: ami-db
+    plan: starter
+    databaseName: ami_platform
+    user: ami_user
+    region: oregon
+
+# Note: Redis must be created manually on Render dashboard
+# (Redis is not supported in render.yaml free/starter tier)
+# After creating, link REDIS_URL in the web service env vars

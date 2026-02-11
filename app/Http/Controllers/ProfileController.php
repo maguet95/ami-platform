@@ -64,7 +64,8 @@ class ProfileController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('avatar')) {
-            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+            $disk = config('filesystems.default') === 'r2' ? 'r2' : 'public';
+            $data['avatar'] = $request->file('avatar')->store('avatars', $disk);
         }
 
         $data['is_profile_public'] = $request->boolean('is_profile_public');

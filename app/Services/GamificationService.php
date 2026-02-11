@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\AchievementUnlocked;
 use App\Models\Achievement;
 use App\Models\Lesson;
 use App\Models\Course;
@@ -30,6 +31,8 @@ class GamificationService
                 $user->achievements()->attach($achievement->id, [
                     'earned_at' => now(),
                 ]);
+
+                AchievementUnlocked::dispatch($user, $achievement);
 
                 if ($achievement->xp_reward > 0) {
                     $user->addXp(

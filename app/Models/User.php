@@ -42,6 +42,8 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'google_id',
+        'avatar_url',
         'username',
         'bio',
         'avatar',
@@ -56,6 +58,9 @@ class User extends Authenticatable implements FilamentUser
         'current_streak',
         'longest_streak',
         'last_active_date',
+        'email_notifications',
+        'weekly_digest',
+        'subscription_expiry_notified_at',
     ];
 
     /**
@@ -83,6 +88,9 @@ class User extends Authenticatable implements FilamentUser
             'share_manual_journal' => 'boolean',
             'share_automatic_journal' => 'boolean',
             'last_active_date' => 'date',
+            'email_notifications' => 'boolean',
+            'weekly_digest' => 'boolean',
+            'subscription_expiry_notified_at' => 'datetime',
         ];
     }
 

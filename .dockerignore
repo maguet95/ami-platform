@@ -1,0 +1,26 @@
+node_modules
+vendor
+.git
+.github
+.env
+.env.backup
+.env.local
+tests
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/public/*
+*.md
+!README.md
+docker-compose*.yml
+.phpunit*
+phpunit.xml
+.editorconfig
+.gitattributes
+.styleci.yml
+.claude
+"que es ami.odt"
+"*.odt"
+"*.odt#"
+.~lock.*

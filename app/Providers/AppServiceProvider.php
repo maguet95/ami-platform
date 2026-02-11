@@ -2,9 +2,26 @@
 
 namespace App\Providers;
 
+use App\Events\AchievementUnlocked;
+use App\Events\CourseEnrolled;
+use App\Events\PaymentFailed;
+use App\Events\SubscriptionCancelled;
+use App\Events\SubscriptionConfirmed;
+use App\Events\SubscriptionRenewed;
+use App\Listeners\SendAchievementEmail;
+use App\Listeners\SendCourseEnrollmentEmail;
+use App\Listeners\SendPasswordChangedEmail;
+use App\Listeners\SendPaymentFailedEmail;
+use App\Listeners\SendSubscriptionCancelledEmail;
+use App\Listeners\SendSubscriptionConfirmedEmail;
+use App\Listeners\SendSubscriptionRenewedEmail;
+use App\Listeners\SendWelcomeEmail;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,6 +36,16 @@ class AppServiceProvider extends ServiceProvider
     {
         // Prevent lazy loading in development (catches N+1 queries)
         Model::preventLazyLoading(! app()->isProduction());
+
+        // Email notification events
+        Event::listen(Verified::class, SendWelcomeEmail::class);
+        Event::listen(PasswordReset::class, SendPasswordChangedEmail::class);
+        Event::listen(AchievementUnlocked::class, SendAchievementEmail::class);
+        Event::listen(CourseEnrolled::class, SendCourseEnrollmentEmail::class);
+        Event::listen(SubscriptionConfirmed::class, SendSubscriptionConfirmedEmail::class);
+        Event::listen(SubscriptionRenewed::class, SendSubscriptionRenewedEmail::class);
+        Event::listen(PaymentFailed::class, SendPaymentFailedEmail::class);
+        Event::listen(SubscriptionCancelled::class, SendSubscriptionCancelledEmail::class);
 
         // Global web rate limit: 120 requests/minute per IP
         RateLimiter::for('web', function (Request $request) {

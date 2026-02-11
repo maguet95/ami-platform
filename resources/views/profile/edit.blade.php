@@ -25,6 +25,10 @@
         </div>
 
         <div class="bg-surface-900/80 border border-surface-700/50 rounded-2xl p-6 lg:p-8">
+            @include('profile.partials.email-preferences-form')
+        </div>
+
+        <div class="bg-surface-900/80 border border-surface-700/50 rounded-2xl p-6 lg:p-8">
             @include('profile.partials.delete-user-form')
         </div>
     </div>

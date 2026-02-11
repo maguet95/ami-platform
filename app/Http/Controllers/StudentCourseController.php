@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CourseEnrolled;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Lesson;
@@ -147,6 +148,8 @@ class StudentCourseController extends Controller
             'status' => 'active',
             'enrolled_at' => now(),
         ]);
+
+        CourseEnrolled::dispatch($user, $course);
 
         return redirect()->route('student.course', $course)
             ->with('success', '¡Te has inscrito exitosamente!');

@@ -133,6 +133,10 @@ class User extends Authenticatable implements FilamentUser
             return true;
         }
 
+        if ($this->hasRole(['admin', 'instructor'])) {
+            return true;
+        }
+
         return $this->hasActiveSubscription();
     }
 

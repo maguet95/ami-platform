@@ -23,6 +23,8 @@ class ProductionSeeder extends Seeder
                 'name' => 'Jose Enma',
                 'password' => '12345',
                 'email_verified_at' => now(),
+                'username' => 'joseenma',
+                'is_profile_public' => true,
             ]
         );
         $admin->assignRole('admin');
@@ -34,6 +36,8 @@ class ProductionSeeder extends Seeder
                 'name' => 'Jose Enma (Instructor)',
                 'password' => '12345',
                 'email_verified_at' => now(),
+                'username' => 'profesor-enmanuel',
+                'is_profile_public' => true,
             ]
         );
         $instructor->assignRole('instructor');

@@ -30,7 +30,7 @@ blockquote {
 }
 
 a {
-    color: #10b981;
+    color: #5990ff;
 }
 
 a img {
@@ -41,7 +41,7 @@ a img {
 
 h1 {
     color: #ffffff;
-    font-size: 18px;
+    font-size: 19px;
     font-weight: bold;
     margin-top: 0;
     text-align: left;
@@ -65,7 +65,7 @@ h3 {
 
 p {
     font-size: 16px;
-    line-height: 1.5em;
+    line-height: 1.6em;
     margin-top: 0;
     text-align: left;
 }
@@ -108,7 +108,7 @@ img {
 }
 
 .header a {
-    color: #10b981;
+    color: #2962ff;
     font-size: 19px;
     font-weight: bold;
     text-decoration: none;
@@ -187,7 +187,7 @@ img {
 }
 
 .footer a {
-    color: #10b981;
+    color: #5990ff;
     text-decoration: underline;
 }
 
@@ -236,44 +236,47 @@ img {
 
 .button {
     -webkit-text-size-adjust: none;
-    border-radius: 6px;
+    border-radius: 8px;
     color: #fff;
     display: inline-block;
     overflow: hidden;
     text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.3px;
 }
 
 .button-blue,
 .button-primary {
-    background-color: #10b981;
-    border-bottom: 8px solid #10b981;
-    border-left: 18px solid #10b981;
-    border-right: 18px solid #10b981;
-    border-top: 8px solid #10b981;
+    background-color: #2962ff;
+    border-bottom: 12px solid #2962ff;
+    border-left: 24px solid #2962ff;
+    border-right: 24px solid #2962ff;
+    border-top: 12px solid #2962ff;
 }
 
 .button-green,
 .button-success {
     background-color: #10b981;
-    border-bottom: 8px solid #10b981;
-    border-left: 18px solid #10b981;
-    border-right: 18px solid #10b981;
-    border-top: 8px solid #10b981;
+    border-bottom: 12px solid #10b981;
+    border-left: 24px solid #10b981;
+    border-right: 24px solid #10b981;
+    border-top: 12px solid #10b981;
 }
 
 .button-red,
 .button-error {
     background-color: #ef4444;
-    border-bottom: 8px solid #ef4444;
-    border-left: 18px solid #ef4444;
-    border-right: 18px solid #ef4444;
-    border-top: 8px solid #ef4444;
+    border-bottom: 12px solid #ef4444;
+    border-left: 24px solid #ef4444;
+    border-right: 24px solid #ef4444;
+    border-top: 12px solid #ef4444;
 }
 
 /* Panels */
 
 .panel {
-    border-left: #10b981 solid 4px;
+    border-left: #2962ff solid 4px;
     margin: 21px 0;
 }
 

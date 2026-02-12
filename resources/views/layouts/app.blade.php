@@ -278,7 +278,7 @@
         {{-- Main Content --}}
         <div class="flex-1 flex flex-col min-w-0">
             {{-- Top Bar --}}
-            <header class="sticky top-0 z-30 h-16 bg-surface-950/80 backdrop-blur-md border-b border-surface-700/50 flex items-center justify-between px-4 lg:px-8">
+            <header class="sticky top-0 z-30 min-h-16 bg-surface-950/80 backdrop-blur-md border-b border-surface-700/50 flex items-center justify-between px-4 lg:px-8">
                 <div class="flex items-center gap-4">
                     {{-- Mobile hamburger --}}
                     <button x-data @click="$dispatch('toggle-sidebar')"

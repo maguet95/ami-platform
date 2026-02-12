@@ -2,9 +2,7 @@
 <tr>
 <td class="header">
 <a href="{{ $url }}" style="display: inline-block;">
-<span style="color: #10b981; font-size: 22px; font-weight: bold; letter-spacing: 2px;">AMI</span>
-<br>
-<span style="color: #9ca3af; font-size: 11px; letter-spacing: 1px;">ALPHA MARKETS INSTITUTE</span>
+<img src="{{ config('app.url') }}/images/logos/logo-dark.jpg" alt="AMI — Alpha Markets Institute" style="height: 50px; width: auto; display: block; margin: 0 auto;">
 </a>
 </td>
 </tr>

@@ -117,6 +117,9 @@ return [
 
     'markdown' => [
         'theme' => 'ami',
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
     ],
 
 ];

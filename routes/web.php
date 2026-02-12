@@ -5,6 +5,7 @@ use App\Http\Controllers\ManualJournalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\RankingController;
@@ -47,6 +48,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/perfil', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/perfil/publico', [ProfileController::class, 'editPublic'])->name('profile.edit-public');
     Route::patch('/perfil/publico', [ProfileController::class, 'updatePublic'])->name('profile.update-public');
+
+    // Internal pages (within platform layout)
+    Route::get('/cursos-catalogo', [PlatformController::class, 'coursesCatalog'])->name('platform.courses');
+    Route::get('/ranking-interno', [PlatformController::class, 'ranking'])->name('platform.ranking');
 
     // Achievements
     Route::get('/logros', [AchievementController::class, 'index'])->name('achievements');

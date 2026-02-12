@@ -6,7 +6,7 @@
             {{-- Header --}}
             <div class="text-center mb-12">
                 <h1 class="text-3xl lg:text-4xl font-bold text-white">Ranking de Traders</h1>
-                <p class="mt-3 text-surface-400 max-w-xl mx-auto">Los traders mas dedicados de la comunidad AMI. Criterio > Senales.</p>
+                <p class="mt-3 text-surface-400 max-w-xl mx-auto">Los traders más dedicados de la comunidad AMI.</p>
             </div>
 
             @if($users->isEmpty())

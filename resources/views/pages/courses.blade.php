@@ -88,7 +88,7 @@
                                             </svg>
                                         </button>
                                     </form>
-                                @elseif(Auth::user()->hasActiveSubscription())
+                                @elseif(Auth::user()->hasPremiumAccess())
                                     <form action="{{ route('student.enroll', $course) }}" method="POST" class="inline">
                                         @csrf
                                         <button type="submit" class="inline-flex items-center gap-2 text-sm font-medium text-ami-400 hover:text-ami-300 transition-colors">

@@ -24,6 +24,12 @@
         </div>
     </div>
 
+    @if(isset($invitationEmail) && $invitationEmail)
+        <div class="mb-4 p-3 bg-bullish/10 border border-bullish/20 rounded-xl">
+            <p class="text-sm text-bullish font-medium">Has sido invitado con acceso premium. Completa tu registro para activarlo.</p>
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('register') }}" class="space-y-5">
         @csrf
 
@@ -38,8 +44,9 @@
 
         <div>
             <label for="email" class="block text-sm font-medium text-surface-300 mb-2">Correo electrónico</label>
-            <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username"
-                   class="w-full px-4 py-3 bg-surface-800/60 border border-surface-700 rounded-xl text-white placeholder-surface-500 focus:outline-none focus:ring-2 focus:ring-ami-500/50 focus:border-ami-500 transition-all">
+            <input id="email" type="email" name="email" value="{{ old('email', $invitationEmail ?? '') }}" required autocomplete="username"
+                   {{ isset($invitationEmail) && $invitationEmail ? 'readonly' : '' }}
+                   class="w-full px-4 py-3 bg-surface-800/60 border border-surface-700 rounded-xl text-white placeholder-surface-500 focus:outline-none focus:ring-2 focus:ring-ami-500/50 focus:border-ami-500 transition-all {{ isset($invitationEmail) && $invitationEmail ? 'opacity-75 cursor-not-allowed' : '' }}">
             @error('email')
                 <p class="mt-1.5 text-sm text-bearish">{{ $message }}</p>
             @enderror

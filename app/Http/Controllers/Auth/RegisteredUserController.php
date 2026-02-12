@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccessGrant;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -17,9 +18,21 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.register');
+        $invitationEmail = null;
+
+        if ($request->filled('invitation')) {
+            $grant = AccessGrant::where('token', $request->invitation)
+                ->pending()
+                ->first();
+
+            if ($grant) {
+                $invitationEmail = $grant->email;
+            }
+        }
+
+        return view('auth.register', compact('invitationEmail'));
     }
 
     /**

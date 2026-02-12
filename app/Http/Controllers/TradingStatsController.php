@@ -32,7 +32,7 @@ class TradingStatsController extends Controller
 
         $user = Auth::user();
 
-        if (! $user->hasActiveSubscription()) {
+        if (! $user->hasPremiumAccess()) {
             return view('journal.upsell');
         }
 

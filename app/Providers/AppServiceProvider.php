@@ -15,8 +15,10 @@ use App\Listeners\SendPaymentFailedEmail;
 use App\Listeners\SendSubscriptionCancelledEmail;
 use App\Listeners\SendSubscriptionConfirmedEmail;
 use App\Listeners\SendSubscriptionRenewedEmail;
+use App\Listeners\ActivatePendingAccessGrants;
 use App\Listeners\SendWelcomeEmail;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading(! app()->isProduction());
 
         // Email notification events
+        Event::listen(Registered::class, ActivatePendingAccessGrants::class);
         Event::listen(Verified::class, SendWelcomeEmail::class);
         Event::listen(PasswordReset::class, SendPasswordChangedEmail::class);
         Event::listen(AchievementUnlocked::class, SendAchievementEmail::class);

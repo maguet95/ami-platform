@@ -12,7 +12,7 @@
             </div>
             <h3 class="text-lg font-semibold text-white mb-2">Aún no tienes cursos</h3>
             <p class="text-sm text-surface-400 mb-6 max-w-md">Explora nuestro catálogo y comienza tu formación como trader profesional.</p>
-            <a href="{{ route('courses') }}"
+            <a href="{{ route('platform.courses') }}"
                class="px-6 py-3 text-sm font-semibold text-white bg-ami-500 hover:bg-ami-600 rounded-xl transition-all duration-200 shadow-lg shadow-ami-500/25">
                 Explorar Cursos
             </a>

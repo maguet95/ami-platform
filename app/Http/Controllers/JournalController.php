@@ -21,7 +21,7 @@ class JournalController extends Controller
         $user = Auth::user();
 
         // Premium access check
-        if (! $user->hasActiveSubscription()) {
+        if (! $user->hasPremiumAccess()) {
             return view('journal.upsell');
         }
 
@@ -101,7 +101,7 @@ class JournalController extends Controller
         }
 
         $user = Auth::user();
-        if (! $user->hasActiveSubscription()) {
+        if (! $user->hasPremiumAccess()) {
             abort(403);
         }
 
@@ -116,7 +116,7 @@ class JournalController extends Controller
         }
 
         $user = Auth::user();
-        if (! $user->hasActiveSubscription()) {
+        if (! $user->hasPremiumAccess()) {
             abort(403);
         }
 

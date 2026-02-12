@@ -127,17 +127,44 @@ class User extends Authenticatable implements FilamentUser
         }
     }
 
+    // Access Grants
+
+    public function accessGrants(): HasMany
+    {
+        return $this->hasMany(AccessGrant::class);
+    }
+
+    public function hasSpecialAccess(): bool
+    {
+        return $this->accessGrants()
+            ->active()
+            ->where(function ($q) {
+                $q->whereNull('expires_at')
+                  ->orWhere('expires_at', '>', now());
+            })
+            ->exists();
+    }
+
+    public function hasPremiumAccess(): bool
+    {
+        if ($this->hasRole(['admin', 'instructor'])) {
+            return true;
+        }
+
+        if ($this->hasActiveSubscription()) {
+            return true;
+        }
+
+        return $this->hasSpecialAccess();
+    }
+
     public function canAccessCourse(Course $course): bool
     {
         if ($course->is_free) {
             return true;
         }
 
-        if ($this->hasRole(['admin', 'instructor'])) {
-            return true;
-        }
-
-        return $this->hasActiveSubscription();
+        return $this->hasPremiumAccess();
     }
 
     // Journal relationships

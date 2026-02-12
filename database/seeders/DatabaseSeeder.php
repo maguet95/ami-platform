@@ -14,14 +14,25 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoleSeeder::class);
 
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@ami.com'],
+        $admin = User::updateOrCreate(
+            ['email' => 'enmajose95+admin@gmail.com'],
             [
-                'name' => 'AMI Admin',
-                'password' => bcrypt('12345'),
+                'name' => 'Jose Enma',
+                'password' => '12345',
+                'email_verified_at' => now(),
             ]
         );
         $admin->assignRole('admin');
+
+        $instructor = User::updateOrCreate(
+            ['email' => 'enmajose95+instructor@gmail.com'],
+            [
+                'name' => 'Jose Enma (Instructor)',
+                'password' => '12345',
+                'email_verified_at' => now(),
+            ]
+        );
+        $instructor->assignRole('instructor');
 
         $this->call(CourseSeeder::class);
         $this->call(PlanSeeder::class);

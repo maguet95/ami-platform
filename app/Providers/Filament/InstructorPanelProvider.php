@@ -27,6 +27,7 @@ class InstructorPanelProvider extends PanelProvider
             ->id('instructor')
             ->path('instructor')
             ->login()
+            ->profile()
             ->brandName('AMI Instructor')
             ->colors([
                 'primary' => Color::hex('#2962ff'),

@@ -12,7 +12,7 @@ class TradeEntrySeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::where('email', 'admin@ami.com')->first();
+        $admin = User::where('email', 'enmajose95+admin@gmail.com')->first();
         if (! $admin) {
             $this->command->warn('Admin user not found. Skipping TradeEntrySeeder.');
             return;

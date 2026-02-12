@@ -12,7 +12,7 @@ class CourseSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::where('email', 'admin@ami.com')->first();
+        $admin = User::where('email', 'enmajose95+admin@gmail.com')->first();
 
         // Course 1: Fundamentos del Trading
         $course1 = Course::create([

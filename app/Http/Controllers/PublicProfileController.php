@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\User;
 use App\Services\TradingStatsService;
 
@@ -54,11 +55,21 @@ class PublicProfileController extends Controller
             }
         }
 
+        $instructorCourses = collect();
+        if ($user->hasRole('instructor')) {
+            $instructorCourses = Course::where('instructor_id', $user->id)
+                ->published()
+                ->withCount('lessons')
+                ->orderBy('sort_order')
+                ->get();
+        }
+
         return view('profile.public-show', compact(
             'user', 'achievements', 'recentXp',
             'completedCourses', 'completedLessons', 'rank', 'isOwner',
             'manualJournalStats', 'manualEquityCurve', 'manualPairDistribution',
             'automaticJournalStats', 'automaticEquityCurve', 'automaticPairDistribution',
+            'instructorCourses',
         ));
     }
 }

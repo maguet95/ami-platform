@@ -113,13 +113,28 @@
                 <div class="bg-surface-900/80 border border-surface-700/50 rounded-2xl p-5">
                     <h3 class="text-sm font-semibold text-white mb-3">Instructor</h3>
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-ami-500/20 flex items-center justify-center shrink-0">
-                            <span class="text-sm font-semibold text-ami-400">{{ substr($course->instructor->name, 0, 1) }}</span>
-                        </div>
-                        <div>
+                        @if($course->instructor->avatar)
+                            <img src="{{ asset('storage/' . $course->instructor->avatar) }}" alt="{{ $course->instructor->name }}"
+                                 class="w-10 h-10 rounded-full object-cover shrink-0">
+                        @else
+                            <div class="w-10 h-10 rounded-full bg-ami-500/20 flex items-center justify-center shrink-0">
+                                <span class="text-sm font-semibold text-ami-400">{{ substr($course->instructor->name, 0, 1) }}</span>
+                            </div>
+                        @endif
+                        <div class="min-w-0">
                             <p class="text-sm font-medium text-white">{{ $course->instructor->name }}</p>
+                            @if($course->instructor->headline)
+                                <p class="text-xs text-surface-500 truncate">{{ $course->instructor->headline }}</p>
+                            @endif
                         </div>
                     </div>
+                    @if($course->instructor->username)
+                        <a href="{{ route('profile.public', $course->instructor->username) }}"
+                           class="inline-flex items-center gap-1 mt-3 text-xs text-ami-400 hover:text-ami-300 transition-colors">
+                            Ver perfil
+                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                        </a>
+                    @endif
                 </div>
             @endif
         </div>

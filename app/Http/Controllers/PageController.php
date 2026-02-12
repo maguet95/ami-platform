@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\User;
 use App\Services\PlatformStatsService;
 
 class PageController extends Controller
@@ -16,7 +17,12 @@ class PageController extends Controller
 
     public function about()
     {
-        return view('pages.about');
+        $instructors = User::role('instructor')
+            ->whereNotNull('bio')
+            ->where('bio', '!=', '')
+            ->get();
+
+        return view('pages.about', compact('instructors'));
     }
 
     public function methodology()

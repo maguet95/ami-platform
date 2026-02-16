@@ -72,6 +72,11 @@ class Course extends Model
         return $this->hasMany(Enrollment::class);
     }
 
+    public function liveClasses(): HasMany
+    {
+        return $this->hasMany(LiveClass::class);
+    }
+
     // Scopes
 
     public function scopePublished($query)

@@ -132,6 +132,53 @@
         </div>
     </div>
 
+    {{-- Upcoming Live Classes --}}
+    @if($upcomingClasses->isNotEmpty())
+    <div class="mb-8 bg-surface-900/80 border border-surface-700/50 rounded-2xl p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-base font-semibold text-white">Proximas Clases en Vivo</h3>
+            <a href="{{ route('live-classes.calendar') }}" class="text-xs text-ami-400 hover:text-ami-300">Ver calendario &rarr;</a>
+        </div>
+        <div class="space-y-3">
+            @foreach($upcomingClasses as $liveClass)
+                <div class="flex items-center gap-4 p-3 bg-surface-800/50 rounded-xl">
+                    <div class="w-10 h-10 bg-ami-500/10 rounded-xl flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5 text-ami-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-white truncate">{{ $liveClass->title }}</p>
+                        <p class="text-xs text-surface-400">
+                            @if($liveClass->starts_at->isToday())
+                                Hoy {{ $liveClass->starts_at->format('g:i A') }}
+                            @elseif($liveClass->starts_at->isTomorrow())
+                                Manana {{ $liveClass->starts_at->format('g:i A') }}
+                            @else
+                                {{ $liveClass->starts_at->translatedFormat('D j M') }} {{ $liveClass->starts_at->format('g:i A') }}
+                            @endif
+                            @if($liveClass->instructor)
+                                &mdash; {{ $liveClass->instructor->name }}
+                            @endif
+                        </p>
+                    </div>
+                    @if($liveClass->isJoinable())
+                        <a href="{{ route('live-classes.show', $liveClass) }}"
+                           class="px-3 py-1.5 text-xs font-semibold text-white bg-ami-500 hover:bg-ami-600 rounded-lg transition-all shadow-lg shadow-ami-500/25">
+                            Unirse
+                        </a>
+                    @else
+                        <a href="{{ route('live-classes.show', $liveClass) }}"
+                           class="px-3 py-1.5 text-xs font-medium text-surface-400 bg-surface-800 hover:bg-surface-700 border border-surface-700 rounded-lg transition-all">
+                            Ver
+                        </a>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
     {{-- Quick Actions --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Continue Learning --}}

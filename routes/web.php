@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\RankingController;
 use App\Http\Controllers\ManualJournalExportController;
+use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TradingStatsController;
@@ -84,6 +85,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/{trade}/duplicar', [ManualJournalController::class, 'duplicate'])->name('duplicate');
         Route::delete('/imagen/{image}', [ManualJournalController::class, 'destroyImage'])->name('image.destroy');
     });
+
+    // Live Classes (Calendar)
+    Route::get('/calendario', [LiveClassController::class, 'calendar'])->name('live-classes.calendar');
+    Route::get('/clase/{liveClass}', [LiveClassController::class, 'show'])->name('live-classes.show');
+    Route::get('/clase/{liveClass}/unirse', [LiveClassController::class, 'join'])->name('live-classes.join');
 
     // Student Routes
     Route::get('/mis-cursos', [StudentCourseController::class, 'index'])->name('student.courses');

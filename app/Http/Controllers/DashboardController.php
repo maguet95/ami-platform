@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LiveClass;
+use App\Models\LiveClassAttendance;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -40,6 +42,18 @@ class DashboardController extends Controller
             ->sortByDesc('updated_at')
             ->first();
 
+        // Upcoming live classes
+        $upcomingClassIds = LiveClassAttendance::where('user_id', $user->id)
+            ->pluck('live_class_id');
+
+        $upcomingClasses = LiveClass::whereIn('id', $upcomingClassIds)
+            ->where('status', 'scheduled')
+            ->where('starts_at', '>=', now())
+            ->with(['course', 'instructor'])
+            ->orderBy('starts_at')
+            ->limit(3)
+            ->get();
+
         return view('dashboard', compact(
             'user',
             'enrollments',
@@ -50,6 +64,7 @@ class DashboardController extends Controller
             'recentAchievements',
             'recentXp',
             'currentEnrollment',
+            'upcomingClasses',
         ));
     }
 }

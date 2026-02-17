@@ -1,0 +1,37 @@
+name: Journal Trade Import
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 6:00 AM UTC
+  workflow_dispatch:
+
+jobs:
+  import-trades:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          if [ -f workers/requirements.txt ]; then
+            pip install -r workers/requirements.txt
+          else
+            echo "No workers/requirements.txt found. Skipping."
+          fi
+
+      - name: Run trade importer
+        env:
+          LARAVEL_API_URL: ${{ secrets.APP_URL }}/api/internal
+          LARAVEL_API_KEY: ${{ secrets.JOURNAL_API_KEY }}
+        run: |
+          if [ -f workers/trade_importer/main.py ]; then
+            python -m workers.trade_importer.main
+          else
+            echo "Trade importer not yet implemented. Skipping."
+          fi

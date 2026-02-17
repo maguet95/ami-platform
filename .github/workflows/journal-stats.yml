@@ -1,0 +1,37 @@
+name: Journal Stats Calculator
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # Daily at 7:00 AM UTC (1h after import)
+  workflow_dispatch:
+
+jobs:
+  calculate-stats:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          if [ -f workers/requirements.txt ]; then
+            pip install -r workers/requirements.txt
+          else
+            echo "No workers/requirements.txt found. Skipping."
+          fi
+
+      - name: Run stats analyzer
+        env:
+          LARAVEL_API_URL: ${{ secrets.APP_URL }}/api/internal
+          LARAVEL_API_KEY: ${{ secrets.JOURNAL_API_KEY }}
+        run: |
+          if [ -f workers/stats_analyzer/main.py ]; then
+            python -m workers.stats_analyzer.main
+          else
+            echo "Stats analyzer not yet implemented. Skipping."
+          fi

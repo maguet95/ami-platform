@@ -1,0 +1,29 @@
+name: Live Class Reminders
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  trigger-reminders:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Trigger class reminders endpoint
+        run: |
+          response=$(curl -sf -w "\n%{http_code}" \
+            -H "X-API-Key: ${{ secrets.JOURNAL_API_KEY }}" \
+            "${{ secrets.APP_URL }}/api/internal/trigger-class-notifications" \
+            --max-time 60)
+
+          http_code=$(echo "$response" | tail -1)
+          body=$(echo "$response" | head -n -1)
+
+          echo "HTTP Status: $http_code"
+          echo "Response: $body"
+
+          if [ "$http_code" -ge 400 ]; then
+            echo "::error::Request failed with status $http_code"
+            exit 1
+          fi

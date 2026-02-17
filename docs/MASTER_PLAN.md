@@ -378,6 +378,67 @@ PHASE 0 (Fundación)
 | **Phase 4** | Trading Journal | PREMIUM / FUTURO | Phase 3 + Phase 5 |
 | **Phase 5** | Workers Externos | FUTURO | Phase 0 |
 | **Phase 6** | Producción y Operaciones | OBLIGATORIO PRE-LAUNCH | Phase 3 |
+| **Phase 7** | Clases en Vivo + Automatizaciones | EN CURSO | Phase 4 + Phase 6 |
+
+---
+
+## PHASE 7 — Clases en Vivo + Automatizaciones (GitHub Actions)
+
+**Alcance:** Sistema de calendario con clases en vivo via plataformas externas (Zoom, Meet, etc.), triggers automaticos via GitHub Actions, y ejecucion de workers del journal sin VPS.
+**Dependencias:** Phase 4 completada (journal existe), Phase 6 parcial (produccion activa).
+**Clasificacion:** OPERACIONES EN CURSO
+
+### Modulo 7.1 — Clases en Vivo (COMPLETADO)
+
+- [x] Modelo `LiveClass` + `LiveClassAttendance` con token de acceso
+- [x] Migraciones `live_classes` y `live_class_attendances`
+- [x] Auto-registro de estudiantes inscritos al crear clase
+- [x] Links tokenizados: email con link AMI -> verificacion -> redirect a meeting_url
+- [x] Notificaciones: `LiveClassScheduledNotification` + `LiveClassReminderNotification`
+- [x] Comando artisan `class:send-reminders` (busca clases proximas)
+- [x] API endpoint: `GET /api/internal/trigger-class-notifications` (protegido con X-API-Key)
+- [x] Filament admin: LiveClassResource (CRUD completo bajo "Educacion")
+- [x] Filament instructor: LiveClassResource (filtrado por instructor_id)
+- [x] Vista calendario estudiante (mensual/semanal con Alpine.js)
+- [x] Vista detalle de clase con boton "Unirse"
+- [x] Widget dashboard: "Proximas Clases en Vivo" (3 mas cercanas)
+- [x] Link "Calendario" en sidebar de navegacion
+
+### Modulo 7.2 — GitHub Actions como Scheduler (PENDIENTE)
+
+**Decision:** Usar GitHub Actions en lugar de VPS para workers y triggers. Escala para 50-100 estudiantes. Presupuesto: $0/mes (2000 min/mes gratis en repo privado).
+
+**Entregable 7.2.1 — Trigger de recordatorios de clases**
+- [ ] Workflow `.github/workflows/class-reminders.yml`
+- [ ] Schedule: `*/5 * * * *` (cada 5 minutos)
+- [ ] Accion: `curl` al endpoint `/api/internal/trigger-class-notifications`
+- [ ] Secret: `JOURNAL_API_KEY` en GitHub Secrets
+- [ ] Secret: `APP_URL` en GitHub Secrets
+
+**Entregable 7.2.2 — Worker de importacion de trades (journal automatico)**
+- [ ] Workflow `.github/workflows/journal-import.yml`
+- [ ] Schedule: diario (ej. `0 6 * * *` — 6 AM UTC)
+- [ ] Accion: setup Python 3.12 + ejecutar script de importacion
+- [ ] Script Python en `workers/` dentro del mismo repo (no repo separado)
+- [ ] Conectar a broker APIs, normalizar trades, enviar a Laravel API interna
+- [ ] Secrets: `BINANCE_API_KEY`, `BINANCE_API_SECRET`, etc.
+
+**Entregable 7.2.3 — Worker de estadisticas del journal**
+- [ ] Workflow `.github/workflows/journal-stats.yml`
+- [ ] Schedule: diario despues de importacion (ej. `0 7 * * *`)
+- [ ] Accion: script Python que calcula estadisticas y envia a Laravel API
+
+### Modulo 7.3 — Tareas Pendientes de Infraestructura
+
+- [ ] Crear `JournalApiKey` en produccion (necesaria para triggers)
+- [ ] Configurar GitHub Secrets: `JOURNAL_API_KEY`, `APP_URL`
+- [ ] Ejecutar migracion `live_classes` en produccion
+- [ ] Render Cron Job (`ami-class-notifier`): requiere plan de pago ($7/mes min). Alternativa gratuita: GitHub Actions. Re-evaluar cuando haya ingresos.
+- [ ] Streaming interno: inviable en Render free tier. Re-evaluar con ingresos recurrentes ($100-200/mes estimado).
+
+### Nota Arquitectural
+
+**Cambio respecto al plan original:** Los workers Python NO requieren VPS separado para escala de 50-100 estudiantes. GitHub Actions ejecuta Python directamente con 2000 min/mes gratis. Cuando la escala supere ~500 estudiantes o los workers necesiten estado persistente, migrar a VPS dedicado segun `docs/WORKERS_EXECUTION_PLAN.md`.
 
 ---
 

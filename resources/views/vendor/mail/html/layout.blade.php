@@ -10,10 +10,15 @@
 @media only screen and (max-width: 600px) {
 .inner-body {
 width: 100% !important;
+border-radius: 0 !important;
 }
 
 .footer {
 width: 100% !important;
+}
+
+.content-cell {
+padding: 24px 20px 32px 20px !important;
 }
 }
 
@@ -31,6 +36,7 @@ width: 100% !important;
 <tr>
 <td align="center">
 <table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+
 {!! $header ?? '' !!}
 
 <!-- Email Body -->

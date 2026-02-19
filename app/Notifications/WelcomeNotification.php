@@ -26,8 +26,8 @@ class WelcomeNotification extends Notification implements ShouldQueue
             ->subject('Bienvenido a AMI — Tu camino como trader comienza ahora')
             ->greeting("Hola {$notifiable->name},")
             ->line('Tu cuenta en **AMI — Alpha Markets Institute** ha sido verificada exitosamente.')
-            ->line('Estamos felices de tenerte. En AMI creemos que **criterio > senales** y que el proceso siempre supera a los resultados rapidos.')
-            ->line('Explora nuestros cursos y comienza a desarrollar tu mentalidad de trader profesional.')
+            ->line('Estamos felices de tenerte. Aqui encontraras cursos disenados para formarte como trader profesional.')
+            ->line('Explora nuestros cursos y da el primer paso en tu formacion como trader.')
             ->action('Explorar Cursos', url('/cursos'))
             ->line('Si tienes preguntas, no dudes en contactarnos.')
             ->salutation('Exitos en tu camino, **Equipo AMI**');

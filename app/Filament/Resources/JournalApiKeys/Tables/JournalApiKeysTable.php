@@ -19,7 +19,7 @@ class JournalApiKeysTable
                     ->sortable(),
                 TextColumn::make('key_prefix')
                     ->label('Prefijo')
-                    ->formatStateUsing(fn (string $state) => $state . '...')
+                    ->formatStateUsing(fn (string $state) => $state.'...')
                     ->badge()
                     ->color('gray'),
                 TextColumn::make('permissions')
@@ -28,6 +28,7 @@ class JournalApiKeysTable
                         if (empty($state)) {
                             return 'Todos';
                         }
+
                         return implode(', ', $state);
                     }),
                 IconColumn::make('is_active')

@@ -42,6 +42,7 @@ class BrokerConnectionController extends Controller
                 'password' => 'required|string',
                 'server' => 'required|string',
             ],
+            default => abort(422, 'Tipo de broker no soportado.'),
         };
 
         $request->validate($credentialRules);
@@ -56,6 +57,7 @@ class BrokerConnectionController extends Controller
                 'password' => $request->input('password'),
                 'server' => $request->input('server'),
             ]),
+            default => abort(422, 'Tipo de broker no soportado.'),
         };
 
         Auth::user()->brokerConnections()->create([
@@ -108,7 +110,7 @@ class BrokerConnectionController extends Controller
             'csv_format' => 'required|in:mt4,mt5',
         ]);
 
-        $importer = new CsvTradeImporter();
+        $importer = new CsvTradeImporter;
         $result = $importer->import($request->file('csv_file'), Auth::id(), $request->input('csv_format'));
 
         $message = "{$result->created} operaciones importadas";
@@ -116,7 +118,7 @@ class BrokerConnectionController extends Controller
             $message .= ", {$result->duplicates} duplicadas omitidas";
         }
         if ($result->hasErrors()) {
-            $message .= ", " . count($result->errors) . " errores";
+            $message .= ', '.count($result->errors).' errores';
         }
 
         return redirect()->route('journal.connections')

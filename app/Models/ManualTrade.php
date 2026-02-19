@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int|null $trade_pair_id
+ * @property string $direction
+ * @property \Carbon\Carbon $trade_date
+ * @property string|null $pnl
+ * @property string $status
+ * @property int|null $overall_rating
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ManualTradeImage> $images
+ */
 class ManualTrade extends Model
 {
     use SoftDeletes;

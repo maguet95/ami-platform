@@ -5,14 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property string $type
+ * @property string $credentials
+ * @property string $status
+ * @property \Carbon\Carbon|null $last_synced_at
+ * @property string|null $last_error
+ * @property bool $sync_enabled
+ * @property array<string, mixed>|null $metadata
+ */
 class BrokerConnection extends Model
 {
     const TYPE_MT4 = 'metatrader4';
+
     const TYPE_MT5 = 'metatrader5';
+
     const TYPE_BINANCE = 'binance';
 
     const STATUS_ACTIVE = 'active';
+
     const STATUS_INACTIVE = 'inactive';
+
     const STATUS_ERROR = 'error';
 
     protected $fillable = [

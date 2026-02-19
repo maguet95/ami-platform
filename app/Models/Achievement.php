@@ -5,6 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property int $id
+ * @property string $slug
+ * @property string $name
+ * @property string $description
+ * @property string $icon
+ * @property string $category
+ * @property int $xp_reward
+ * @property string $requirement_type
+ * @property int $requirement_value
+ * @property string $tier
+ * @property int $sort_order
+ * @property bool $is_active
+ * @property bool $is_earned
+ * @property string|null $earned_at
+ * @property array{current: int, target: int, percent: float|int}|null $progress
+ */
 class Achievement extends Model
 {
     protected $fillable = [

@@ -15,6 +15,7 @@ class ManualTradeSeeder extends Seeder
         $admin = User::where('email', 'enmajose95+admin@gmail.com')->first();
         if (! $admin) {
             $this->command->warn('Admin user not found. Skipping ManualTradeSeeder.');
+
             return;
         }
 
@@ -91,7 +92,7 @@ class ManualTradeSeeder extends Seeder
                 default => rand(20, 100) + rand(0, 99) / 100,
             };
 
-            $entryPrice = round($basePrice, $pair->market === 'forex' && !str_contains($pair->symbol, 'XAU') ? 5 : 2);
+            $entryPrice = round($basePrice, $pair->market === 'forex' && ! str_contains($pair->symbol, 'XAU') ? 5 : 2);
 
             // Calculate exit based on result
             $priceDelta = $entryPrice * (rand(5, 30) / 1000); // 0.5% - 3%
@@ -125,7 +126,9 @@ class ManualTradeSeeder extends Seeder
 
             $rrPlanned = round($tpDistance / max($slDistance, 0.01), 2);
             $rrActual = $pnl != 0 ? round(abs($pnl) / max(rand(30, 200), 1), 2) : 0;
-            if ($pnl < 0) $rrActual = -$rrActual;
+            if ($pnl < 0) {
+                $rrActual = -$rrActual;
+            }
 
             $positionSize = round(rand(1, 50) / 10, 2);
             $commission = round(rand(1, 15) / 10, 2);
@@ -175,7 +178,7 @@ class ManualTradeSeeder extends Seeder
                 'stress_level' => $stressLevel,
                 'psychology_notes' => rand(0, 100) > 60 ? 'Me senti en control durante la operacion.' : null,
                 'market_condition' => $marketConditions[array_rand($marketConditions)],
-                'key_levels' => rand(0, 100) > 50 ? 'Soporte en ' . round($entryPrice * 0.98, 2) . ', Resistencia en ' . round($entryPrice * 1.02, 2) : null,
+                'key_levels' => rand(0, 100) > 50 ? 'Soporte en '.round($entryPrice * 0.98, 2).', Resistencia en '.round($entryPrice * 1.02, 2) : null,
                 'what_i_did_well' => rand(0, 100) > 50 ? 'Segui el plan y respete el stop loss.' : null,
                 'what_to_improve' => rand(0, 100) > 50 ? 'Mejorar el timing de entrada esperando confirmacion.' : null,
                 'would_take_again' => $result !== 'loss' || rand(0, 1),

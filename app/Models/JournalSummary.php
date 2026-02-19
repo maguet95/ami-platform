@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static> forPeriod(string $periodType)
+ * @method static \Illuminate\Database\Eloquent\Builder<static> allTime()
+ */
 class JournalSummary extends Model
 {
     protected $fillable = [

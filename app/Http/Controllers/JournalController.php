@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\TradeEntriesExport;
-use App\Models\TradeEntry;
+use App\Models\TradePair;
 use App\Services\TradingStatsService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -26,11 +26,11 @@ class JournalController extends Controller
         }
 
         // Stats from all_time summary
-        $allTimeSummary = $user->journalSummaries()->allTime()->first();
+        $allTimeSummary = $user->journalSummaries()->where('period_type', 'all_time')->first();
 
         // Recent summaries
         $weeklySummaries = $user->journalSummaries()
-            ->forPeriod('weekly')
+            ->where('period_type', 'weekly')
             ->orderByDesc('period_start')
             ->limit(12)
             ->get();
@@ -58,9 +58,9 @@ class JournalController extends Controller
         // Filter: result (winning/losing)
         if ($request->filled('result')) {
             if ($request->result === 'winning') {
-                $tradesQuery->winning();
+                $tradesQuery->where('pnl', '>', 0);
             } elseif ($request->result === 'losing') {
-                $tradesQuery->losing();
+                $tradesQuery->where('pnl', '<', 0);
             }
         }
 
@@ -69,22 +69,15 @@ class JournalController extends Controller
             $tradesQuery->where('opened_at', '>=', $request->from);
         }
         if ($request->filled('to')) {
-            $tradesQuery->where('opened_at', '<=', $request->to . ' 23:59:59');
+            $tradesQuery->where('opened_at', '<=', $request->to.' 23:59:59');
         }
 
         $trades = $tradesQuery->paginate(20)->withQueryString();
 
         // Available pairs for filter dropdown
-        $userPairs = $user->tradeEntries()
-            ->select('trade_pair_id')
-            ->distinct()
-            ->with('tradePair:id,symbol')
-            ->get()
-            ->pluck('tradePair.symbol')
-            ->filter()
-            ->unique()
-            ->sort()
-            ->values();
+        $userPairs = TradePair::whereIn('id',
+            $user->tradeEntries()->select('trade_pair_id')->distinct()
+        )->orderBy('symbol')->pluck('symbol');
 
         return view('journal.index', compact(
             'allTimeSummary',
@@ -106,7 +99,8 @@ class JournalController extends Controller
         }
 
         $trades = $this->getFilteredTrades($request);
-        return Excel::download(new TradeEntriesExport($trades), 'journal_' . now()->format('Y-m-d') . '.xlsx');
+
+        return Excel::download(new TradeEntriesExport($trades), 'journal_'.now()->format('Y-m-d').'.xlsx');
     }
 
     public function exportPdf(Request $request)
@@ -132,7 +126,7 @@ class JournalController extends Controller
 
         $pdf->setPaper('A4', 'landscape');
 
-        return $pdf->download('journal_' . now()->format('Y-m-d') . '.pdf');
+        return $pdf->download('journal_'.now()->format('Y-m-d').'.pdf');
     }
 
     private function getFilteredTrades(Request $request)
@@ -149,8 +143,8 @@ class JournalController extends Controller
         }
         if ($request->filled('result')) {
             match ($request->result) {
-                'winning' => $query->winning(),
-                'losing' => $query->losing(),
+                'winning' => $query->where('pnl', '>', 0),
+                'losing' => $query->where('pnl', '<', 0),
                 default => null,
             };
         }
@@ -158,9 +152,9 @@ class JournalController extends Controller
             $query->where('opened_at', '>=', $request->from);
         }
         if ($request->filled('to')) {
-            $query->where('opened_at', '<=', $request->to . ' 23:59:59');
+            $query->where('opened_at', '<=', $request->to.' 23:59:59');
         }
 
-        return $query->get();
+        return $query->limit(5000)->get();
     }
 }

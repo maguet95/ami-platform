@@ -2,11 +2,11 @@
 
 namespace App\Filament\Instructor\Pages;
 
+use Filament\Auth\Pages\EditProfile as BaseEditProfile;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Auth\Pages\EditProfile as BaseEditProfile;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 

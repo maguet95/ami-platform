@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $live_class_id
+ * @property int $user_id
+ * @property string $status
+ * @property \Carbon\Carbon|null $notified_at
+ * @property \Carbon\Carbon|null $attended_at
+ * @property string $access_token
+ * @property-read \App\Models\User $user
+ */
 class LiveClassAttendance extends Model
 {
     use HasFactory;

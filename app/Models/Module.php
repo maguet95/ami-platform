@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
+/**
+ * @property int $id
+ * @property int $course_id
+ * @property string $title
+ * @property string $slug
+ * @property string|null $description
+ * @property int $sort_order
+ * @property bool $is_published
+ * @property-read \App\Models\Course $course
+ */
 class Module extends Model
 {
     use HasFactory;

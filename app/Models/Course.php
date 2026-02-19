@@ -9,6 +9,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
 
+/**
+ * @property int $id
+ * @property int $instructor_id
+ * @property string $title
+ * @property string $slug
+ * @property string|null $description
+ * @property string|null $short_description
+ * @property string|null $image
+ * @property string $level
+ * @property string|null $price
+ * @property string $currency
+ * @property string $status
+ * @property int|null $duration_hours
+ * @property int $sort_order
+ * @property bool $is_featured
+ * @property bool $is_free
+ * @property \Carbon\Carbon|null $published_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Module> $modules
+ */
 class Course extends Model
 {
     use HasFactory;
@@ -117,7 +136,7 @@ class Course extends Model
             return 'Gratis';
         }
 
-        return '$' . number_format($this->price, 2) . ' ' . $this->currency;
+        return '$'.number_format((float) $this->price, 2).' '.$this->currency;
     }
 
     public function getLevelLabel(): string

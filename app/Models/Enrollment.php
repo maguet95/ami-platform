@@ -6,6 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $course_id
+ * @property string $status
+ * @property \Carbon\Carbon|null $enrolled_at
+ * @property \Carbon\Carbon|null $completed_at
+ * @property \Carbon\Carbon|null $expires_at
+ * @property int $progress_percent
+ * @property-read \App\Models\Course $course
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static> active()
+ */
 class Enrollment extends Model
 {
     use HasFactory;

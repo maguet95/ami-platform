@@ -29,7 +29,7 @@ class SubscriptionStatsWidget extends StatsOverviewWidget
             Stat::make('Suscriptores Activos', $activeSubscribers)
                 ->icon('heroicon-o-users')
                 ->color('success'),
-            Stat::make('MRR Estimado', '$' . number_format($mrr, 2))
+            Stat::make('MRR Estimado', '$'.number_format($mrr, 2))
                 ->icon('heroicon-o-currency-dollar')
                 ->color('info'),
             Stat::make('Planes Activos', $activePlans)

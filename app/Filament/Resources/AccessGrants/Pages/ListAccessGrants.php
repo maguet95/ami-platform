@@ -59,6 +59,7 @@ class ListAccessGrants extends ListRecords
                             ->title('No se encontraron emails válidos')
                             ->danger()
                             ->send();
+
                         return;
                     }
 
@@ -73,6 +74,7 @@ class ListAccessGrants extends ListRecords
 
                         if ($exists) {
                             $skipped++;
+
                             continue;
                         }
 

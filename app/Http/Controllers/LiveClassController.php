@@ -13,10 +13,7 @@ class LiveClassController extends Controller
     {
         $user = Auth::user();
 
-        $attendanceClassIds = LiveClassAttendance::where('user_id', $user->id)
-            ->pluck('live_class_id');
-
-        $classes = LiveClass::whereIn('id', $attendanceClassIds)
+        $classes = LiveClass::whereHas('attendances', fn ($q) => $q->where('user_id', $user->id))
             ->where('status', '!=', 'cancelled')
             ->where('starts_at', '>=', now()->startOfMonth()->subMonth())
             ->with(['course', 'instructor'])
@@ -27,7 +24,19 @@ class LiveClassController extends Controller
             ->where('status', 'scheduled')
             ->take(5);
 
-        return view('live-classes.calendar', compact('classes', 'upcomingClasses'));
+        /** @var \Illuminate\Support\Collection<int, array<string, mixed>> $calendarEvents */
+        $calendarEvents = $classes->map(function (LiveClass $c) {
+            return [
+                'id' => $c->id,
+                'title' => $c->title,
+                'starts_at' => $c->starts_at->toISOString(),
+                'platform' => $c->getPlatformLabel(),
+                'instructor' => $c->instructor?->name,
+                'course' => $c->course?->title,
+            ];
+        })->values();
+
+        return view('live-classes.calendar', compact('classes', 'upcomingClasses', 'calendarEvents'));
     }
 
     public function show(LiveClass $liveClass)

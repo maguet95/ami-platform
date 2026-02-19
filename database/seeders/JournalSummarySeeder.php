@@ -6,7 +6,6 @@ use App\Models\JournalSummary;
 use App\Models\TradeEntry;
 use App\Models\User;
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
 use Illuminate\Database\Seeder;
 
 class JournalSummarySeeder extends Seeder
@@ -16,6 +15,7 @@ class JournalSummarySeeder extends Seeder
         $admin = User::where('email', 'enmajose95+admin@gmail.com')->first();
         if (! $admin) {
             $this->command->warn('Admin user not found. Skipping JournalSummarySeeder.');
+
             return;
         }
 
@@ -23,6 +23,7 @@ class JournalSummarySeeder extends Seeder
 
         if ($trades->isEmpty()) {
             $this->command->warn('No trade entries found. Run TradeEntrySeeder first.');
+
             return;
         }
 
@@ -33,11 +34,12 @@ class JournalSummarySeeder extends Seeder
             $weekStart = $now->copy()->subWeeks($w)->startOfWeek();
             $weekEnd = $weekStart->copy()->endOfWeek();
 
-            $weekTrades = $trades->filter(fn ($t) =>
-                $t->opened_at->gte($weekStart) && $t->opened_at->lte($weekEnd)
+            $weekTrades = $trades->filter(fn ($t) => $t->opened_at->gte($weekStart) && $t->opened_at->lte($weekEnd)
             );
 
-            if ($weekTrades->isEmpty()) continue;
+            if ($weekTrades->isEmpty()) {
+                continue;
+            }
 
             $this->createSummary($admin->id, 'weekly', $weekStart, $weekEnd, $weekTrades);
         }
@@ -47,11 +49,12 @@ class JournalSummarySeeder extends Seeder
             $monthStart = $now->copy()->subMonths($m)->startOfMonth();
             $monthEnd = $monthStart->copy()->endOfMonth();
 
-            $monthTrades = $trades->filter(fn ($t) =>
-                $t->opened_at->gte($monthStart) && $t->opened_at->lte($monthEnd)
+            $monthTrades = $trades->filter(fn ($t) => $t->opened_at->gte($monthStart) && $t->opened_at->lte($monthEnd)
             );
 
-            if ($monthTrades->isEmpty()) continue;
+            if ($monthTrades->isEmpty()) {
+                continue;
+            }
 
             $this->createSummary($admin->id, 'monthly', $monthStart, $monthEnd, $monthTrades);
         }

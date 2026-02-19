@@ -5,6 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $trade_pair_id
+ * @property string $external_id
+ * @property string $direction
+ * @property string $entry_price
+ * @property string|null $exit_price
+ * @property string $quantity
+ * @property string|null $pnl
+ * @property string|null $pnl_percentage
+ * @property string|null $fee
+ * @property \Carbon\Carbon|null $opened_at
+ * @property \Carbon\Carbon|null $closed_at
+ * @property int|null $duration_seconds
+ * @property string $status
+ * @property array<int, string>|null $tags
+ * @property string|null $notes
+ * @property string $source
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static> closed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static> winning()
+ * @method static \Illuminate\Database\Eloquent\Builder<static> losing()
+ */
 class TradeEntry extends Model
 {
     protected $fillable = [

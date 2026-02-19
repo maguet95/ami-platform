@@ -7,6 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
+/**
+ * @property int $id
+ * @property int $module_id
+ * @property string $title
+ * @property string $slug
+ * @property string|null $content
+ * @property string|null $video_url
+ * @property string|null $video_provider
+ * @property string $type
+ * @property int $duration_minutes
+ * @property int $sort_order
+ * @property bool $is_published
+ * @property bool $is_free_preview
+ * @property-read \App\Models\Module $module
+ */
 class Lesson extends Model
 {
     use HasFactory;
@@ -59,13 +74,13 @@ class Lesson extends Model
     public function getFormattedDuration(): string
     {
         if ($this->duration_minutes < 60) {
-            return $this->duration_minutes . ' min';
+            return $this->duration_minutes.' min';
         }
 
         $hours = intdiv($this->duration_minutes, 60);
         $mins = $this->duration_minutes % 60;
 
-        return $hours . 'h ' . ($mins > 0 ? $mins . 'min' : '');
+        return $hours.'h '.($mins > 0 ? $mins.'min' : '');
     }
 
     public function getTypeLabel(): string

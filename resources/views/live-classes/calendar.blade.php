@@ -120,18 +120,14 @@
     </div>
 
     <script>
+        var _calendarClasses = @json($calendarEvents);
+    </script>
+    <script>
         function calendarApp() {
             return {
                 view: 'month',
                 currentDate: new Date(),
-                classes: @json($classes->map(fn ($c) => [
-                    'id' => $c->id,
-                    'title' => $c->title,
-                    'starts_at' => $c->starts_at->toISOString(),
-                    'platform' => $c->getPlatformLabel(),
-                    'instructor' => $c->instructor?->name,
-                    'course' => $c->course?->title,
-                ])),
+                classes: _calendarClasses,
                 monthLabel: '',
                 cells: [],
 

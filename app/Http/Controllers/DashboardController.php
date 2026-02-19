@@ -12,7 +12,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $enrollments = $user->enrollments()->with('course')->active()->get();
+        $enrollments = $user->enrollments()->with('course')->where('status', 'active')->get();
         $enrolledCount = $enrollments->count();
         $completedLessons = $user->getCompletedLessonsCount();
 

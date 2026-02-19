@@ -16,7 +16,7 @@ class SendSubscriptionExpiringReminders extends Command
     {
         $targetDate = now()->addDays(3)->toDateString();
 
-        $users = User::whereHas('subscriptions', function ($query) use ($targetDate) {
+        $users = User::whereHas('subscriptions', function ($query) {
             $query->where('ends_at', '>=', now())
                 ->where('ends_at', '<=', now()->addDays(3)->endOfDay());
         })

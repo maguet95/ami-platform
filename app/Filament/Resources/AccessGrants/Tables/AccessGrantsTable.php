@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\AccessGrants\Tables;
 
 use App\Models\AccessGrant;
+use App\Notifications\AccessGrantInvitationNotification;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -11,7 +12,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\AccessGrantInvitationNotification;
 
 class AccessGrantsTable
 {

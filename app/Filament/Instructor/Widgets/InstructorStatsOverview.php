@@ -46,10 +46,10 @@ class InstructorStatsOverview extends StatsOverviewWidget
             Stat::make('Lecciones Totales', $totalLessons)
                 ->icon('heroicon-o-play-circle')
                 ->color('warning'),
-            Stat::make('Tasa de Completación', $completionRate . '%')
+            Stat::make('Tasa de Completación', $completionRate.'%')
                 ->icon('heroicon-o-chart-bar')
                 ->color('success'),
-            Stat::make('Progreso Promedio', round($avgProgress) . '%')
+            Stat::make('Progreso Promedio', round($avgProgress).'%')
                 ->icon('heroicon-o-arrow-trending-up')
                 ->color('info'),
         ];

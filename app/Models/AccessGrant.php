@@ -7,19 +7,43 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
+/**
+ * @property int $id
+ * @property string $email
+ * @property int|null $user_id
+ * @property int $granted_by
+ * @property string $duration_type
+ * @property \Carbon\Carbon|null $starts_at
+ * @property \Carbon\Carbon|null $expires_at
+ * @property string $status
+ * @property string $token
+ * @property string|null $notes
+ * @property \Carbon\Carbon|null $revoked_at
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static> active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static> pending()
+ * @method static \Illuminate\Database\Eloquent\Builder<static> forEmail(string $email)
+ */
 class AccessGrant extends Model
 {
     // Duration types
     const DURATION_LIFETIME = 'lifetime';
+
     const DURATION_1_MONTH = '1_month';
+
     const DURATION_3_MONTHS = '3_months';
+
     const DURATION_6_MONTHS = '6_months';
+
     const DURATION_1_YEAR = '1_year';
 
     // Statuses
     const STATUS_PENDING = 'pending';
+
     const STATUS_ACTIVE = 'active';
+
     const STATUS_EXPIRED = 'expired';
+
     const STATUS_REVOKED = 'revoked';
 
     protected $fillable = [
@@ -96,9 +120,9 @@ class AccessGrant extends Model
 
     public function scopeCurrentlyValid(Builder $query): Builder
     {
-        return $query->active()->where(function (Builder $q) {
+        return $query->where('status', self::STATUS_ACTIVE)->where(function (Builder $q) {
             $q->whereNull('expires_at')
-              ->orWhere('expires_at', '>', now());
+                ->orWhere('expires_at', '>', now());
         });
     }
 
@@ -143,6 +167,7 @@ class AccessGrant extends Model
 
             if ($this->expires_at->isPast()) {
                 $this->update(['status' => self::STATUS_EXPIRED]);
+
                 return false;
             }
 

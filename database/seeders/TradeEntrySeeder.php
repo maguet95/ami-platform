@@ -15,6 +15,7 @@ class TradeEntrySeeder extends Seeder
         $admin = User::where('email', 'enmajose95+admin@gmail.com')->first();
         if (! $admin) {
             $this->command->warn('Admin user not found. Skipping TradeEntrySeeder.');
+
             return;
         }
 
@@ -92,7 +93,7 @@ class TradeEntrySeeder extends Seeder
             TradeEntry::create([
                 'user_id' => $admin->id,
                 'trade_pair_id' => $pair->id,
-                'external_id' => $source . '_' . strtolower($pair->symbol) . '_' . $openedAt->timestamp,
+                'external_id' => $source.'_'.strtolower($pair->symbol).'_'.$openedAt->timestamp,
                 'direction' => $direction,
                 'entry_price' => $entryPrice,
                 'exit_price' => $exitPrice,

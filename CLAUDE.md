@@ -201,6 +201,14 @@ NombreResource/
 
 - Componentes anonimos DEBEN vivir en `resources/views/components/` (no en `resources/views/layouts/`)
 
+### PHPStan / Tipos
+
+- Todos los modelos Eloquent DEBEN tener bloque `@property` PHPDoc para propiedades y casts
+- Agregar `@method` PHPDoc para scopes (ej: `@method static Builder<static> active()`)
+- Scopes llamados via relacion HasMany (`$user->enrollments()->active()`) NO son reconocidos por PHPStan — usar `->where('status', 'active')` inline en su lugar
+- En Filament Pages, `$this->record` es `Model` generico — agregar `/** @var ModeloEspecifico */` antes de usarlo
+- `$event->user` en Listeners de `Registered`/`Verified` es `MustVerifyEmail`, no `User` — hacer cast con `/** @var User */`
+
 ### Base de Datos
 
 - PostgreSQL, no MySQL. Usar `jsonb` en lugar de `json` para columnas JSON.

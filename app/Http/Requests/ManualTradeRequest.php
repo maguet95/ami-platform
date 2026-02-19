@@ -65,8 +65,8 @@ class ManualTradeRequest extends FormRequest
             'notes' => ['nullable', 'string', 'max:5000'],
 
             // Images
-            'images' => ['nullable', 'array', 'max:' . config('journal.manual_max_images', 5)],
-            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:' . config('journal.manual_max_image_size', 2048)],
+            'images' => ['nullable', 'array', 'max:'.config('journal.manual_max_images', 5)],
+            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:'.config('journal.manual_max_image_size', 2048)],
             'captions' => ['nullable', 'array'],
             'captions.*' => ['nullable', 'string', 'max:255'],
         ];
@@ -82,8 +82,8 @@ class ManualTradeRequest extends FormRequest
             'entry_price.required' => 'El precio de entrada es obligatorio.',
             'entry_price.gt' => 'El precio debe ser mayor a 0.',
             'status.required' => 'Selecciona el estado del trade.',
-            'images.max' => 'Maximo ' . config('journal.manual_max_images', 5) . ' imagenes por trade.',
-            'images.*.max' => 'Cada imagen debe ser menor a ' . config('journal.manual_max_image_size', 2048) . 'KB.',
+            'images.max' => 'Maximo '.config('journal.manual_max_images', 5).' imagenes por trade.',
+            'images.*.max' => 'Cada imagen debe ser menor a '.config('journal.manual_max_image_size', 2048).'KB.',
             'images.*.mimes' => 'Solo se permiten imagenes JPG, PNG o WebP.',
         ];
     }

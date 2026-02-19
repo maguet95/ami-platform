@@ -24,7 +24,7 @@ class AccessGrantInvitationNotification extends Notification implements ShouldQu
     public function toMail(object $notifiable): MailMessage
     {
         $duration = AccessGrant::durationOptions()[$this->grant->duration_type] ?? $this->grant->duration_type;
-        $registerUrl = url('/register?invitation=' . $this->grant->token);
+        $registerUrl = url('/register?invitation='.$this->grant->token);
 
         return (new MailMessage)
             ->subject('Has recibido acceso premium a AMI')

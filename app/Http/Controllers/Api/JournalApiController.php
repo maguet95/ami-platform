@@ -67,6 +67,7 @@ class JournalApiController extends Controller
                         'external_id' => $entry['external_id'],
                         'error' => "user_id {$entry['user_id']} not found",
                     ];
+
                     continue;
                 }
 
@@ -84,6 +85,7 @@ class JournalApiController extends Controller
 
                 if ($exists) {
                     $duplicatesSkipped++;
+
                     continue;
                 }
 

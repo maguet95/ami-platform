@@ -33,7 +33,7 @@ return new class extends Migration
         $driver = Schema::getConnection()->getDriverName();
 
         if ($driver === 'pgsql') {
-            return DB::selectOne("SELECT 1 FROM pg_indexes WHERE tablename = ? AND indexname = ?", [$table, $indexName]) !== null;
+            return DB::selectOne('SELECT 1 FROM pg_indexes WHERE tablename = ? AND indexname = ?', [$table, $indexName]) !== null;
         }
 
         // SQLite

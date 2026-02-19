@@ -2,16 +2,16 @@
 
 use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\BrokerConnectionController;
-use App\Http\Controllers\ManualJournalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JournalController;
+use App\Http\Controllers\LiveClassController;
+use App\Http\Controllers\ManualJournalController;
+use App\Http\Controllers\ManualJournalExportController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\RankingController;
-use App\Http\Controllers\ManualJournalExportController;
-use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TradingStatsController;

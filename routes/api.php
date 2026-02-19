@@ -6,7 +6,7 @@ use App\Http\Controllers\LiveClassController;
 use Illuminate\Support\Facades\Route;
 
 // Journal Internal API (authenticated via X-API-Key header)
-Route::prefix('internal/journal')->middleware('journal.api')->group(function () {
+Route::prefix('internal/journal')->middleware(['journal.api', 'throttle:60,1'])->group(function () {
     Route::get('/health', [JournalApiController::class, 'health']);
     Route::post('/entries', [JournalApiController::class, 'storeEntries'])
         ->middleware('journal.api:write:entries');
@@ -24,4 +24,4 @@ Route::prefix('internal/journal')->middleware('journal.api')->group(function () 
 
 // Live Class Notifications Trigger (authenticated via X-API-Key header)
 Route::get('/internal/trigger-class-notifications', [LiveClassController::class, 'triggerNotifications'])
-    ->middleware('journal.api');
+    ->middleware(['journal.api', 'throttle:10,1']);

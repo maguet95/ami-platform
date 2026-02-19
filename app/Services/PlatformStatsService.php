@@ -17,9 +17,9 @@ class PlatformStatsService
             $hours = (int) floor(Lesson::where('is_published', true)->sum('duration_minutes') / 60);
 
             return [
-                'students' => $this->formatStat($students) . '+',
-                'courses' => $this->formatStat($courses) . '+',
-                'hours' => $this->formatStat($hours) . '+',
+                'students' => $this->formatStat($students).'+',
+                'courses' => $this->formatStat($courses).'+',
+                'hours' => $this->formatStat($hours).'+',
                 'satisfaction' => '98%',
             ];
         });

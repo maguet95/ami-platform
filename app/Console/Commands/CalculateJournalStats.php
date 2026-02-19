@@ -23,6 +23,7 @@ class CalculateJournalStats extends Command
 
         if ($userIds->isEmpty()) {
             $this->info('No users with trades found.');
+
             return 0;
         }
 

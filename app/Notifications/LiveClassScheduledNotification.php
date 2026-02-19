@@ -35,7 +35,7 @@ class LiveClassScheduledNotification extends Notification implements ShouldQueue
         $message = (new MailMessage)
             ->subject("Nueva clase en vivo: {$this->liveClass->title}")
             ->greeting("Hola {$notifiable->name},")
-            ->line("Se ha programado una nueva clase en vivo en **AMI**.")
+            ->line('Se ha programado una nueva clase en vivo en **AMI**.')
             ->line("**{$this->liveClass->title}**")
             ->line("Fecha: {$date}")
             ->line("Hora: {$time}")

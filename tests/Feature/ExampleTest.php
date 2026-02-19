@@ -2,10 +2,20 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\RoleSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(RoleSeeder::class);
+    }
+
     public function test_home_page_returns_successful_response(): void
     {
         $this->get('/')->assertStatus(200);

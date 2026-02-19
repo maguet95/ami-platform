@@ -29,10 +29,10 @@ class CsvTradeImporter
      */
     private function parseMt4Html(UploadedFile $file, int $userId): ImportResult
     {
-        $result = new ImportResult();
+        $result = new ImportResult;
         $html = file_get_contents($file->getRealPath());
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument;
         @$doc->loadHTML($html, LIBXML_NOERROR);
         $xpath = new DOMXPath($doc);
 
@@ -50,6 +50,7 @@ class CsvTradeImporter
 
         if (! $tradesTable) {
             $result->errors[] = 'No se encontro la tabla de transacciones cerradas en el reporte MT4.';
+
             return $result;
         }
 
@@ -90,6 +91,7 @@ class CsvTradeImporter
                 $closedAt = Carbon::parse($values[8]);
             } catch (\Exception $e) {
                 $result->errors[] = "Ticket {$ticket}: fecha invalida";
+
                 continue;
             }
 
@@ -121,12 +123,13 @@ class CsvTradeImporter
      */
     private function parseMt5Csv(UploadedFile $file, int $userId): ImportResult
     {
-        $result = new ImportResult();
+        $result = new ImportResult;
         $content = file_get_contents($file->getRealPath());
         $lines = explode("\n", $content);
 
         if (count($lines) < 2) {
             $result->errors[] = 'Archivo vacio o sin datos.';
+
             return $result;
         }
 
@@ -142,6 +145,7 @@ class CsvTradeImporter
 
         if (! $colMap) {
             $result->errors[] = 'No se reconocen las columnas del CSV. Asegurate de exportar desde MetaTrader 5.';
+
             return $result;
         }
 
@@ -176,6 +180,7 @@ class CsvTradeImporter
                 $closedAt = isset($colMap['time_close']) ? Carbon::parse($values[$colMap['time_close']] ?? '') : $openedAt;
             } catch (\Exception $e) {
                 $result->errors[] = "Linea {$i}: fecha invalida";
+
                 continue;
             }
 
@@ -266,6 +271,7 @@ class CsvTradeImporter
 
             if ($exists) {
                 $result->duplicates++;
+
                 return;
             }
 

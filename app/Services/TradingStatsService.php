@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Cache;
 class TradingStatsService
 {
     private int $userId;
+
     private string $journalType; // 'manual' or 'automatic'
 
     public function __construct(int $userId, string $journalType = 'manual')
@@ -271,7 +272,9 @@ class TradingStatsService
         foreach ($timeframes as $key => $label) {
             $tfTrades = $trades->where('timeframe', $key);
             $count = $tfTrades->count();
-            if ($count === 0) continue;
+            if ($count === 0) {
+                continue;
+            }
 
             $result[] = [
                 'timeframe' => $label,
@@ -352,6 +355,7 @@ class TradingStatsService
     public function getStreaks(?Collection $trades = null): array
     {
         $trades = $trades ?? $this->getTrades();
+
         return $this->calculateStreaks($trades);
     }
 }

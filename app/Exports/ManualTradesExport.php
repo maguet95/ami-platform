@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ManualTradesExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
+class ManualTradesExport implements FromCollection, ShouldAutoSize, WithHeadings, WithMapping, WithStyles
 {
     private Collection $trades;
 
@@ -58,9 +58,9 @@ class ManualTradesExport implements FromCollection, WithHeadings, WithMapping, S
             $trade->stop_loss ?? '-',
             $trade->take_profit ?? '-',
             $trade->pnl !== null ? number_format($trade->pnl, 2) : '-',
-            $trade->pnl_percentage !== null ? number_format($trade->pnl_percentage, 2) . '%' : '-',
+            $trade->pnl_percentage !== null ? number_format($trade->pnl_percentage, 2).'%' : '-',
             $trade->risk_reward_actual !== null ? number_format($trade->risk_reward_actual, 2) : '-',
-            $trade->overall_rating ? $trade->overall_rating . '/5' : '-',
+            $trade->overall_rating ? $trade->overall_rating.'/5' : '-',
             isset($emotions[$trade->emotion_before]) ? $emotions[$trade->emotion_before] : '-',
             isset($emotions[$trade->emotion_after]) ? $emotions[$trade->emotion_after] : '-',
             $trade->notes ?? '-',

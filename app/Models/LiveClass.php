@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $notes
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LiveClassAttendance> $attendances
  * @property-read \App\Models\User|null $instructor
+ * @property-read \App\Models\Course|null $course
  */
 class LiveClass extends Model
 {

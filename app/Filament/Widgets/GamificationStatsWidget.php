@@ -4,9 +4,9 @@ namespace App\Filament\Widgets;
 
 use App\Models\User;
 use App\Models\XpTransaction;
-use Illuminate\Support\Facades\DB;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Facades\DB;
 
 class GamificationStatsWidget extends StatsOverviewWidget
 {

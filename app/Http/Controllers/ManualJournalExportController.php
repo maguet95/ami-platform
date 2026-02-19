@@ -19,7 +19,7 @@ class ManualJournalExportController extends Controller
         }
 
         $trades = $this->getFilteredTrades($request);
-        $filename = 'bitacora_' . now()->format('Y-m-d') . '.xlsx';
+        $filename = 'bitacora_'.now()->format('Y-m-d').'.xlsx';
 
         return Excel::download(new ManualTradesExport($trades), $filename);
     }
@@ -42,7 +42,7 @@ class ManualJournalExportController extends Controller
 
         $pdf->setPaper('A4', 'landscape');
 
-        return $pdf->download('bitacora_' . now()->format('Y-m-d') . '.pdf');
+        return $pdf->download('bitacora_'.now()->format('Y-m-d').'.pdf');
     }
 
     private function getFilteredTrades(Request $request)

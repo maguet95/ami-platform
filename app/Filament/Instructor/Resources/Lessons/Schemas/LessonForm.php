@@ -4,10 +4,10 @@ namespace App\Filament\Instructor\Resources\Lessons\Schemas;
 
 use App\Models\Module;
 use Filament\Forms\Components\RichEditor;
-use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -24,7 +24,7 @@ class LessonForm
                             ->options(fn () => Module::whereHas('course', fn ($q) => $q->where('instructor_id', auth()->id()))
                                 ->with('course')
                                 ->get()
-                                ->mapWithKeys(fn ($module) => [$module->id => $module->course->title . ' — ' . $module->title])
+                                ->mapWithKeys(fn ($module) => [$module->id => $module->course->title.' — '.$module->title])
                             )
                             ->required()
                             ->searchable(),

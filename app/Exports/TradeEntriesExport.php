@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class TradeEntriesExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
+class TradeEntriesExport implements FromCollection, ShouldAutoSize, WithHeadings, WithMapping, WithStyles
 {
     private Collection $trades;
 
@@ -47,11 +47,11 @@ class TradeEntriesExport implements FromCollection, WithHeadings, WithMapping, S
     {
         $duration = $trade->duration_seconds;
         if ($duration >= 86400) {
-            $durationStr = round($duration / 86400, 1) . 'd';
+            $durationStr = round($duration / 86400, 1).'d';
         } elseif ($duration >= 3600) {
-            $durationStr = round($duration / 3600, 1) . 'h';
+            $durationStr = round($duration / 3600, 1).'h';
         } else {
-            $durationStr = round($duration / 60) . 'm';
+            $durationStr = round($duration / 60).'m';
         }
 
         return [
@@ -63,7 +63,7 @@ class TradeEntriesExport implements FromCollection, WithHeadings, WithMapping, S
             $trade->exit_price ?? '-',
             $trade->quantity,
             $trade->pnl !== null ? number_format($trade->pnl, 2) : '-',
-            $trade->pnl_percentage !== null ? number_format($trade->pnl_percentage, 2) . '%' : '-',
+            $trade->pnl_percentage !== null ? number_format($trade->pnl_percentage, 2).'%' : '-',
             $trade->fee ? number_format($trade->fee, 2) : '-',
             $durationStr,
             $trade->source ?? '-',

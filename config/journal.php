@@ -21,4 +21,9 @@ return [
     // Stats & exports
     'stats_enabled' => env('JOURNAL_STATS_ENABLED', true),
     'exports_enabled' => env('JOURNAL_EXPORTS_ENABLED', true),
+
+    // Broker connections & CSV import
+    'connections_enabled' => env('JOURNAL_CONNECTIONS_ENABLED', true),
+    'csv_upload_enabled' => env('JOURNAL_CSV_UPLOAD_ENABLED', true),
+    'csv_max_file_size' => 5120, // KB (5MB)
 ];

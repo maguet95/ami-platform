@@ -190,6 +190,13 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(ManualTrade::class);
     }
 
+    // Broker connections
+
+    public function brokerConnections(): HasMany
+    {
+        return $this->hasMany(BrokerConnection::class);
+    }
+
     // Live class relationships
 
     public function liveClassAttendances(): HasMany

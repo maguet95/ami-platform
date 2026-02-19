@@ -228,6 +228,20 @@ class JournalApiController extends Controller
     }
 
     /**
+     * POST /api/internal/journal/calculate-stats
+     * Trigger stats calculation for all users with trades.
+     */
+    public function calculateStats(): JsonResponse
+    {
+        $exitCode = \Illuminate\Support\Facades\Artisan::call('journal:calculate-stats');
+
+        return response()->json([
+            'status' => $exitCode === 0 ? 'ok' : 'error',
+            'exit_code' => $exitCode,
+        ], $exitCode === 0 ? 200 : 500);
+    }
+
+    /**
      * GET /api/internal/journal/health
      * Health check for workers.
      */

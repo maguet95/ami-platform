@@ -3,6 +3,15 @@
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
             <h2 class="text-xl font-bold text-white whitespace-nowrap">Trading Journal</h2>
             <div class="flex items-center gap-2">
+                @if(config('journal.connections_enabled', true))
+                <a href="{{ route('journal.connections') }}"
+                   class="inline-flex items-center gap-1.5 px-2.5 py-1.5 border border-surface-700 text-surface-300 hover:text-white hover:bg-surface-800 text-sm font-medium rounded-lg transition">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m9.193-9.193a4.5 4.5 0 00-6.364 0l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+                    </svg>
+                    Conexiones
+                </a>
+                @endif
                 @if(config('journal.stats_enabled'))
                 <a href="{{ route('journal.stats') }}"
                    class="inline-flex items-center gap-1.5 px-2.5 py-1.5 border border-surface-700 text-surface-300 hover:text-white hover:bg-surface-800 text-sm font-medium rounded-lg transition">

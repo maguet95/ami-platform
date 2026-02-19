@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\BrokerConnectionController;
 use App\Http\Controllers\ManualJournalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JournalController;
@@ -62,6 +63,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/journal/estadisticas', [TradingStatsController::class, 'automaticStats'])->name('journal.stats');
     Route::get('/journal/exportar/excel', [JournalController::class, 'exportExcel'])->name('journal.export.excel');
     Route::get('/journal/exportar/pdf', [JournalController::class, 'exportPdf'])->name('journal.export.pdf');
+
+    // Journal Broker Connections
+    Route::prefix('journal/conexiones')->name('journal.connections')->group(function () {
+        Route::get('/', [BrokerConnectionController::class, 'index']);
+        Route::post('/', [BrokerConnectionController::class, 'store'])->name('.store');
+        Route::delete('/{connection}', [BrokerConnectionController::class, 'destroy'])->name('.destroy');
+        Route::patch('/{connection}/sync', [BrokerConnectionController::class, 'toggleSync'])->name('.toggle-sync');
+        Route::post('/csv', [BrokerConnectionController::class, 'uploadCsv'])->name('.upload-csv');
+    });
 
     // Subscription Routes
     Route::post('/suscripcion/{plan:slug}/checkout', [SubscriptionController::class, 'checkout'])

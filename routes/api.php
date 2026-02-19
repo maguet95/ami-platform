@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BrokerConnectionApiController;
 use App\Http\Controllers\Api\JournalApiController;
 use App\Http\Controllers\LiveClassController;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,14 @@ Route::prefix('internal/journal')->middleware('journal.api')->group(function () 
         ->middleware('journal.api:write:entries');
     Route::post('/summaries', [JournalApiController::class, 'storeSummaries'])
         ->middleware('journal.api:write:summaries');
+
+    // Broker connections (for workers)
+    Route::get('/connections', [BrokerConnectionApiController::class, 'index']);
+    Route::patch('/connections/{id}/sync-status', [BrokerConnectionApiController::class, 'updateSyncStatus']);
+    Route::get('/users-with-trades', [BrokerConnectionApiController::class, 'usersWithTrades']);
+
+    // Stats calculation trigger
+    Route::post('/calculate-stats', [JournalApiController::class, 'calculateStats']);
 });
 
 // Live Class Notifications Trigger (authenticated via X-API-Key header)

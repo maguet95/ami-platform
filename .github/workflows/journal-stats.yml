@@ -18,20 +18,10 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: |
-          if [ -f workers/requirements.txt ]; then
-            pip install -r workers/requirements.txt
-          else
-            echo "No workers/requirements.txt found. Skipping."
-          fi
+        run: pip install -r workers/requirements.txt
 
       - name: Run stats analyzer
         env:
           LARAVEL_API_URL: ${{ secrets.APP_URL }}/api/internal
           LARAVEL_API_KEY: ${{ secrets.JOURNAL_API_KEY }}
-        run: |
-          if [ -f workers/stats_analyzer/main.py ]; then
-            python -m workers.stats_analyzer.main
-          else
-            echo "Stats analyzer not yet implemented. Skipping."
-          fi
+        run: python -m workers.stats_analyzer.main

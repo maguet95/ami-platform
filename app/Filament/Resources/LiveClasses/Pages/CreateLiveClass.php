@@ -12,6 +12,7 @@ class CreateLiveClass extends CreateRecord
 
     protected function afterCreate(): void
     {
+        /** @var \App\Models\LiveClass $liveClass */
         $liveClass = $this->record;
 
         // Auto-register enrolled students

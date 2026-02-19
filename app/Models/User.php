@@ -14,6 +14,30 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string|null $google_id
+ * @property string|null $avatar_url
+ * @property string|null $username
+ * @property string|null $bio
+ * @property string|null $avatar
+ * @property string|null $location
+ * @property string|null $headline
+ * @property \Carbon\Carbon|null $email_verified_at
+ * @property \Carbon\Carbon|null $trading_since
+ * @property bool $is_profile_public
+ * @property bool $share_manual_journal
+ * @property bool $share_automatic_journal
+ * @property \Carbon\Carbon|null $last_active_date
+ * @property bool $email_notifications
+ * @property bool $weekly_digest
+ * @property \Carbon\Carbon|null $subscription_expiry_notified_at
+ * @property int $total_xp
+ * @property int $current_streak
+ * @property int $longest_streak
+ */
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -58,9 +82,6 @@ class User extends Authenticatable implements FilamentUser
         'share_manual_journal',
         'share_automatic_journal',
         'automatic_journal_account_type',
-        'total_xp',
-        'current_streak',
-        'longest_streak',
         'last_active_date',
         'email_notifications',
         'weekly_digest',
@@ -117,7 +138,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function isEnrolledIn(Course $course): bool
     {
-        return $this->enrollments()->where('course_id', $course->id)->active()->exists();
+        return $this->enrollments()->where('course_id', $course->id)->where('status', 'active')->exists();
     }
 
     // Subscription helpers
@@ -141,10 +162,10 @@ class User extends Authenticatable implements FilamentUser
     public function hasSpecialAccess(): bool
     {
         return $this->accessGrants()
-            ->active()
+            ->where('status', AccessGrant::STATUS_ACTIVE)
             ->where(function ($q) {
                 $q->whereNull('expires_at')
-                  ->orWhere('expires_at', '>', now());
+                    ->orWhere('expires_at', '>', now());
             })
             ->exists();
     }

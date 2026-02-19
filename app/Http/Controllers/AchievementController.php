@@ -24,10 +24,10 @@ class AchievementController extends Controller
             'total_xp' => $user->total_xp ?? 0,
         ];
 
-        $achievements->each(function ($achievement) use ($earnedMap, $stats) {
+        $achievements->each(function (Achievement $achievement) use ($earnedMap, $stats) {
             $earned = $earnedMap->get($achievement->id);
             $achievement->is_earned = $earned !== null;
-            $achievement->earned_at = $earned?->pivot->earned_at;
+            $achievement->earned_at = $earned?->getAttribute('pivot')?->getAttribute('earned_at');
             $achievement->progress = $this->calculateProgress($stats, $achievement);
         });
 

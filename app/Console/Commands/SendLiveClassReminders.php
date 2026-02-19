@@ -20,12 +20,15 @@ class SendLiveClassReminders extends Command
 
         if ($classes->isEmpty()) {
             $this->info('No classes need reminders.');
+
             return self::SUCCESS;
         }
 
         $notified = 0;
 
+        /** @var \App\Models\LiveClass $class */
         foreach ($classes as $class) {
+            /** @var \App\Models\LiveClassAttendance $attendance */
             foreach ($class->attendances as $attendance) {
                 if ($attendance->status === 'attended') {
                     continue;

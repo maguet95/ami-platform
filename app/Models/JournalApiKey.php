@@ -5,6 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $key_hash
+ * @property string $key_prefix
+ * @property array<int, string> $permissions
+ * @property array<int, string>|null $allowed_ips
+ * @property \Carbon\Carbon|null $last_used_at
+ * @property \Carbon\Carbon|null $expires_at
+ * @property bool $is_active
+ */
 class JournalApiKey extends Model
 {
     protected $fillable = [
@@ -34,7 +45,7 @@ class JournalApiKey extends Model
      */
     public static function generateKey(): string
     {
-        return 'ami_jk_' . Str::random(40);
+        return 'ami_jk_'.Str::random(40);
     }
 
     /**

@@ -27,6 +27,7 @@ class CreateAccessGrant extends CreateRecord
 
     protected function afterCreate(): void
     {
+        /** @var \App\Models\AccessGrant $grant */
         $grant = $this->record;
         $user = User::where('email', $grant->email)->first();
 

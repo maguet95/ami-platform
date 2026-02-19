@@ -7,6 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property int|null $course_id
+ * @property int $instructor_id
+ * @property string $title
+ * @property string|null $description
+ * @property string $platform
+ * @property string $meeting_url
+ * @property string|null $meeting_password
+ * @property \Carbon\Carbon $starts_at
+ * @property int $duration_minutes
+ * @property string $status
+ * @property bool $notification_sent
+ * @property int|null $max_attendees
+ * @property string|null $notes
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LiveClassAttendance> $attendances
+ * @property-read \App\Models\User|null $instructor
+ */
 class LiveClass extends Model
 {
     use HasFactory;

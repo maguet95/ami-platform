@@ -35,16 +35,18 @@ class StudentCourseController extends Controller
 
         $enrollment = $user->enrollments()
             ->where('course_id', $course->id)
-            ->active()
+            ->where('status', 'active')
             ->firstOrFail();
 
         $course->load(['modules.lessons' => function ($query) {
             $query->where('is_published', true)->orderBy('sort_order');
         }]);
 
+        $lessonIds = $course->lessons()->pluck('lessons.id');
+
         $completedLessonIds = $user->lessonProgress()
             ->where('is_completed', true)
-            ->whereIn('lesson_id', $course->lessons()->pluck('lessons.id'))
+            ->whereIn('lesson_id', $lessonIds)
             ->pluck('lesson_id')
             ->toArray();
 
@@ -63,16 +65,18 @@ class StudentCourseController extends Controller
 
         $user->enrollments()
             ->where('course_id', $course->id)
-            ->active()
+            ->where('status', 'active')
             ->firstOrFail();
 
         $course->load(['modules.lessons' => function ($query) {
             $query->where('is_published', true)->orderBy('sort_order');
         }]);
 
+        $lessonIds = $course->lessons()->pluck('lessons.id');
+
         $completedLessonIds = $user->lessonProgress()
             ->where('is_completed', true)
-            ->whereIn('lesson_id', $course->lessons()->pluck('lessons.id'))
+            ->whereIn('lesson_id', $lessonIds)
             ->pluck('lesson_id')
             ->toArray();
 
@@ -87,9 +91,10 @@ class StudentCourseController extends Controller
     {
         $user = Auth::user();
 
+        /** @var Enrollment $enrollment */
         $enrollment = $user->enrollments()
             ->where('course_id', $course->id)
-            ->active()
+            ->where('status', 'active')
             ->firstOrFail();
 
         $alreadyCompleted = LessonProgress::where('user_id', $user->id)
@@ -157,6 +162,7 @@ class StudentCourseController extends Controller
 
     private function getNextLesson(Course $course, Lesson $currentLesson): ?Lesson
     {
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Lesson> $allLessons */
         $allLessons = $course->lessons()
             ->where('is_published', true)
             ->orderBy('modules.sort_order')

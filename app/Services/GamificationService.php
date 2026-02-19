@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Events\AchievementUnlocked;
 use App\Models\Achievement;
-use App\Models\Lesson;
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\User;
 
 class GamificationService
@@ -82,7 +82,7 @@ class GamificationService
             $user->longest_streak = $user->current_streak;
         }
 
-        $user->last_active_date = $today;
+        $user->last_active_date = now()->startOfDay();
         $user->save();
 
         // Award daily login XP

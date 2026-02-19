@@ -201,7 +201,7 @@ class ManualJournalController extends Controller
         $this->authorizeOwnership($trade);
 
         $newTrade = $trade->replicate(['id', 'created_at', 'updated_at', 'deleted_at']);
-        $newTrade->trade_date = now()->toDateString();
+        $newTrade->trade_date = now();
         $newTrade->save();
 
         $this->metricsService->invalidateCache(Auth::id());
@@ -233,7 +233,7 @@ class ManualJournalController extends Controller
     private function storeImages(ManualTrade $trade, array $images, array $captions): void
     {
         foreach ($images as $index => $file) {
-            $path = $file->store('bitacora/' . $trade->user_id, 'public');
+            $path = $file->store('bitacora/'.$trade->user_id, 'public');
 
             $trade->images()->create([
                 'image_path' => $path,

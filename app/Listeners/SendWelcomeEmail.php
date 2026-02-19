@@ -9,6 +9,8 @@ class SendWelcomeEmail
 {
     public function handle(Verified $event): void
     {
-        $event->user->notify(new WelcomeNotification);
+        /** @var \App\Models\User $user */
+        $user = $event->user;
+        $user->notify(new WelcomeNotification);
     }
 }

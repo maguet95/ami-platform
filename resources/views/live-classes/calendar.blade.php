@@ -4,16 +4,16 @@
     </x-slot>
 
     <div x-data="calendarApp()" x-init="init()">
-        {{-- View Toggle + Month Navigation --}}
+        {{-- View Toggle + Navigation --}}
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <div class="flex items-center gap-3">
-                <button @click="prevMonth()" class="p-2 text-surface-400 hover:text-white hover:bg-surface-800 rounded-lg transition-all">
+                <button @click="prev()" class="p-2 text-surface-400 hover:text-white hover:bg-surface-800 rounded-lg transition-all">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                     </svg>
                 </button>
-                <h3 class="text-lg font-semibold text-white min-w-[200px] text-center" x-text="monthLabel"></h3>
-                <button @click="nextMonth()" class="p-2 text-surface-400 hover:text-white hover:bg-surface-800 rounded-lg transition-all">
+                <h3 class="text-lg font-semibold text-white min-w-[200px] text-center" x-text="periodLabel"></h3>
+                <button @click="next()" class="p-2 text-surface-400 hover:text-white hover:bg-surface-800 rounded-lg transition-all">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
@@ -33,6 +33,11 @@
                         :class="view === 'week' ? 'bg-ami-500/10 text-ami-400 border-ami-500/30' : 'text-surface-400 hover:text-white border-surface-700'"
                         class="px-3 py-1.5 text-xs font-medium border rounded-lg transition-all">
                     Semana
+                </button>
+                <button @click="view = 'day'"
+                        :class="view === 'day' ? 'bg-ami-500/10 text-ami-400 border-ami-500/30' : 'text-surface-400 hover:text-white border-surface-700'"
+                        class="px-3 py-1.5 text-xs font-medium border rounded-lg transition-all">
+                    Día
                 </button>
             </div>
         </div>
@@ -77,8 +82,8 @@
         </div>
         @endif
 
-        {{-- Calendar Grid --}}
-        <div class="bg-surface-900/80 border border-surface-700/50 rounded-2xl overflow-hidden">
+        {{-- Month / Week Calendar Grid --}}
+        <div x-show="view !== 'day'" class="bg-surface-900/80 border border-surface-700/50 rounded-2xl overflow-hidden">
             {{-- Day headers --}}
             <div class="grid grid-cols-7 bg-surface-800/50 border-b border-surface-700/50">
                 <template x-for="day in ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']">
@@ -102,6 +107,12 @@
                                 'text-white': cell.isCurrentMonth && !cell.isToday,
                                 'text-surface-600': !cell.isCurrentMonth,
                             }" class="text-xs sm:text-sm" x-text="cell.day"></span>
+                            {{-- Click día para ir a vista día --}}
+                            <button x-show="cell.isCurrentMonth"
+                                    @click="goToDay(cell.date)"
+                                    class="text-[10px] text-surface-600 hover:text-ami-400 transition-colors px-1">
+                                ver
+                            </button>
                         </div>
                         <div class="space-y-1">
                             <template x-for="cls in cell.classes" :key="cls.id">
@@ -117,6 +128,42 @@
                 </template>
             </div>
         </div>
+
+        {{-- Day View — Timeline --}}
+        <div x-show="view === 'day'" class="bg-surface-900/80 border border-surface-700/50 rounded-2xl overflow-hidden">
+            {{-- Empty state --}}
+            <template x-if="daySlots.length > 0 && daySlots.every(s => s.classes.length === 0)">
+                <div class="text-center py-12 text-surface-500">
+                    <p class="text-sm">No hay clases programadas para este día.</p>
+                </div>
+            </template>
+
+            <template x-for="slot in daySlots" :key="slot.hour">
+                <div :class="{
+                        'bg-ami-500/5': slot.isCurrentHour,
+                        'bg-surface-800/20': slot.classes.length > 0 && !slot.isCurrentHour,
+                     }"
+                     class="flex border-b border-surface-700/30 min-h-[52px] group/slot">
+                    {{-- Hour label --}}
+                    <div class="w-16 shrink-0 px-3 pt-2 text-xs font-mono border-r border-surface-700/30"
+                         :class="slot.isCurrentHour ? 'text-ami-400 font-bold' : 'text-surface-600'"
+                         x-text="slot.label">
+                    </div>
+
+                    {{-- Classes block --}}
+                    <div class="flex-1 px-3 py-1.5 flex flex-col gap-1">
+                        <template x-for="cls in slot.classes" :key="cls.id">
+                            <a :href="'/clase/' + cls.id"
+                               class="flex items-center gap-3 px-3 py-2 rounded-lg bg-ami-500/10 hover:bg-ami-500/20 border border-ami-500/20 transition-all group">
+                                <span class="text-xs font-mono text-ami-400 shrink-0 w-10" x-text="cls.time"></span>
+                                <span class="text-xs font-semibold text-white truncate group-hover:text-ami-400 transition-colors" x-text="cls.title"></span>
+                                <span x-show="cls.instructor" class="text-[10px] text-surface-500 shrink-0 ml-auto" x-text="cls.instructor"></span>
+                            </a>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
     </div>
 
     <script>
@@ -128,8 +175,9 @@
                 view: 'month',
                 currentDate: new Date(),
                 classes: _calendarClasses,
-                monthLabel: '',
+                periodLabel: '',
                 cells: [],
+                daySlots: [],
 
                 init() {
                     this.render();
@@ -139,12 +187,20 @@
 
                 render() {
                     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-                    this.monthLabel = months[this.currentDate.getMonth()] + ' ' + this.currentDate.getFullYear();
 
                     if (this.view === 'month') {
+                        this.periodLabel = months[this.currentDate.getMonth()] + ' ' + this.currentDate.getFullYear();
                         this.renderMonth();
-                    } else {
+                    } else if (this.view === 'week') {
+                        this.periodLabel = months[this.currentDate.getMonth()] + ' ' + this.currentDate.getFullYear();
                         this.renderWeek();
+                    } else {
+                        const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+                        this.periodLabel = days[this.currentDate.getDay()] + ', ' +
+                                           this.currentDate.getDate() + ' de ' +
+                                           months[this.currentDate.getMonth()] + ' ' +
+                                           this.currentDate.getFullYear();
+                        this.renderDay();
                     }
                 },
 
@@ -154,26 +210,22 @@
                     const firstDay = new Date(year, month, 1);
                     const lastDay = new Date(year, month + 1, 0);
 
-                    // Monday-based week (0=Mon, 6=Sun)
                     let startDow = firstDay.getDay() - 1;
                     if (startDow < 0) startDow = 6;
 
                     const cells = [];
                     const today = new Date();
 
-                    // Previous month padding
                     for (let i = startDow - 1; i >= 0; i--) {
                         const d = new Date(year, month, -i);
                         cells.push(this.makeCell(d, false, today));
                     }
 
-                    // Current month
                     for (let i = 1; i <= lastDay.getDate(); i++) {
                         const d = new Date(year, month, i);
                         cells.push(this.makeCell(d, true, today));
                     }
 
-                    // Next month padding
                     const remaining = 7 - (cells.length % 7);
                     if (remaining < 7) {
                         for (let i = 1; i <= remaining; i++) {
@@ -202,10 +254,40 @@
                     this.cells = cells;
                 },
 
+                renderDay() {
+                    const d = new Date(this.currentDate);
+                    const today = new Date();
+                    const isToday = d.toDateString() === today.toDateString();
+
+                    const slots = [];
+                    for (let h = 7; h <= 22; h++) {
+                        const dayClasses = this.classes.filter(c => {
+                            const cd = new Date(c.starts_at);
+                            return cd.getDate() === d.getDate() &&
+                                   cd.getMonth() === d.getMonth() &&
+                                   cd.getFullYear() === d.getFullYear() &&
+                                   cd.getHours() === h;
+                        }).map(c => {
+                            const cd = new Date(c.starts_at);
+                            return {
+                                ...c,
+                                time: cd.getHours().toString().padStart(2, '0') + ':' + cd.getMinutes().toString().padStart(2, '0'),
+                            };
+                        });
+
+                        slots.push({
+                            hour: h,
+                            label: h.toString().padStart(2, '0') + ':00',
+                            isCurrentHour: isToday && today.getHours() === h,
+                            classes: dayClasses,
+                        });
+                    }
+
+                    this.daySlots = slots;
+                },
+
                 makeCell(date, isCurrentMonth, today) {
-                    const isToday = date.getDate() === today.getDate() &&
-                                    date.getMonth() === today.getMonth() &&
-                                    date.getFullYear() === today.getFullYear();
+                    const isToday = date.toDateString() === today.toDateString();
 
                     const dayClasses = this.classes.filter(c => {
                         const cd = new Date(c.starts_at);
@@ -220,31 +302,40 @@
                         };
                     });
 
-                    return { day: date.getDate(), isCurrentMonth, isToday, classes: dayClasses };
+                    return { day: date.getDate(), date: date.toISOString(), isCurrentMonth, isToday, classes: dayClasses };
                 },
 
-                prevMonth() {
+                prev() {
                     const d = new Date(this.currentDate);
                     if (this.view === 'month') {
                         d.setMonth(d.getMonth() - 1);
-                    } else {
+                    } else if (this.view === 'week') {
                         d.setDate(d.getDate() - 7);
+                    } else {
+                        d.setDate(d.getDate() - 1);
                     }
                     this.currentDate = d;
                 },
 
-                nextMonth() {
+                next() {
                     const d = new Date(this.currentDate);
                     if (this.view === 'month') {
                         d.setMonth(d.getMonth() + 1);
-                    } else {
+                    } else if (this.view === 'week') {
                         d.setDate(d.getDate() + 7);
+                    } else {
+                        d.setDate(d.getDate() + 1);
                     }
                     this.currentDate = d;
                 },
 
                 goToToday() {
                     this.currentDate = new Date();
+                },
+
+                goToDay(isoDate) {
+                    this.currentDate = new Date(isoDate);
+                    this.view = 'day';
                 },
             };
         }

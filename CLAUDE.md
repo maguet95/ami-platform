@@ -153,6 +153,12 @@ NombreResource/
 └── Tables/                 # Table schema separado
 ```
 
+Custom Pages compartidas entre admin e instructor:
+- `app/Filament/Pages/ContentOrganizer.php` — Admin (sin filtro)
+- `app/Filament/Instructor/Pages/ContentOrganizer.php` — Instructor (scoped)
+- `app/Filament/Concerns/HasContentOrganizerTree.php` — Trait compartido
+- Patron: trait con `abstract scopeQuery()` + vista Blade compartida + SortableJS para drag & drop
+
 ## Estandares de Codigo
 
 ### PHP / Laravel

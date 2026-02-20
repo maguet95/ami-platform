@@ -52,14 +52,17 @@
                 ? round($avgMinutes / 1440, 1) . 'd'
                 : ($avgMinutes >= 60 ? round($avgMinutes / 60, 1) . 'h' : $avgMinutes . 'm');
             $winCount = (int) round($allTimeSummary->total_trades * $allTimeSummary->win_rate / 100);
+            $pnlPositive = $allTimeSummary->total_pnl >= 0;
+            $winRateGood = $allTimeSummary->win_rate >= 50;
         @endphp
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
 
             {{-- Trades totales --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 rounded-xl p-4 text-center">
-                <p class="text-2xl font-bold text-white">{{ $allTimeSummary->total_trades }}</p>
-                <p class="text-xs text-surface-500 mt-1 flex items-center justify-center gap-1">
-                    Trades totales
+            <div class="relative bg-surface-900 border border-surface-700/60 hover:border-surface-600 rounded-2xl p-5 text-center overflow-hidden group transition-all duration-200">
+                <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-surface-500/40 to-transparent"></div>
+                <p class="text-3xl font-black text-white tabular-nums tracking-tight">{{ $allTimeSummary->total_trades }}</p>
+                <p class="text-[11px] text-surface-500 mt-2 flex items-center justify-center gap-1 font-medium uppercase tracking-wide">
+                    Trades
                     <x-metric-tooltip
                         title="Trades totales"
                         body="Total de operaciones registradas en tu cuenta (abiertas, cerradas y canceladas). Actualmente tienes {{ $allTimeSummary->total_trades }} trades en tu historial." />
@@ -67,9 +70,10 @@
             </div>
 
             {{-- Win rate --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 rounded-xl p-4 text-center">
-                <p class="text-2xl font-bold {{ $allTimeSummary->win_rate >= 50 ? 'text-bullish' : 'text-bearish' }}">{{ number_format($allTimeSummary->win_rate, 1) }}%</p>
-                <p class="text-xs text-surface-500 mt-1 flex items-center justify-center gap-1">
+            <div class="relative bg-surface-900 border {{ $winRateGood ? 'border-bullish/25' : 'border-bearish/25' }} hover:border-opacity-50 rounded-2xl p-5 text-center overflow-hidden group transition-all duration-200">
+                <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent {{ $winRateGood ? 'via-bullish/60' : 'via-bearish/60' }} to-transparent"></div>
+                <p class="text-3xl font-black tabular-nums tracking-tight {{ $winRateGood ? 'text-bullish' : 'text-bearish' }}">{{ number_format($allTimeSummary->win_rate, 1) }}%</p>
+                <p class="text-[11px] text-surface-500 mt-2 flex items-center justify-center gap-1 font-medium uppercase tracking-wide">
                     Win rate
                     <x-metric-tooltip
                         title="Win Rate"
@@ -79,9 +83,10 @@
             </div>
 
             {{-- PnL total --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 rounded-xl p-4 text-center">
-                <p class="text-2xl font-bold {{ $allTimeSummary->total_pnl >= 0 ? 'text-bullish' : 'text-bearish' }}">${{ number_format($allTimeSummary->total_pnl, 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1 flex items-center justify-center gap-1">
+            <div class="relative bg-surface-900 border {{ $pnlPositive ? 'border-bullish/25' : 'border-bearish/25' }} hover:border-opacity-50 rounded-2xl p-5 text-center overflow-hidden group transition-all duration-200">
+                <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent {{ $pnlPositive ? 'via-bullish/60' : 'via-bearish/60' }} to-transparent"></div>
+                <p class="text-2xl font-black tabular-nums tracking-tight {{ $pnlPositive ? 'text-bullish' : 'text-bearish' }}">${{ number_format($allTimeSummary->total_pnl, 2) }}</p>
+                <p class="text-[11px] text-surface-500 mt-2 flex items-center justify-center gap-1 font-medium uppercase tracking-wide">
                     PnL total
                     <x-metric-tooltip
                         title="PnL Total"
@@ -91,10 +96,11 @@
             </div>
 
             {{-- Profit factor --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 rounded-xl p-4 text-center">
-                <p class="text-2xl font-bold text-white">{{ number_format($allTimeSummary->profit_factor, 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1 flex items-center justify-center gap-1">
-                    Profit factor
+            <div class="relative bg-surface-900 border border-surface-700/60 hover:border-surface-600 rounded-2xl p-5 text-center overflow-hidden group transition-all duration-200">
+                <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ami-500/40 to-transparent"></div>
+                <p class="text-3xl font-black text-white tabular-nums tracking-tight">{{ number_format($allTimeSummary->profit_factor, 2) }}</p>
+                <p class="text-[11px] text-surface-500 mt-2 flex items-center justify-center gap-1 font-medium uppercase tracking-wide">
+                    Prof. factor
                     <x-metric-tooltip
                         title="Profit Factor"
                         formula="Ganancias brutas / Pérdidas brutas"
@@ -103,10 +109,11 @@
             </div>
 
             {{-- Max drawdown --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 rounded-xl p-4 text-center">
-                <p class="text-2xl font-bold text-bearish">{{ number_format($allTimeSummary->max_drawdown, 1) }}%</p>
-                <p class="text-xs text-surface-500 mt-1 flex items-center justify-center gap-1">
-                    Max drawdown
+            <div class="relative bg-surface-900 border border-bearish/20 hover:border-bearish/40 rounded-2xl p-5 text-center overflow-hidden group transition-all duration-200">
+                <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-bearish/40 to-transparent"></div>
+                <p class="text-3xl font-black text-bearish tabular-nums tracking-tight">{{ number_format($allTimeSummary->max_drawdown, 1) }}%</p>
+                <p class="text-[11px] text-surface-500 mt-2 flex items-center justify-center gap-1 font-medium uppercase tracking-wide">
+                    Drawdown
                     <x-metric-tooltip
                         title="Max Drawdown"
                         formula="(Pico − Valle) / Pico × 100"
@@ -115,10 +122,11 @@
             </div>
 
             {{-- Duración promedio --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 rounded-xl p-4 text-center">
-                <p class="text-2xl font-bold text-white">{{ $avgDurLabel }}</p>
-                <p class="text-xs text-surface-500 mt-1 flex items-center justify-center gap-1">
-                    Duracion prom.
+            <div class="relative bg-surface-900 border border-surface-700/60 hover:border-surface-600 rounded-2xl p-5 text-center overflow-hidden group transition-all duration-200">
+                <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-surface-500/40 to-transparent"></div>
+                <p class="text-3xl font-black text-white tabular-nums tracking-tight">{{ $avgDurLabel }}</p>
+                <p class="text-[11px] text-surface-500 mt-2 flex items-center justify-center gap-1 font-medium uppercase tracking-wide">
+                    Dur. prom.
                     <x-metric-tooltip
                         title="Duración Promedio"
                         body="Tiempo promedio que mantuviste una posición abierta. La tuya es {{ $avgDurLabel }}. Útil para identificar tu estilo: scalping (&lt;1h), intraday (1–8h), swing (días), posicional (semanas)." />

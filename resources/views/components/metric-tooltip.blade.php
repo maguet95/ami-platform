@@ -1,8 +1,16 @@
 @props(['title', 'formula' => null, 'body'])
 
-<div x-data="{ show: false }" class="relative inline-flex items-center">
+<div x-data="{ show: false, tooltipStyle: '' }" class="inline-flex items-center">
     <button type="button"
-            @click.stop="show = !show"
+            @click.stop="
+                const rect = $el.getBoundingClientRect();
+                const w = 260;
+                const left = Math.max(8, Math.min(window.innerWidth - w - 8, rect.left + rect.width / 2 - w / 2));
+                const bottom = window.innerHeight - rect.top + 10;
+                tooltipStyle = 'position:fixed;z-index:9999;bottom:' + bottom + 'px;left:' + left + 'px;width:' + w + 'px';
+                show = !show;
+            "
+            @keydown.escape.window="show = false"
             class="text-surface-600 hover:text-surface-400 transition-colors ml-1 focus:outline-none"
             aria-label="Info sobre {{ $title }}">
         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
@@ -10,22 +18,22 @@
         </svg>
     </button>
 
-    <div x-show="show"
-         @click.away="show = false"
-         x-cloak
-         class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 w-64 bg-surface-800 border border-surface-600/80 rounded-xl shadow-2xl z-50 p-3.5 text-left">
+    <template x-teleport="body">
+        <div x-show="show"
+             @click.away="show = false"
+             x-cloak
+             :style="tooltipStyle"
+             class="bg-surface-800 border border-surface-600/80 rounded-xl shadow-2xl p-3.5 text-left pointer-events-auto">
 
-        <p class="text-xs font-semibold text-white mb-2">{{ $title }}</p>
+            <p class="text-xs font-semibold text-white mb-1.5">{{ $title }}</p>
 
-        @if($formula)
-        <div class="bg-surface-900 rounded-lg px-2.5 py-1.5 mb-2.5 font-mono text-[10px] text-ami-400 tracking-wide">
-            {{ $formula }}
+            @if($formula)
+            <div class="bg-surface-900 rounded-lg px-2.5 py-1.5 mb-2 font-mono text-[10px] text-ami-400 tracking-wide">
+                {{ $formula }}
+            </div>
+            @endif
+
+            <p class="text-[11px] text-surface-300 leading-relaxed">{{ $body }}</p>
         </div>
-        @endif
-
-        <p class="text-[11px] text-surface-300 leading-relaxed">{{ $body }}</p>
-
-        {{-- Arrow apuntando hacia abajo --}}
-        <div class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-transparent border-t-surface-600/80"></div>
-    </div>
+    </template>
 </div>

@@ -58,57 +58,57 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
 
             {{-- Trades totales --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
-                <p class="text-2xl font-bold text-white tabular-nums">{{ $allTimeSummary->total_trades }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Trades totales
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2">
                     <x-metric-tooltip title="Trades totales" body="Total de operaciones registradas en tu cuenta (abiertas, cerradas y canceladas). Actualmente tienes {{ $allTimeSummary->total_trades }} trades en tu historial." />
-                </p>
+                </div>
+                <p class="text-2xl font-bold text-white tabular-nums">{{ $allTimeSummary->total_trades }}</p>
+                <p class="text-xs text-surface-500 mt-1.5">Trades totales</p>
             </div>
 
             {{-- Win rate --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
-                <p class="text-2xl font-bold tabular-nums {{ $winRateGood ? 'text-bullish' : 'text-bearish' }}">{{ number_format($allTimeSummary->win_rate, 1) }}%</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Win Rate
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2">
                     <x-metric-tooltip title="Win Rate" formula="Trades ganados / Total × 100" body="Porcentaje de trades cerrados en positivo. De tus {{ $allTimeSummary->total_trades }} trades, {{ $winCount }} ganaron → {{ number_format($allTimeSummary->win_rate, 1) }}%. Un WR alto no garantiza rentabilidad si el RR es bajo." />
-                </p>
+                </div>
+                <p class="text-2xl font-bold tabular-nums {{ $winRateGood ? 'text-bullish' : 'text-bearish' }}">{{ number_format($allTimeSummary->win_rate, 1) }}%</p>
+                <p class="text-xs text-surface-500 mt-1.5">Win Rate</p>
             </div>
 
             {{-- PnL total --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
-                <p class="text-2xl font-bold tabular-nums {{ $pnlPositive ? 'text-bullish' : 'text-bearish' }}">${{ number_format($allTimeSummary->total_pnl, 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    P&L Total
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2">
                     <x-metric-tooltip title="P&L Total" formula="Σ ganancias − Σ pérdidas" body="Resultado neto acumulado en USD. Tu PnL actual es ${{ number_format($allTimeSummary->total_pnl, 2) }}." />
-                </p>
+                </div>
+                <p class="text-2xl font-bold tabular-nums {{ $pnlPositive ? 'text-bullish' : 'text-bearish' }}">${{ number_format($allTimeSummary->total_pnl, 2) }}</p>
+                <p class="text-xs text-surface-500 mt-1.5">P&L Total</p>
             </div>
 
             {{-- Profit factor --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
-                <p class="text-2xl font-bold text-white tabular-nums">{{ number_format($allTimeSummary->profit_factor, 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Profit Factor
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2">
                     <x-metric-tooltip title="Profit Factor" formula="Ganancias brutas / Pérdidas brutas" body="Cuánto ganas por cada $1 perdido. Tu PF es {{ number_format($allTimeSummary->profit_factor, 2) }}. Referencia: &lt;1 = perdedor · 1–1.5 = aceptable · 1.5–2 = bueno · &gt;2 = excelente." />
-                </p>
+                </div>
+                <p class="text-2xl font-bold text-white tabular-nums">{{ number_format($allTimeSummary->profit_factor, 2) }}</p>
+                <p class="text-xs text-surface-500 mt-1.5">Profit Factor</p>
             </div>
 
             {{-- Max drawdown --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
-                <p class="text-2xl font-bold text-bearish tabular-nums">{{ number_format($allTimeSummary->max_drawdown, 1) }}%</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Max Drawdown
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2">
                     <x-metric-tooltip title="Max Drawdown" formula="(Pico − Valle) / Pico × 100" body="Mayor caída desde un pico de equity antes de recuperarse. El tuyo fue {{ number_format($allTimeSummary->max_drawdown, 1) }}%. Idealmente &lt;10%. Más del 20% indica riesgo alto." />
-                </p>
+                </div>
+                <p class="text-2xl font-bold text-bearish tabular-nums">{{ number_format($allTimeSummary->max_drawdown, 1) }}%</p>
+                <p class="text-xs text-surface-500 mt-1.5">Max Drawdown</p>
             </div>
 
             {{-- Duración promedio --}}
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
-                <p class="text-2xl font-bold text-white tabular-nums">{{ $avgDurLabel }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Dur. promedio
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2">
                     <x-metric-tooltip title="Duración Promedio" body="Tiempo promedio que mantuviste una posición abierta. La tuya es {{ $avgDurLabel }}. Escalas: scalping (&lt;1h), intraday (1–8h), swing (días), posicional (semanas)." />
-                </p>
+                </div>
+                <p class="text-2xl font-bold text-white tabular-nums">{{ $avgDurLabel }}</p>
+                <p class="text-xs text-surface-500 mt-1.5">Dur. promedio</p>
             </div>
 
         </div>

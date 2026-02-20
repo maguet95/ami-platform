@@ -8,9 +8,15 @@
         pos(btn) {
             const r = btn.getBoundingClientRect();
             const w = 264;
-            const left = Math.max(8, Math.min(window.innerWidth - w - 8, r.left + r.width / 2 - w / 2));
-            const bottom = window.innerHeight - r.top + 10;
-            this.style = 'position:fixed;z-index:9999;bottom:' + bottom + 'px;left:' + left + 'px;width:' + w + 'px';
+            const margin = 8;
+            const approxH = 130;
+            const left = Math.max(margin, Math.min(window.innerWidth - w - margin, r.left + r.width / 2 - w / 2));
+            const spaceAbove = r.top;
+            if (spaceAbove > approxH + margin) {
+                this.style = 'position:fixed;z-index:9999;bottom:' + (window.innerHeight - r.top + 8) + 'px;left:' + left + 'px;width:' + w + 'px';
+            } else {
+                this.style = 'position:fixed;z-index:9999;top:' + (r.bottom + 8) + 'px;left:' + left + 'px;width:' + w + 'px';
+            }
         },
         enter(btn) {
             clearTimeout(this._lt);
@@ -32,7 +38,7 @@
             @mouseleave="leave()"
             @click.stop="click($el)"
             @keydown.escape.window="show = false"
-            class="text-surface-700 hover:text-surface-400 transition-colors focus:outline-none"
+            class="text-surface-600 hover:text-surface-400 transition-colors focus:outline-none"
             aria-label="Info sobre {{ $title }}">
         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />

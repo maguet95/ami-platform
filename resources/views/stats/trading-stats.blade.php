@@ -27,102 +27,78 @@
         {{-- Section 1: KPI Cards --}}
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="Total Trades" body="Total de operaciones cerradas registradas en este journal. Incluye longs y shorts en todos los pares." /></div>
                 <p class="text-2xl font-bold text-white tabular-nums">{{ $o['total_trades'] }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Total Trades
-                    <x-metric-tooltip title="Total Trades" body="Total de operaciones cerradas registradas en este journal. Incluye longs y shorts en todos los pares." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">Total Trades</p>
             </div>
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="Win Rate" formula="Trades ganados / Total × 100" body="Porcentaje de trades que cerraron con P&L positivo. Un WR alto no garantiza rentabilidad si el R:R es bajo." /></div>
                 <p class="text-2xl font-bold tabular-nums {{ $o['win_rate'] >= 50 ? 'text-bullish' : 'text-bearish' }}">{{ $o['win_rate'] }}%</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Win Rate
-                    <x-metric-tooltip title="Win Rate" formula="Trades ganados / Total × 100" body="Porcentaje de trades que cerraron con P&L positivo. Un WR alto no garantiza rentabilidad si el R:R es bajo." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">Win Rate</p>
             </div>
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="P&L Total" formula="Σ ganancias − Σ pérdidas" body="Resultado neto acumulado en USD de todos los trades cerrados. Tu P&L total es ${{ number_format($o['total_pnl'], 2) }}." /></div>
                 <p class="text-2xl font-bold tabular-nums {{ $o['total_pnl'] >= 0 ? 'text-bullish' : 'text-bearish' }}">${{ number_format($o['total_pnl'], 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    P&L Total
-                    <x-metric-tooltip title="P&L Total" formula="Σ ganancias − Σ pérdidas" body="Resultado neto acumulado en USD de todos los trades cerrados. Tu P&L total es ${{ number_format($o['total_pnl'], 2) }}." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">P&L Total</p>
             </div>
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="Profit Factor" formula="Ganancias brutas / Pérdidas brutas" body="Cuánto ganas por cada $1 perdido. Tu PF es {{ number_format($o['profit_factor'], 2) }}. Referencia: &lt;1 = perdedor · 1–1.5 = aceptable · &gt;2 = excelente." /></div>
                 <p class="text-2xl font-bold text-white tabular-nums">{{ number_format($o['profit_factor'], 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Profit Factor
-                    <x-metric-tooltip title="Profit Factor" formula="Ganancias brutas / Pérdidas brutas" body="Cuánto ganas por cada $1 perdido. Tu PF es {{ number_format($o['profit_factor'], 2) }}. Referencia: &lt;1 = perdedor · 1–1.5 = aceptable · &gt;2 = excelente." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">Profit Factor</p>
             </div>
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="Max Drawdown" formula="(Pico − Valle) / Pico × 100" body="Mayor caída de equity desde un pico hasta un valle antes de recuperarse. El tuyo es ${{ number_format($o['max_drawdown'], 2) }}. Cuanto menor, mejor control del riesgo." /></div>
                 <p class="text-2xl font-bold text-bearish tabular-nums">${{ number_format($o['max_drawdown'], 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Max Drawdown
-                    <x-metric-tooltip title="Max Drawdown" formula="(Pico − Valle) / Pico × 100" body="Mayor caída de equity desde un pico hasta un valle antes de recuperarse. El tuyo es ${{ number_format($o['max_drawdown'], 2) }}. Cuanto menor, mejor control del riesgo." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">Max Drawdown</p>
             </div>
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="Expectancy (Valor Esperado)" formula="(WR × Ganancia prom.) − (LR × Pérdida prom.)" body="Cuánto esperas ganar en promedio por cada trade. Tu expectancy es ${{ number_format($o['expectancy'], 2) }}. Si es positiva, tu sistema es rentable a largo plazo." /></div>
                 <p class="text-2xl font-bold tabular-nums {{ $o['expectancy'] >= 0 ? 'text-bullish' : 'text-bearish' }}">${{ number_format($o['expectancy'], 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Expectancy
-                    <x-metric-tooltip title="Expectancy (Valor Esperado)" formula="(WR × Ganancia prom.) − (LR × Pérdida prom.)" body="Cuánto esperas ganar en promedio por cada trade. Tu expectancy es ${{ number_format($o['expectancy'], 2) }}. Si es positiva, tu sistema es rentable a largo plazo." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">Expectancy</p>
             </div>
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="Mejor Trade" body="El trade individual con mayor P&L positivo de tu historial: ${{ number_format($o['best_trade'], 2) }}." /></div>
                 <p class="text-2xl font-bold text-bullish tabular-nums">${{ number_format($o['best_trade'], 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Mejor Trade
-                    <x-metric-tooltip title="Mejor Trade" body="El trade individual con mayor P&L positivo de tu historial: ${{ number_format($o['best_trade'], 2) }}." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">Mejor Trade</p>
             </div>
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="Peor Trade" body="El trade individual con mayor P&L negativo de tu historial: ${{ number_format($o['worst_trade'], 2) }}. Compáralo con el mejor para evaluar tu gestión de riesgo." /></div>
                 <p class="text-2xl font-bold text-bearish tabular-nums">${{ number_format($o['worst_trade'], 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Peor Trade
-                    <x-metric-tooltip title="Peor Trade" body="El trade individual con mayor P&L negativo de tu historial: ${{ number_format($o['worst_trade'], 2) }}. Compáralo con el mejor para evaluar tu gestión de riesgo." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">Peor Trade</p>
             </div>
 
             @if($o['avg_rr'] !== null)
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="R:R Promedio" formula="Ganancia promedio / Pérdida promedio" body="Ratio Riesgo:Recompensa promedio de tus trades. El tuyo es {{ number_format($o['avg_rr'], 2) }}. Con RR &gt;1 ganas más de lo que pierdes en cada trade ganador." /></div>
                 <p class="text-2xl font-bold text-white tabular-nums">{{ number_format($o['avg_rr'], 2) }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    RR Promedio
-                    <x-metric-tooltip title="R:R Promedio" formula="Ganancia promedio / Pérdida promedio" body="Ratio Riesgo:Recompensa promedio de tus trades. El tuyo es {{ number_format($o['avg_rr'], 2) }}. Con RR &gt;1 ganas más de lo que pierdes en cada trade ganador." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">RR Promedio</p>
             </div>
             @endif
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
-                <p class="text-2xl font-bold text-bullish tabular-nums">{{ $o['profitable_days'] }}<span class="text-surface-500 font-normal">/{{ $o['total_days'] }}</span></p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Días Rentables
-                    <x-metric-tooltip title="Días Rentables" body="De {{ $o['total_days'] }} días con actividad, {{ $o['profitable_days'] }} cerraron con P&L positivo. Una alta proporción indica consistencia diaria." />
-                </p>
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="Días Rentables" body="De {{ $o['total_days'] }} días con actividad, {{ $o['profitable_days'] }} cerraron con P&L positivo. Una alta proporción indica consistencia diaria." /></div>
+                <p class="text-2xl font-bold text-bullish tabular-nums">{{ $o['profitable_days'] }}<span class="text-surface-500 font-normal text-lg">/{{ $o['total_days'] }}</span></p>
+                <p class="text-xs text-surface-500 mt-1.5">Días Rentables</p>
             </div>
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="Racha Actual" body="Trades ganadores consecutivos que llevas actualmente: {{ $o['current_streak'] }}. No te confíes ni te desanimes — es normal que las rachas se rompan." /></div>
                 <p class="text-2xl font-bold tabular-nums {{ $o['current_streak'] > 0 ? 'text-bullish' : 'text-surface-400' }}">{{ $o['current_streak'] }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Racha Actual
-                    <x-metric-tooltip title="Racha Actual de Ganadores" body="Trades ganadores consecutivos que llevas actualmente. Tu racha actual es {{ $o['current_streak'] }}. No te confíes ni te desanimes — es normal que las rachas se rompan." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">Racha Actual</p>
             </div>
 
-            <div class="bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl p-4 text-center transition-all duration-200">
+            <div class="relative bg-surface-900/80 border border-surface-700/50 hover:border-surface-600 rounded-xl pt-7 pb-4 px-4 text-center transition-all duration-200">
+                <div class="absolute top-2 right-2"><x-metric-tooltip title="Mejor Racha Histórica" body="La mayor racha de trades ganadores consecutivos que has logrado: {{ $o['best_streak'] }}. Es un indicador de tus mejores momentos de consistencia." /></div>
                 <p class="text-2xl font-bold text-amber-400 tabular-nums">{{ $o['best_streak'] }}</p>
-                <p class="text-xs text-surface-500 mt-1.5 flex items-center justify-center gap-1">
-                    Mejor Racha
-                    <x-metric-tooltip title="Mejor Racha Histórica" body="La mayor racha de trades ganadores consecutivos que has logrado: {{ $o['best_streak'] }}. Es un indicador de tus mejores momentos de consistencia." />
-                </p>
+                <p class="text-xs text-surface-500 mt-1.5">Mejor Racha</p>
             </div>
 
         </div>

@@ -98,7 +98,7 @@ La plataforma AMI sigue una arquitectura de **servicios separados por responsabi
 | **API interna** | Endpoints autenticados para que workers escriban datos |
 | **Orquestación** | Despachar eventos, notificaciones, emails |
 | **Lectura de journal** | Presentar datos del Trading Journal (solo lectura) |
-| **Admin** | Filament PHP para gestión completa |
+| **Admin** | Filament PHP para gestión completa (incluye Content Organizer con árbol jerárquico) |
 
 **Laravel NO hace:**
 - Procesamiento batch de datos de trading

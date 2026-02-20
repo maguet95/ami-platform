@@ -196,10 +196,11 @@ PHASE 0 (Fundación)
 - [ ] Página "Mis cursos" con cursos activos y progreso
 
 **Entregable 2.2.3 — Gestión de cursos (Admin/Instructor)**
-- [ ] CRUD completo de módulos y lecciones desde admin
-- [ ] Reordenamiento drag-and-drop de módulos/lecciones
+- [x] CRUD completo de módulos y lecciones desde admin
+- [x] Reordenamiento drag-and-drop de módulos/lecciones (Content Organizer con SortableJS)
 - [ ] Preview de curso antes de publicar
-- [ ] Estados de curso: borrador, publicado, archivado
+- [x] Estados de curso: borrador, publicado, archivado
+- [x] Organizador de Contenido: vista jerarquica Curso > Modulo > Leccion con drag & drop, CRUD inline via modales Filament, busqueda, mover entre padres
 
 ### Módulo 2.3 — Inscripciones
 

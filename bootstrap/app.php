@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->validateCsrfTokens(except: [
             'stripe/*',
+            'webhooks/*',
         ]);
 
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);

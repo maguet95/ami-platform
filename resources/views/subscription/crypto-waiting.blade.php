@@ -104,52 +104,75 @@
                             <p class="text-xs font-medium text-surface-400">Dirección de billetera</p>
                             <span class="text-xs text-surface-500 bg-surface-800 px-2 py-0.5 rounded-full">USDT · TRC20</span>
                         </div>
-                        <div class="flex items-center gap-2 bg-surface-800/60 border border-surface-700/40 rounded-xl p-3.5">
-                            <code class="text-xs text-surface-300 flex-1 break-all font-mono leading-relaxed select-all">{{ $cryptoPayment->pay_address }}</code>
-                            <button
-                                @click="copyAddress('{{ $cryptoPayment->pay_address }}')"
-                                class="flex-shrink-0 p-2 rounded-lg hover:bg-ami-500/10 text-surface-400 hover:text-ami-400 transition-all"
-                                title="Copiar dirección"
-                            >
-                                <template x-if="!copied">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
-                                    </svg>
-                                </template>
-                                <template x-if="copied">
-                                    <svg class="w-4 h-4 text-bullish" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                                    </svg>
-                                </template>
-                            </button>
+                        <div class="bg-surface-800/60 border border-surface-700/40 rounded-xl p-3.5 mb-3">
+                            <code class="text-xs text-surface-300 break-all font-mono leading-relaxed select-all block">{{ $cryptoPayment->pay_address }}</code>
                         </div>
-                        <p x-show="copied" x-transition class="text-xs text-bullish mt-1.5 text-center">
-                            ✓ Dirección copiada al portapapeles
-                        </p>
+                        {{-- Copy button — prominente y claro --}}
+                        <button
+                            @click="copyAddress('{{ $cryptoPayment->pay_address }}')"
+                            class="w-full flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
+                            :class="copied
+                                ? 'bg-bullish/10 border border-bullish/30 text-bullish'
+                                : 'bg-surface-700/60 hover:bg-surface-700 border border-surface-600/50 text-surface-200 hover:text-white'"
+                        >
+                            <svg x-show="!copied" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                            </svg>
+                            <svg x-show="copied" x-cloak class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                            <span x-text="copied ? '¡Dirección copiada!' : 'Copiar dirección'"></span>
+                        </button>
                     </div>
 
                     {{-- Status --}}
-                    <div class="rounded-xl border px-4 py-3 text-sm text-center transition-all duration-500"
+                    <div class="rounded-xl border px-4 py-3.5 text-sm text-center transition-all duration-500"
                          :class="completed
                             ? 'border-bullish/30 bg-bullish/5 text-bullish'
                             : 'border-surface-700/40 bg-surface-800/30 text-surface-400'">
-                        <template x-if="!completed">
-                            <div class="flex items-center justify-center gap-2.5">
-                                <svg class="w-4 h-4 animate-spin shrink-0" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        <div x-show="!completed" class="flex items-center justify-center gap-2.5">
+                            <svg class="w-4 h-4 animate-spin shrink-0" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                            </svg>
+                            Verificando confirmaciones en la red TRON…
+                        </div>
+                        <div x-show="completed" x-cloak class="flex items-center justify-center gap-2.5 font-semibold">
+                            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                            ¡Pago confirmado! Activando acceso…
+                        </div>
+                    </div>
+
+                    {{-- Tips acordeón (colapsado por defecto) --}}
+                    <div x-data="{ open: false }" class="border border-surface-700/30 rounded-xl overflow-hidden">
+                        <button @click="open = !open"
+                                class="w-full flex items-center justify-between px-4 py-3 text-xs text-surface-400 hover:text-surface-300 transition-colors">
+                            <span class="flex items-center gap-2">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
                                 </svg>
-                                Verificando confirmaciones en la red TRON…
+                                ¿Cómo hacer el pago?
+                            </span>
+                            <svg :class="open && 'rotate-180'" class="w-3.5 h-3.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                        <div x-show="open" x-collapse class="border-t border-surface-700/30 px-4 py-4 space-y-2.5">
+                            @foreach([
+                                ['①', 'Abre tu billetera (Binance, Trust Wallet, etc.)'],
+                                ['②', 'Selecciona Enviar → USDT → red TRC20'],
+                                ['③', 'Escanea el QR o pega la dirección exacta'],
+                                ['④', 'Ingresa el monto exacto que aparece arriba'],
+                                ['⑤', 'Confirma el envío — esta página se actualizará sola'],
+                            ] as [$num, $tip])
+                            <div class="flex items-start gap-3 text-xs text-surface-400">
+                                <span class="text-ami-400 font-bold shrink-0">{{ $num }}</span>
+                                <span>{{ $tip }}</span>
                             </div>
-                        </template>
-                        <template x-if="completed">
-                            <div class="flex items-center justify-center gap-2.5 font-medium">
-                                <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                                </svg>
-                                ¡Pago confirmado! Activando acceso…
-                            </div>
-                        </template>
+                            @endforeach
+                        </div>
                     </div>
 
                 </div>

@@ -61,7 +61,7 @@
                 {{-- Navigation --}}
                 <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
                     {{-- Dashboard --}}
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('dashboard') }}" data-tour="dashboard"
                        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('dashboard') ? 'bg-ami-500/10 text-ami-400' : 'text-surface-400 hover:text-white hover:bg-surface-800/60' }}">
                         <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -71,7 +71,7 @@
                     </a>
 
                     {{-- Mis Cursos --}}
-                    <a href="{{ route('student.courses') }}"
+                    <a href="{{ route('student.courses') }}" data-tour="cursos"
                        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('student.*') ? 'bg-ami-500/10 text-ami-400' : 'text-surface-400 hover:text-white hover:bg-surface-800/60' }}">
                         <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -91,7 +91,7 @@
                     </a>
 
                     {{-- Calendario de Clases --}}
-                    <a href="{{ route('live-classes.calendar') }}"
+                    <a href="{{ route('live-classes.calendar') }}" data-tour="calendario"
                        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('live-classes.*') ? 'bg-ami-500/10 text-ami-400' : 'text-surface-400 hover:text-white hover:bg-surface-800/60' }}">
                         <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -112,7 +112,7 @@
 
                     {{-- Trading Journal (dropdown) --}}
                     @if(config('journal.enabled') || config('journal.manual_enabled'))
-                    <div x-data="{ journalOpen: {{ request()->routeIs('journal') || request()->routeIs('bitacora.*') ? 'true' : 'false' }} }">
+                    <div data-tour="journal" x-data="{ journalOpen: {{ request()->routeIs('journal') || request()->routeIs('bitacora.*') ? 'true' : 'false' }} }">
                         <button @click="journalOpen = !journalOpen"
                                 class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                                        {{ request()->routeIs('journal') || request()->routeIs('bitacora.*') ? 'bg-ami-500/10 text-ami-400' : 'text-surface-400 hover:text-white hover:bg-surface-800/60' }}">
@@ -179,7 +179,7 @@
                     </div>
 
                     {{-- Perfil --}}
-                    <a href="{{ route('profile.edit') }}"
+                    <a href="{{ route('profile.edit') }}" data-tour="perfil"
                        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('profile.edit') || request()->routeIs('profile.update') ? 'bg-ami-500/10 text-ami-400' : 'text-surface-400 hover:text-white hover:bg-surface-800/60' }}">
                         <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -199,7 +199,7 @@
                     </a>
 
                     {{-- Logros --}}
-                    <a href="{{ route('achievements') }}"
+                    <a href="{{ route('achievements') }}" data-tour="logros"
                        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('achievements') ? 'bg-ami-500/10 text-ami-400' : 'text-surface-400 hover:text-white hover:bg-surface-800/60' }}">
                         <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -325,5 +325,22 @@
             </main>
         </div>
     </div>
+
+    @auth
+        @if(!Auth::user()->onboarding_completed)
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    startOnboarding(
+                        '{{ route('onboarding.complete') }}',
+                        '{{ csrf_token() }}'
+                    );
+                }, 800);
+            });
+        </script>
+        @endif
+    @endauth
+
+    @stack('scripts')
 </body>
 </html>

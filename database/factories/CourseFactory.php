@@ -26,6 +26,7 @@ class CourseFactory extends Factory
             'sort_order' => 0,
             'is_featured' => false,
             'is_free' => false,
+            'access_type' => 'premium',
         ];
     }
 
@@ -48,6 +49,7 @@ class CourseFactory extends Factory
     {
         return $this->state(fn () => [
             'is_free' => true,
+            'access_type' => 'free',
             'price' => 0,
         ]);
     }

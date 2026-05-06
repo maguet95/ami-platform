@@ -91,7 +91,7 @@ class SubscriptionAccessTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $course = Course::factory()->create(['is_free' => true]);
+        $course = Course::factory()->create(['access_type' => 'free']);
 
         $this->assertTrue($user->canAccessCourse($course));
     }
@@ -101,7 +101,7 @@ class SubscriptionAccessTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole('student');
 
-        $course = Course::factory()->create(['is_free' => false]);
+        $course = Course::factory()->create(['access_type' => 'premium']);
 
         $this->assertFalse($user->canAccessCourse($course));
     }
@@ -111,7 +111,7 @@ class SubscriptionAccessTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole('admin');
 
-        $course = Course::factory()->create(['is_free' => false]);
+        $course = Course::factory()->create(['access_type' => 'premium']);
 
         $this->assertTrue($user->canAccessCourse($course));
     }

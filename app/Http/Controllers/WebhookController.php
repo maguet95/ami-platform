@@ -72,7 +72,7 @@ class WebhookController extends CashierWebhookController
             if ($user) {
                 /** @var \Illuminate\Database\Eloquent\Builder $query */
                 $query = $user->enrollments()->where('status', 'active');
-                $query->whereHas('course', fn ($q) => $q->where('is_free', false))
+                $query->whereHas('course', fn ($q) => $q->whereIn('access_type', ['premium', 'exclusive']))
                     ->update([
                         'status' => 'expired',
                         'expires_at' => now(),

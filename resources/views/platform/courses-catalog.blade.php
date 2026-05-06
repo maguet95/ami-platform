@@ -22,7 +22,7 @@
 
                     {{-- Premium/Free Badge --}}
                     <div class="absolute top-3 right-3">
-                        @if($course->is_free)
+                        @if($course->access_type === 'free')
                             <span class="px-3 py-1 text-xs font-semibold text-bullish bg-bullish/10 backdrop-blur-sm rounded-full border border-bullish/20">
                                 Gratis
                             </span>
@@ -61,7 +61,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                             </svg>
                         </a>
-                    @elseif($course->is_free)
+                    @elseif($course->access_type === 'free')
                         <form action="{{ route('student.enroll', $course) }}" method="POST" class="inline">
                             @csrf
                             <button type="submit" class="inline-flex items-center gap-2 text-sm font-medium text-ami-400 hover:text-ami-300 transition-colors">

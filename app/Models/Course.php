@@ -25,6 +25,7 @@ use Illuminate\Support\Str;
  * @property int $sort_order
  * @property bool $is_featured
  * @property bool $is_free
+ * @property string $access_type
  * @property \Carbon\Carbon|null $published_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Module> $modules
  */
@@ -47,6 +48,7 @@ class Course extends Model
         'sort_order',
         'is_featured',
         'is_free',
+        'access_type',
         'published_at',
     ];
 
@@ -56,6 +58,7 @@ class Course extends Model
             'price' => 'decimal:2',
             'is_featured' => 'boolean',
             'is_free' => 'boolean',
+            'access_type' => 'string',
             'published_at' => 'datetime',
         ];
     }
@@ -113,6 +116,11 @@ class Course extends Model
         return $query->where('level', $level);
     }
 
+    public function scopeNotExclusive($query)
+    {
+        return $query->where('access_type', '!=', 'exclusive');
+    }
+
     // Helpers
 
     public function isPublished(): bool
@@ -132,11 +140,20 @@ class Course extends Model
 
     public function getFormattedPrice(): string
     {
-        if ($this->is_free) {
+        if ($this->access_type === 'free') {
             return 'Gratis';
         }
 
         return '$'.number_format((float) $this->price, 2).' '.$this->currency;
+    }
+
+    public function getAccessLabel(): string
+    {
+        return match ($this->access_type) {
+            'free' => 'Gratuito',
+            'exclusive' => 'Exclusivo',
+            default => 'Premium',
+        };
     }
 
     public function getLevelLabel(): string

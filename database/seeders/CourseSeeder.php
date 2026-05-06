@@ -24,6 +24,7 @@ class CourseSeeder extends Seeder
             'level' => 'beginner',
             'price' => 0,
             'is_free' => true,
+            'access_type' => 'free',
             'status' => 'published',
             'duration_hours' => 12,
             'sort_order' => 1,

@@ -76,3 +76,11 @@
 *, *::before, *::after {
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
+
+/* Números financieros — Inter con cifras tabulares y ligaduras apagadas */
+.num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1, 'liga' 0;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.02em;
+}

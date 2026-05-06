@@ -86,6 +86,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/suscripcion/exito', [SubscriptionController::class, 'success'])->name('subscription.success');
     Route::get('/suscripcion/portal', [SubscriptionController::class, 'portal'])->name('subscription.portal');
 
+    // Onboarding
+    Route::post('/onboarding/completar', fn () => tap(redirect()->back(), fn () => auth()->user()->update(['onboarding_completed' => true])))->name('onboarding.complete');
+    Route::post('/onboarding/resetear', fn () => tap(redirect()->back()->with('status', 'Tutorial reiniciado.'), fn () => auth()->user()->update(['onboarding_completed' => false])))->name('onboarding.reset');
+
     // Crypto Checkout (NOWPayments)
     Route::post('/suscripcion/{plan:slug}/checkout-crypto', [CryptoCheckoutController::class, 'checkout'])
         ->middleware('throttle:checkout')

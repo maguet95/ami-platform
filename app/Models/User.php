@@ -86,6 +86,7 @@ class User extends Authenticatable implements FilamentUser
         'email_notifications',
         'weekly_digest',
         'subscription_expiry_notified_at',
+        'onboarding_completed',
     ];
 
     /**
@@ -116,6 +117,7 @@ class User extends Authenticatable implements FilamentUser
             'email_notifications' => 'boolean',
             'weekly_digest' => 'boolean',
             'subscription_expiry_notified_at' => 'datetime',
+            'onboarding_completed' => 'boolean',
         ];
     }
 

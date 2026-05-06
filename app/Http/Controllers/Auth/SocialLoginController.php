@@ -53,6 +53,10 @@ class SocialLoginController extends Controller
                 $user->assignRole('student');
 
                 event(new Registered($user));
+
+                Auth::login($user, remember: true);
+
+                return redirect()->route('pricing')->with('welcome', true);
             }
         } else {
             // Update avatar on each login

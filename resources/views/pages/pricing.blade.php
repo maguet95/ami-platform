@@ -14,6 +14,19 @@
         </div>
     </section>
 
+    {{-- Banner de bienvenida para nuevos usuarios --}}
+    @if(session('welcome'))
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 -mt-4">
+        <div class="bg-ami-500/10 border border-ami-500/30 rounded-2xl p-5 flex items-start gap-4">
+            <div class="text-2xl shrink-0">🎉</div>
+            <div>
+                <p class="text-white font-semibold">¡Bienvenido a AMI!</p>
+                <p class="text-surface-300 text-sm mt-1">Tu cuenta está lista. Elige un plan para acceder a todos los cursos, clases en vivo y el trading journal.</p>
+            </div>
+        </div>
+    </div>
+    @endif
+
     {{-- Flash Messages --}}
     @if(session('error'))
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">

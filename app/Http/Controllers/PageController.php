@@ -33,6 +33,7 @@ class PageController extends Controller
     public function courses()
     {
         $courses = Course::published()
+            ->notExclusive()
             ->withCount('modules', 'lessons')
             ->orderBy('sort_order')
             ->get();

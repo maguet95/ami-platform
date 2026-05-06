@@ -11,6 +11,7 @@ class PlatformController extends Controller
     public function coursesCatalog()
     {
         $courses = Course::published()
+            ->notExclusive()
             ->withCount('modules', 'lessons')
             ->orderBy('sort_order')
             ->get();

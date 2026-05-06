@@ -89,26 +89,17 @@ class CourseForm
                                 ->default(0),
                         ]),
 
-                    Section::make('Precio')
+                    Section::make('Acceso')
                         ->schema([
-                            Toggle::make('is_free')
-                                ->label('Curso gratuito')
-                                ->live(),
-                            TextInput::make('price')
-                                ->label('Precio')
-                                ->numeric()
-                                ->default(0)
-                                ->prefix('$')
-                                ->hidden(fn ($get) => $get('is_free')),
-                            Select::make('currency')
-                                ->label('Moneda')
+                            Select::make('access_type')
+                                ->label('Tipo de acceso')
                                 ->options([
-                                    'USD' => 'USD',
-                                    'COP' => 'COP',
-                                    'EUR' => 'EUR',
+                                    'premium' => 'Premium — requiere suscripción',
+                                    'free' => 'Gratuito — sin suscripción',
+                                    'exclusive' => 'Exclusivo — solo por invitación (oculto del catálogo)',
                                 ])
-                                ->default('USD')
-                                ->hidden(fn ($get) => $get('is_free')),
+                                ->default('premium')
+                                ->required(),
                         ]),
 
                     Section::make('Imagen')

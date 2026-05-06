@@ -28,7 +28,7 @@ class StudentCourseController extends Controller
         $user = Auth::user();
 
         // Check premium access for premium courses (progress is preserved)
-        if (! $course->is_free && ! $user->hasPremiumAccess()) {
+        if ($course->access_type !== 'free' && ! $user->hasPremiumAccess()) {
             return redirect()->route('pricing')
                 ->with('error', 'Tu suscripción ha expirado. Renueva para seguir aprendiendo — tu progreso está guardado.');
         }
@@ -58,7 +58,7 @@ class StudentCourseController extends Controller
         $user = Auth::user();
 
         // Check premium access for premium courses
-        if (! $course->is_free && ! $user->hasPremiumAccess()) {
+        if ($course->access_type !== 'free' && ! $user->hasPremiumAccess()) {
             return redirect()->route('pricing')
                 ->with('error', 'Tu suscripción ha expirado. Renueva para seguir aprendiendo — tu progreso está guardado.');
         }
@@ -142,7 +142,7 @@ class StudentCourseController extends Controller
         }
 
         // Premium courses require premium access
-        if (! $course->is_free && ! $user->hasPremiumAccess()) {
+        if ($course->access_type !== 'free' && ! $user->hasPremiumAccess()) {
             return redirect()->route('pricing')
                 ->with('error', 'Este curso requiere una suscripción activa.');
         }

@@ -9,7 +9,6 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -88,28 +87,6 @@ class CourseForm
                                 ->label('Orden')
                                 ->numeric()
                                 ->default(0),
-                        ]),
-
-                    Section::make('Precio')
-                        ->schema([
-                            Toggle::make('is_free')
-                                ->label('Curso gratuito')
-                                ->live(),
-                            TextInput::make('price')
-                                ->label('Precio')
-                                ->numeric()
-                                ->default(0)
-                                ->prefix('$')
-                                ->hidden(fn ($get) => $get('is_free')),
-                            Select::make('currency')
-                                ->label('Moneda')
-                                ->options([
-                                    'USD' => 'USD',
-                                    'COP' => 'COP',
-                                    'EUR' => 'EUR',
-                                ])
-                                ->default('USD')
-                                ->hidden(fn ($get) => $get('is_free')),
                         ]),
 
                     Section::make('Imagen')

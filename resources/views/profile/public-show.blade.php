@@ -351,7 +351,7 @@
                                     <div class="flex-1 min-w-0">
                                         <p class="text-sm font-medium text-white group-hover:text-ami-400 transition-colors truncate">{{ $course->title }}</p>
                                         <p class="text-xs text-surface-500 mt-1">{{ $course->getLevelLabel() }} &middot; {{ $course->lessons_count }} lecciones</p>
-                                        @if($course->is_free)
+                                        @if($course->access_type === 'free')
                                             <span class="inline-block mt-1.5 text-[10px] font-semibold text-bullish bg-bullish/10 px-2 py-0.5 rounded-full">Gratis</span>
                                         @endif
                                     </div>

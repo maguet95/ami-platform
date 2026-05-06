@@ -185,11 +185,11 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessCourse(Course $course): bool
     {
-        if ($course->is_free) {
-            return true;
-        }
-
-        return $this->hasPremiumAccess();
+        return match ($course->access_type) {
+            'free' => true,
+            'exclusive' => $this->hasRole(['admin', 'instructor']) || $this->hasSpecialAccess(),
+            default => $this->hasPremiumAccess(),  // 'premium'
+        };
     }
 
     // Journal relationships

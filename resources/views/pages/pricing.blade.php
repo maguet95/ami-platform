@@ -59,7 +59,7 @@
 
                     {{-- Price --}}
                     <div class="text-center mb-8">
-                        <span class="text-4xl font-bold text-white">{{ $plan->getFormattedPrice() }}</span>
+                        <span class="text-4xl font-bold text-white num">{{ $plan->getFormattedPrice() }}</span>
                         <span class="text-surface-400 text-sm">/{{ $plan->interval === 'monthly' ? 'mes' : 'año' }}</span>
                     </div>
 

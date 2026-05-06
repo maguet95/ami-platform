@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\BrokerConnectionController;
+use App\Http\Controllers\CryptoCheckoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\LiveClassController;
@@ -36,6 +37,11 @@ Route::get('/planes', [SubscriptionController::class, 'index'])->name('pricing')
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])
     ->middleware('throttle:webhooks')
     ->name('stripe.webhook');
+
+// NOWPayments Webhook
+Route::post('/webhooks/nowpayments', [CryptoCheckoutController::class, 'webhook'])
+    ->middleware('throttle:webhooks')
+    ->name('webhooks.nowpayments');
 
 // Public Profiles & Ranking
 Route::get('/ranking', [RankingController::class, 'index'])->name('ranking');
@@ -73,12 +79,20 @@ Route::middleware('auth')->group(function () {
         Route::post('/csv', [BrokerConnectionController::class, 'uploadCsv'])->name('.upload-csv');
     });
 
-    // Subscription Routes
+    // Subscription Routes (Stripe — pausado hasta LLC)
     Route::post('/suscripcion/{plan:slug}/checkout', [SubscriptionController::class, 'checkout'])
         ->middleware('throttle:checkout')
         ->name('subscription.checkout');
     Route::get('/suscripcion/exito', [SubscriptionController::class, 'success'])->name('subscription.success');
     Route::get('/suscripcion/portal', [SubscriptionController::class, 'portal'])->name('subscription.portal');
+
+    // Crypto Checkout (NOWPayments)
+    Route::post('/suscripcion/{plan:slug}/checkout-crypto', [CryptoCheckoutController::class, 'checkout'])
+        ->middleware('throttle:checkout')
+        ->name('crypto.checkout');
+    Route::get('/suscripcion/crypto/{orderId}', [CryptoCheckoutController::class, 'waiting'])->name('crypto.waiting');
+    Route::get('/suscripcion/crypto/{orderId}/estado', [CryptoCheckoutController::class, 'status'])->name('crypto.status');
+    Route::get('/suscripcion/crypto-exito', [CryptoCheckoutController::class, 'success'])->name('crypto.success');
 
     // Manual Journal (Bitacora) — free for all authenticated users
     Route::prefix('bitacora')->name('bitacora.')->group(function () {

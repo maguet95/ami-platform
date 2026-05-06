@@ -63,23 +63,34 @@
                     </ul>
 
                     {{-- CTA --}}
-                    <div class="text-center">
+                    <div class="space-y-3">
                         @auth
-                            @if(Auth::user()->hasActiveSubscription())
-                                <span class="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-bullish bg-bullish/10 border border-bullish/20 rounded-xl">
+                            @if(Auth::user()->hasPremiumAccess())
+                                <span class="inline-flex items-center justify-center gap-2 w-full px-6 py-3 text-sm font-medium text-bullish bg-bullish/10 border border-bullish/20 rounded-xl">
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                     </svg>
-                                    Ya estás suscrito
+                                    Ya tienes acceso activo
                                 </span>
                             @else
-                                <form action="{{ route('subscription.checkout', $plan) }}" method="POST">
+                                {{-- Crypto (NOWPayments) --}}
+                                <form action="{{ route('crypto.checkout', $plan) }}" method="POST">
                                     @csrf
                                     <button type="submit"
-                                            class="w-full px-6 py-3 text-sm font-semibold text-white {{ $plan->is_featured ? 'bg-ami-500 hover:bg-ami-600 shadow-lg shadow-ami-500/25' : 'bg-surface-700 hover:bg-surface-600' }} rounded-xl transition-all duration-200">
-                                        Suscribirme
+                                            class="w-full px-6 py-3 text-sm font-semibold text-white {{ $plan->is_featured ? 'bg-ami-500 hover:bg-ami-600 shadow-lg shadow-ami-500/25' : 'bg-surface-700 hover:bg-surface-600' }} rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                                        <span>₮</span> Pagar con Crypto (USDT)
                                     </button>
                                 </form>
+                                {{-- Card via NexaPay (annual only, manual activation) --}}
+                                @if($plan->interval === 'yearly')
+                                <a href="https://nexapay.one" target="_blank" rel="noopener"
+                                   class="w-full px-6 py-3 text-sm font-medium text-surface-300 hover:text-white bg-surface-800 hover:bg-surface-700 border border-surface-600/50 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 21Z" />
+                                    </svg>
+                                    Pagar con Tarjeta
+                                </a>
+                                @endif
                             @endif
                         @else
                             <a href="{{ route('register') }}"

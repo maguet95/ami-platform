@@ -35,5 +35,6 @@
     <x-public.footer />
 
     @livewireScripts
+    @stack('scripts')
 </body>
 </html>

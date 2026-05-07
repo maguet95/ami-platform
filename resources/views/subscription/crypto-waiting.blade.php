@@ -1,13 +1,12 @@
 <x-layouts.app>
     <x-slot:title>Pago Crypto — Esperando confirmación</x-slot:title>
 
-    <section class="min-h-screen pt-24 pb-16" x-data="cryptoWaiting('{{ $cryptoPayment->order_id }}')">
+    <section class="min-h-screen pt-24 pb-16" x-data="cryptoWaiting('{{ $cryptoPayment->order_id }}', {{ $expiresAt }})">
         <div class="max-w-xl mx-auto px-4">
 
             {{-- Step Progress --}}
             <div class="mb-10">
                 <div class="flex items-center justify-between relative">
-                    {{-- Line behind steps --}}
                     <div class="absolute left-0 right-0 top-5 h-px bg-surface-700/60 z-0 mx-10"></div>
                     <div class="absolute left-0 top-5 h-px bg-ami-500 z-0 mx-10 transition-all duration-700" style="right: 33.33%"></div>
 
@@ -52,14 +51,32 @@
                                 <span class="text-surface-400 text-base font-normal">USD</span>
                             </p>
                         </div>
-                        <div class="flex items-center gap-2 px-3 py-1.5 bg-surface-800/60 rounded-full border border-surface-700/50">
-                            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                            <span class="text-xs text-surface-300 font-medium">Esperando pago</span>
+
+                        {{-- Badge: esperando con countdown --}}
+                        <div x-show="!expired && !completed"
+                             class="flex items-center gap-2 px-3 py-1.5 bg-surface-800/60 rounded-full border transition-colors duration-500"
+                             :class="urgency ? 'border-bearish/40 bg-bearish/5' : 'border-surface-700/50'">
+                            <span class="w-2 h-2 rounded-full animate-pulse" :class="urgency ? 'bg-bearish' : 'bg-amber-400'"></span>
+                            <span class="text-xs font-medium tabular-nums" :class="urgency ? 'text-bearish' : 'text-surface-300'"
+                                  x-text="timeLeft ? timeLeft : 'Esperando pago'">Esperando pago</span>
+                        </div>
+                        {{-- Badge: completado --}}
+                        <div style="display:none" x-show="completed"
+                             class="flex items-center gap-2 px-3 py-1.5 bg-bullish/10 rounded-full border border-bullish/30">
+                            <span class="w-2 h-2 rounded-full bg-bullish"></span>
+                            <span class="text-xs font-medium text-bullish">Confirmado</span>
+                        </div>
+                        {{-- Badge: vencido --}}
+                        <div style="display:none" x-show="expired"
+                             class="flex items-center gap-2 px-3 py-1.5 bg-bearish/10 rounded-full border border-bearish/30">
+                            <span class="w-2 h-2 rounded-full bg-bearish"></span>
+                            <span class="text-xs font-medium text-bearish">Vencido</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="p-6 space-y-6">
+                {{-- Contenido principal (oculto cuando vence) --}}
+                <div x-show="!expired" class="p-6 space-y-6">
 
                     {{-- Amount to send --}}
                     <div class="text-center bg-surface-800/50 rounded-2xl p-5 border border-surface-700/30">
@@ -119,7 +136,7 @@
                         </button>
                     </div>
 
-                    {{-- Status: waiting (siempre visible por defecto) --}}
+                    {{-- Status: waiting --}}
                     <div x-show="!completed"
                          class="rounded-xl border border-surface-700/40 bg-surface-800/30 px-4 py-3.5 text-sm text-center text-surface-400">
                         <div class="flex items-center justify-center gap-2.5">
@@ -130,7 +147,7 @@
                             Verificando confirmaciones en la red TRON…
                         </div>
                     </div>
-                    {{-- Status: completed (oculto por defecto, Alpine lo muestra) --}}
+                    {{-- Status: completed --}}
                     <div style="display:none" x-show="completed"
                          class="rounded-xl border border-bullish/30 bg-bullish/5 px-4 py-3.5 text-sm text-center text-bullish font-semibold">
                         <div class="flex items-center justify-center gap-2.5">
@@ -141,7 +158,7 @@
                         </div>
                     </div>
 
-                    {{-- Tips acordeón (colapsado por defecto) --}}
+                    {{-- Tips acordeón --}}
                     <div x-data="{ open: false }" class="border border-surface-700/30 rounded-xl overflow-hidden">
                         <button @click="open = !open"
                                 class="w-full flex items-center justify-between px-4 py-3 text-xs text-surface-400 hover:text-surface-300 transition-colors">
@@ -171,6 +188,33 @@
                         </div>
                     </div>
 
+                </div>
+
+                {{-- Estado: VENCIDO --}}
+                <div style="display:none" x-show="expired" class="p-8 text-center space-y-5">
+                    <div class="w-16 h-16 rounded-full bg-bearish/10 border border-bearish/20 flex items-center justify-center mx-auto">
+                        <svg class="w-8 h-8 text-bearish" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-white font-semibold text-lg">Pago vencido</p>
+                        <p class="text-surface-400 text-sm mt-2 leading-relaxed">
+                            La dirección de pago expiró después de 60 minutos.<br>
+                            Genera un nuevo pago para continuar.
+                        </p>
+                    </div>
+                    <a href="{{ route('crypto.checkout', $cryptoPayment->plan) }}"
+                       onclick="event.preventDefault(); document.getElementById('renew-form').submit();"
+                       class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-ami-500 hover:bg-ami-600 shadow-lg shadow-ami-500/25 transition-all duration-200">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        Generar nuevo pago
+                    </a>
+                    <form id="renew-form" action="{{ route('crypto.checkout', $cryptoPayment->plan) }}" method="POST" class="hidden">
+                        @csrf
+                    </form>
                 </div>
 
                 {{-- Card Footer --}}
@@ -203,23 +247,56 @@
 
     @push('scripts')
     <script>
-    function cryptoWaiting(orderId) {
+    function cryptoWaiting(orderId, expiresAt) {
         return {
             completed: false,
+            expired: false,
+            urgency: false,
             copied: false,
+            timeLeft: '',
             interval: null,
+            countdownInterval: null,
 
             init() {
+                this.updateCountdown();
+                this.countdownInterval = setInterval(() => this.updateCountdown(), 1000);
                 this.interval = setInterval(() => this.checkStatus(), 30000);
+            },
+
+            updateCountdown() {
+                const now = Math.floor(Date.now() / 1000);
+                const diff = expiresAt - now;
+
+                if (diff <= 0) {
+                    this.expired = true;
+                    this.timeLeft = '00:00';
+                    clearInterval(this.countdownInterval);
+                    clearInterval(this.interval);
+                    return;
+                }
+
+                const minutes = Math.floor(diff / 60);
+                const seconds = diff % 60;
+                this.timeLeft = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                this.urgency = diff < 600; // rojo cuando quedan < 10 min
             },
 
             async checkStatus() {
                 try {
                     const res = await fetch(`/suscripcion/crypto/${orderId}/estado`);
                     const data = await res.json();
+
+                    if (data.expired) {
+                        this.expired = true;
+                        clearInterval(this.interval);
+                        clearInterval(this.countdownInterval);
+                        return;
+                    }
+
                     if (data.completed) {
                         this.completed = true;
                         clearInterval(this.interval);
+                        clearInterval(this.countdownInterval);
                         setTimeout(() => window.location.href = '/suscripcion/crypto-exito', 2000);
                     }
                 } catch (e) {}

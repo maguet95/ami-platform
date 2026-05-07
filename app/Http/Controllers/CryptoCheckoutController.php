@@ -22,6 +22,18 @@ class CryptoCheckoutController extends Controller
                 ->with('info', 'Ya tienes acceso premium activo.');
         }
 
+        // Reusar pago pendiente si aún no expiró (< 58 min para dar margen)
+        $existing = CryptoPayment::where('user_id', $user->id)
+            ->where('plan_id', $plan->id)
+            ->whereIn('status', [CryptoPayment::STATUS_WAITING, CryptoPayment::STATUS_CONFIRMING])
+            ->where('created_at', '>', now()->subMinutes(58))
+            ->latest()
+            ->first();
+
+        if ($existing) {
+            return redirect()->route('crypto.waiting', $existing->order_id);
+        }
+
         try {
             $cryptoPayment = $this->nowPayments->createPayment($user, $plan);
 
@@ -44,7 +56,9 @@ class CryptoCheckoutController extends Controller
             return redirect()->route('crypto.success');
         }
 
-        return view('subscription.crypto-waiting', compact('cryptoPayment'));
+        $expiresAt = $cryptoPayment->created_at->addMinutes(60)->timestamp;
+
+        return view('subscription.crypto-waiting', compact('cryptoPayment', 'expiresAt'));
     }
 
     public function status(string $orderId)
@@ -55,7 +69,11 @@ class CryptoCheckoutController extends Controller
             ->where('user_id', $user->id)
             ->firstOrFail();
 
-        if ($cryptoPayment->isPending()) {
+        // Auto-expirar localmente si el tiempo ya pasó
+        if ($cryptoPayment->status === CryptoPayment::STATUS_WAITING
+            && $cryptoPayment->created_at->addMinutes(60)->isPast()) {
+            $cryptoPayment->update(['status' => CryptoPayment::STATUS_EXPIRED]);
+        } elseif ($cryptoPayment->isPending()) {
             $data = $this->nowPayments->getPaymentStatus($cryptoPayment->now_payment_id);
             $newStatus = $data['payment_status'] ?? $cryptoPayment->status;
 
@@ -68,9 +86,12 @@ class CryptoCheckoutController extends Controller
             }
         }
 
+        $payment = $cryptoPayment->fresh();
+
         return response()->json([
-            'status' => $cryptoPayment->fresh()->status,
-            'completed' => $cryptoPayment->fresh()->isCompleted(),
+            'status' => $payment->status,
+            'completed' => $payment->isCompleted(),
+            'expired' => $payment->status === CryptoPayment::STATUS_EXPIRED,
         ]);
     }
 

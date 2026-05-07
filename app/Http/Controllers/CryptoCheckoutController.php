@@ -56,9 +56,12 @@ class CryptoCheckoutController extends Controller
             return redirect()->route('crypto.success');
         }
 
-        $expiresAt = $cryptoPayment->created_at->addMinutes(60)->timestamp;
+        $expiresCarbon = $cryptoPayment->created_at->addMinutes(60);
+        $expiresAt = $expiresCarbon->timestamp;
+        $isExpired = $expiresCarbon->isPast()
+            || $cryptoPayment->status === CryptoPayment::STATUS_EXPIRED;
 
-        return view('subscription.crypto-waiting', compact('cryptoPayment', 'expiresAt'));
+        return view('subscription.crypto-waiting', compact('cryptoPayment', 'expiresAt', 'isExpired'));
     }
 
     public function status(string $orderId)

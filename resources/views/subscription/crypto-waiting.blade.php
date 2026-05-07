@@ -107,37 +107,33 @@
                         <div class="bg-surface-800/60 border border-surface-700/40 rounded-xl p-3.5 mb-3">
                             <code class="text-xs text-surface-300 break-all font-mono leading-relaxed select-all block">{{ $cryptoPayment->pay_address }}</code>
                         </div>
-                        {{-- Copy button — prominente y claro --}}
+                        {{-- Copy button --}}
                         <button
                             @click="copyAddress('{{ $cryptoPayment->pay_address }}')"
-                            class="w-full flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
-                            :class="copied
-                                ? 'bg-bullish/10 border border-bullish/30 text-bullish'
-                                : 'bg-surface-700/60 hover:bg-surface-700 border border-surface-600/50 text-surface-200 hover:text-white'"
+                            class="w-full flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl text-sm font-semibold bg-ami-500/20 border border-ami-500/40 text-ami-300 hover:bg-ami-500/30 transition-all duration-200"
                         >
-                            <svg x-show="!copied" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
                             </svg>
-                            <svg x-show="copied" x-cloak class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                            </svg>
-                            <span x-text="copied ? '¡Dirección copiada!' : 'Copiar dirección'"></span>
+                            <span x-text="copied ? '✓ ¡Dirección copiada!' : 'Copiar dirección'">Copiar dirección</span>
                         </button>
                     </div>
 
-                    {{-- Status --}}
-                    <div class="rounded-xl border px-4 py-3.5 text-sm text-center transition-all duration-500"
-                         :class="completed
-                            ? 'border-bullish/30 bg-bullish/5 text-bullish'
-                            : 'border-surface-700/40 bg-surface-800/30 text-surface-400'">
-                        <div x-show="!completed" class="flex items-center justify-center gap-2.5">
+                    {{-- Status: waiting (siempre visible por defecto) --}}
+                    <div x-show="!completed"
+                         class="rounded-xl border border-surface-700/40 bg-surface-800/30 px-4 py-3.5 text-sm text-center text-surface-400">
+                        <div class="flex items-center justify-center gap-2.5">
                             <svg class="w-4 h-4 animate-spin shrink-0" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                             </svg>
                             Verificando confirmaciones en la red TRON…
                         </div>
-                        <div x-show="completed" x-cloak class="flex items-center justify-center gap-2.5 font-semibold">
+                    </div>
+                    {{-- Status: completed (oculto por defecto, Alpine lo muestra) --}}
+                    <div style="display:none" x-show="completed"
+                         class="rounded-xl border border-bullish/30 bg-bullish/5 px-4 py-3.5 text-sm text-center text-bullish font-semibold">
+                        <div class="flex items-center justify-center gap-2.5">
                             <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                             </svg>

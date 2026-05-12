@@ -16,6 +16,8 @@
         {{-- Sidebar --}}
         <aside x-data="{ collapsed: false, mobileOpen: false }"
                x-on:toggle-sidebar.window="mobileOpen = !mobileOpen"
+               x-on:open-mobile-sidebar.window="mobileOpen = true"
+               x-on:close-mobile-sidebar.window="mobileOpen = false"
                class="flex flex-col shrink-0">
 
             {{-- Mobile Overlay --}}

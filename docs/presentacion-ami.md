@@ -2,6 +2,7 @@
 ## Documento de Presentación Ejecutiva
 
 > *Para uso en reuniones de asesoría, inversores y aliados estratégicos*
+> *Versión 2.0 — Mayo 2026*
 
 ---
 
@@ -91,18 +92,28 @@ Planes privados para grupos, empresas o accesos exclusivos. Base técnica ya con
 
 ## 4. La Plataforma — Módulos Principales
 
+> **Clave de lectura:** cada módulo nació para resolver un problema concreto de proceso que enfrentan los traders al aprender. No son features por tener features — cada uno responde a una fricción real.
+
+---
+
 ### 4.1 Cursos y Contenido Educativo
 
 **Qué es:** biblioteca de cursos organizados en módulos y lecciones con video.
 
-**Cómo funciona:**
-- Cursos con jerarquía: Curso → Módulo → Lección
-- Videos alojados en Bunny.net Stream (CDN global, streaming optimizado)
-- Seguimiento de progreso por estudiante
-- Tres tipos de acceso: `Gratuito`, `Premium`, `Exclusivo`
-- Admin/Instructor puede organizar contenido con drag & drop
+**El problema que resuelve:**
+La mayoría de academias sueltan contenido sin estructura — el estudiante no sabe qué estudiar primero, qué sigue, ni si está avanzando. El resultado es deserción temprana.
 
-**Valor para el estudiante:** aprender a su ritmo, con estructura clara, de traders reales.
+**Cómo funciona:**
+- Cursos con jerarquía clara: Curso → Módulo → Lección
+- Videos alojados en Bunny.net Stream (CDN global, streaming sin buffering)
+- La plataforma registra qué lecciones completó cada estudiante — el progreso se guarda
+- Tres tipos de acceso: `Gratuito` (gancho), `Premium` (suscripción), `Exclusivo` (invitación)
+- Admin e instructores organizan el contenido con drag & drop — sin tecnicismos
+
+**Lo que resuelve a nivel de proceso:**
+- El estudiante siempre sabe dónde está y qué sigue → menos abandono
+- El instructor sube y organiza contenido sin depender de un técnico
+- El negocio puede ofrecer contenido gratuito como gancho sin abrir todo el catálogo
 
 **Diferenciador:** el contenido no son slides teóricos — son sesiones reales de mercado grabadas y organizadas.
 
@@ -112,56 +123,73 @@ Planes privados para grupos, empresas o accesos exclusivos. Base técnica ya con
 
 **Qué es:** sistema de calendario de clases en vivo integrado a la plataforma.
 
+**El problema que resuelve:**
+Sin un sistema propio, los estudiantes se pierden clases porque no las recuerdan, no tienen el link a mano, o el link es genérico y cualquiera puede entrar. La plataforma soluciona los tres problemas.
+
 **Cómo funciona:**
-- El instructor crea clases desde el panel admin
-- Los estudiantes reciben notificación y recordatorio automático 15 minutos antes
-- Link de acceso tokenizado: cada estudiante tiene su propio link único
-- El link AMI verifica autenticación → redirige a Zoom/Meet/la plataforma elegida
-- Calendario visible en tres vistas: Mes, Semana, Día (timeline 7:00–22:00)
+- El instructor crea la clase desde su panel → aparece automáticamente en el calendario del estudiante
+- La plataforma envía recordatorio automático 15 minutos antes vía email
+- Cada estudiante recibe su propio link tokenizado y único — no se puede compartir ni reutilizar
+- El estudiante entra desde su cuenta → el sistema verifica que tiene acceso → redirige a la clase
+
+**Lo que resuelve a nivel de proceso:**
+- Cero coordinación manual de links — el sistema lo hace todo
+- Control real de asistencia — se sabe quién entró y cuándo
+- Seguridad: solo miembros activos pueden acceder a las clases
 
 **Para el negocio:** genera recurrencia y compromiso — los estudiantes vuelven cada semana.
-
-**Diferenciador:** las clases son interactivas, muestran el proceso en tiempo real, no son grabaciones editadas.
 
 ---
 
 ### 4.3 Trading Journal (Premium)
 
-**Qué es:** herramienta de análisis del historial de trading del estudiante.
+**Qué es:** herramienta de análisis del historial de trading del estudiante, integrada directamente en la plataforma.
+
+**El problema que resuelve:**
+El error más común del trader que está aprendiendo: operar por intuición, sin saber si sus decisiones son rentables a largo plazo. Sin datos históricos, no puede mejorar. Las herramientas externas de journal (Tradervue, Edgewonk) cuestan entre $30 y $170/mes adicionales y están en inglés.
 
 **Dos modos:**
 
 | Journal Automático | Bitácora Manual |
 |-------------------|-----------------|
-| Conecta con broker (Binance, MT4, MT5) o importa CSV | El trader registra sus operaciones manualmente |
-| Importación automática de trades | Control total de los datos |
-| Estadísticas calculadas automáticamente | Imágenes de setup, notas de proceso |
+| Importa los trades desde el broker (Binance, MT4/MT5) o CSV | El trader registra cada operación manualmente |
+| Estadísticas calculadas automáticamente | Control total de los datos, fotos del setup, notas de proceso |
+| Sin esfuerzo manual | Sin necesidad de tener un broker conectado |
 
-**Métricas disponibles:**
+**Métricas que el estudiante ve:**
 - Win Rate, Profit Factor, Expectancy
 - Drawdown máximo, racha ganadora/perdedora
-- Distribución por par, por horario, por día de semana
-- Equity curve, PnL acumulado
+- Distribución por par de trading, por horario, por día de semana
+- Equity curve (curva de capital), PnL acumulado
 
-**Valor:** el trader deja de operar por intuición — tiene datos reales de su desempeño.
+**Lo que resuelve a nivel de proceso:**
+- El trader deja de operar "por fe" — tiene datos reales de qué funciona y qué no
+- La plataforma se convierte en su herramienta de trabajo, no solo de educación
+- El estudiante está más enganchado → menos churn (no quiere perder su historial)
 
-**Diferenciador:** pocas plataformas educativas incluyen journal propio. La mayoría usa herramientas externas (Tradervue, Edgewonk) de pago.
+**Diferenciador:** pocas (si alguna) plataformas educativas de trading en español incluyen journal propio. AMI lo da incluido en la membresía.
 
 ---
 
 ### 4.4 Gamificación y Comunidad Interna
 
-**Qué es:** sistema de XP, logros y ranking para incentivar el aprendizaje continuo.
+**Qué es:** sistema de XP (puntos de experiencia), logros y ranking para motivar el aprendizaje continuo.
+
+**El problema que resuelve:**
+Los estudiantes de plataformas de cursos tienen una tasa de completado promedio del 15%. El contenido existe pero nadie lo termina. Sin incentivos claros y visibles, la motivación cae después de los primeros días.
 
 **Cómo funciona:**
-- Los estudiantes ganan XP al completar lecciones, asistir a clases, registrar trades
-- Logros desbloqueables (13 tipos: primer trade, racha de 7 días, etc.)
-- Ranking público de traders dentro de la plataforma
-- Perfil público de trader: comparte progreso, logros y estadísticas
+- Los estudiantes ganan XP al: completar lecciones, asistir a clases, registrar trades
+- 13 tipos de logros desbloqueables (primer trade registrado, racha de 7 días, completar módulo, etc.)
+- Ranking público dentro de la plataforma: el estudiante puede ver dónde está vs. los demás
+- Perfil público de trader: comparte su progreso, logros y estadísticas
 
-**Para el negocio:** reduce churn — los estudiantes no quieren perder su progreso y ranking.
+**Lo que resuelve a nivel de proceso:**
+- Transforma el estudio de una obligación en un juego con metas claras
+- Genera identidad: el estudiante es "parte de AMI", no solo un consumidor de cursos
+- El ranking crea un incentivo social: nadie quiere quedar al fondo
 
-**Diferenciador:** crea identidad dentro de la plataforma, no solo acceso a contenido.
+**Para el negocio:** reduce churn — los estudiantes no quieren perder su progreso, logros y posición en el ranking.
 
 ---
 
@@ -169,13 +197,41 @@ Planes privados para grupos, empresas o accesos exclusivos. Base técnica ya con
 
 **Qué es:** panel independiente para que los instructores gestionen su contenido sin acceso al área administrativa.
 
-**Qué puede hacer un instructor:**
-- Crear y editar cursos, módulos y lecciones
-- Organizar contenido con drag & drop (Content Organizer)
-- Programar y gestionar clases en vivo
-- Ver sus propios estudiantes
+**El problema que resuelve:**
+Sin un panel propio, cualquier cambio de contenido requiere al administrador. Eso crea un cuello de botella: el instructor no puede moverse con autonomía.
 
-**Lo que NO puede hacer:** gestionar precios, suscripciones, usuarios o configuración del sistema.
+**Qué puede hacer un instructor desde su panel:**
+- Crear y editar cursos, módulos y lecciones
+- Subir videos y organizar el contenido con drag & drop
+- Programar y gestionar sus clases en vivo
+- Ver la lista de sus estudiantes
+
+**Lo que NO puede hacer:** gestionar precios, suscripciones, usuarios o configuración del sistema. Su área está delimitada.
+
+**Lo que resuelve a nivel de proceso:**
+- El instructor tiene autonomía total sobre su contenido — no depende de nadie para publicar
+- El administrador no necesita intervenir en cada actualización de contenido
+- El negocio puede escalar a múltiples instructores sin caos operativo
+
+---
+
+### 4.6 Onboarding Automatizado
+
+**Qué es:** tour interactivo que guía al nuevo estudiante por la plataforma la primera vez que ingresa.
+
+**El problema que resuelve:**
+Los usuarios nuevos que no entienden qué hacer en una plataforma abandonan en los primeros 5 minutos. El soporte recibe las mismas preguntas básicas repetidamente.
+
+**Cómo funciona:**
+- Al registrarse, el estudiante ve automáticamente un recorrido guiado de 8 pasos
+- Cada paso resalta visualmente la sección que explica (dashboard, cursos, clases, journal, etc.)
+- El estudiante puede saltar el tour y reiniciarlo desde su perfil cuando quiera
+- En móvil, el menú se abre automáticamente para mostrar cada elemento
+
+**Lo que resuelve a nivel de proceso:**
+- El estudiante sabe qué existe y dónde está desde el minuto uno → menos abandono temprano
+- Menos mensajes de soporte con preguntas básicas
+- Primera impresión profesional y estructurada
 
 ---
 
@@ -183,14 +239,14 @@ Planes privados para grupos, empresas o accesos exclusivos. Base técnica ya con
 
 ### Suscripción única, acceso total
 
-AMI funciona con un modelo de **membresía todo incluido**:
+AMI funciona con un modelo de **membresía todo incluido**. Los precios finales se están calibrando con investigación de mercado — el objetivo es que la suscripción sea tan accesible que el valor acumulado a lo largo del tiempo la haga parecer insignificante.
 
-| Plan | Precio | Facturación | Ahorro |
-|------|--------|-------------|--------|
-| Mensual | Por definir | Mensual | — |
-| Anual | Por definir | Anual | ~30% vs mensual |
+| Plan | Precio referencia | Facturación | Equivalente |
+|------|--------|-------------|-------------|
+| **Mensual** | **~$30 USD** | Cada mes | ~$30/mes |
+| **Anual** | **~$250 USD** | Una vez al año | ~$21/mes — **~30% de ahorro** |
 
-*(Los precios finales se definirán antes del lanzamiento comercial)*
+> *Precios en estudio de mercado. Meta: máximo valor al menor costo posible, con una suscripción que con el tiempo se sienta insignificante frente al conocimiento y herramientas recibidas.*
 
 **Qué incluye la membresía:**
 - ✅ Acceso a todos los cursos premium
@@ -200,29 +256,39 @@ AMI funciona con un modelo de **membresía todo incluido**:
 - ✅ Logros, ranking y perfil de trader
 - ✅ Comunidad y soporte
 
+### Métodos de pago disponibles
+
+| Método | Estado | Para |
+|--------|--------|------|
+| **Crypto (USDT TRC20)** | ✅ Activo | Todos los planes |
+| **Tarjeta (NexaPay)** | ✅ Disponible | Plan anual |
+| **Stripe (tarjeta internacional)** | ⏳ Pendiente LLC | Todos los planes (próximamente) |
+
+> **Nota:** Stripe requiere una entidad legal en EEUU (en proceso). Mientras tanto, USDT vía NOWPayments y NexaPay cubren la operación.
+
 ### Flujo del usuario
 
 ```
-Descubre AMI          Se registra         Paga membresía       Acceso total
-(community/web)  →   (gratuito)     →    (Stripe)         →   (premium)
+Descubre AMI          Se registra         Tour de bienvenida   Paga membresía       Acceso total
+(community/web)  →   (gratuito, 2 min) →  (automático)    →   (crypto/tarjeta) →   (premium)
 ```
 
-### Ingresos recurrentes
+### Por qué es un modelo sólido
 
-- Modelo MRR (Monthly Recurring Revenue) predecible
-- Bajo costo de servicio marginal por nuevo estudiante
-- Alta retención si el contenido es consistente
-- Escalable: misma infraestructura para 50 o 5,000 estudiantes
+- **MRR predecible:** los ingresos son recurrentes, no dependen de vender cada mes
+- **Bajo costo marginal:** una vez creado el contenido, un nuevo estudiante no cuesta más
+- **Alta retención potencial:** el journal y el progreso acumulado retienen al estudiante
+- **Escalable:** la misma infraestructura funciona para 50 o 5,000 estudiantes
 
 ### Proyección de referencia
 
-| Estudiantes | Plan mensual (estimado) | MRR estimado |
-|-------------|------------------------|--------------|
-| 50 | $X | $X×50 |
-| 100 | $X | $X×100 |
-| 250 | $X | $X×250 |
+| Estudiantes | Plan mensual | MRR estimado | ARR estimado |
+|-------------|--------------|--------------|--------------|
+| 50 | $29.99 | ~$1,500 | ~$18,000 |
+| 100 | $29.99 | ~$3,000 | ~$36,000 |
+| 250 | $29.99 | ~$7,500 | ~$90,000 |
 
-*(Completar con los precios finales definidos)*
+*(Proyección conservadora, solo plan mensual. El mix con plan anual mejora el LTV.)*
 
 ---
 
@@ -246,7 +312,7 @@ Descubre AMI          Se registra         Paga membresía       Acceso total
 | Frontend | Tailwind CSS + Alpine.js | Diseño moderno, rápido, sin frameworks pesados |
 | Base de datos | PostgreSQL | Robusto, ideal para datos financieros |
 | Video | Bunny.net Stream | CDN global, streaming optimizado, bajo costo |
-| Pagos | Stripe | Estándar global, API excelente, seguro |
+| Pagos | NOWPayments + NexaPay | Operativo desde Latinoamérica, sin LLC |
 | Email | Resend | Entrega confiable, logs claros |
 | Hosting | Render.com | PaaS simple, deploy automático desde GitHub |
 | Monitoreo | Sentry + UptimeRobot | Alertas en tiempo real de errores y caídas |
@@ -254,10 +320,9 @@ Descubre AMI          Se registra         Paga membresía       Acceso total
 ### Seguridad
 
 - Cifrado de credenciales sensibles
-- Autenticación de dos factores disponible
 - Headers de seguridad (CSP, HSTS, X-Frame-Options)
 - Rate limiting en todos los endpoints
-- Links de clase tokenizados y de un solo uso
+- Links de clase tokenizados — de un solo uso, ligados al estudiante
 
 ---
 
@@ -271,27 +336,28 @@ Descubre AMI          Se registra         Paga membresía       Acceso total
 | Registro y autenticación de usuarios | ✅ Live |
 | Sistema de cursos, módulos y lecciones | ✅ Live |
 | Clases en vivo (calendario, notificaciones, links) | ✅ Live |
-| Trading Journal (automático + manual) | ✅ Live |
+| Trading Journal (automático + manual + estadísticas) | ✅ Live |
 | Gamificación (XP, logros, ranking) | ✅ Live |
 | Panel Admin completo | ✅ Live |
 | Panel Instructor | ✅ Live |
 | Perfiles públicos de traders | ✅ Live |
-| Sistema de membresías (código) | ✅ Live |
+| Sistema de membresías con pago crypto | ✅ Live |
 | Monitoreo (Sentry + UptimeRobot) | ✅ Live |
+| Tour de onboarding para nuevos usuarios | ✅ Live |
 
-### ⚙️ En proceso
+### ⚙️ En proceso / próximos pasos
 
 | Ítem | Estado |
 |------|--------|
-| Stripe — activación pagos en producción | En configuración |
-| Videos — subida de contenido | Pendiente (infraestructura lista) |
-| Criptomonedas como método de pago | Evaluando |
+| Subida de contenido educativo real | Siguiente paso |
+| Stripe — activación con LLC en EEUU | En proceso (Wyoming LLC) |
+| Emails de recordatorio de renovación | Pendiente |
 
 ### Métricas actuales (producción)
 
-- Usuarios registrados: 6 (solo cuentas de prueba, pre-lanzamiento)
-- Cursos publicados: 2
-- Plataforma en modo test — aún no lanzada públicamente
+- Usuarios registrados: 2 (cuentas de prueba — pre-lanzamiento)
+- Cursos publicados: 2 (en construcción)
+- Plataforma en modo pre-lanzamiento — no anunciada públicamente aún
 
 ---
 
@@ -299,9 +365,9 @@ Descubre AMI          Se registra         Paga membresía       Acceso total
 
 ### Comparación con alternativas del mercado
 
-| | AMI | Grupos de señales | Academias tradicionales | Plataformas genéricas (Hotmart/Teachable) |
+| | AMI | Grupos de señales | Academias tradicionales | Hotmart/Teachable |
 |---|---|---|---|---|
-| Educación real de trading | ✅ | ❌ | Parcial | Depende del creador |
+| Educación real de trading | ✅ | ❌ | Parcial | Depende |
 | Trading Journal integrado | ✅ | ❌ | ❌ | ❌ |
 | Clases en vivo integradas | ✅ | Parcial | Parcial | ❌ |
 | Gamificación / comunidad interna | ✅ | ❌ | ❌ | ❌ |
@@ -311,7 +377,7 @@ Descubre AMI          Se registra         Paga membresía       Acceso total
 
 ### Ventaja competitiva clave
 
-**La combinación de contenido educativo + journal de trading en una sola plataforma es prácticamente inexistente en el mercado hispano.** El estudiante no necesita pagar herramientas externas (Tradervue ~$30/mes, Edgewonk ~$170/año) — todo está incluido.
+**La combinación de educación + journal de trading en una sola plataforma es prácticamente inexistente en el mercado hispano.** El estudiante no necesita pagar herramientas externas (Tradervue ~$30/mes, Edgewonk ~$170/año) — todo está incluido en la membresía de AMI.
 
 ---
 
@@ -319,23 +385,22 @@ Descubre AMI          Se registra         Paga membresía       Acceso total
 
 ### Corto plazo (próximas semanas)
 
-1. **Activar Stripe** — conectar planes con productos reales, probar flujo completo de pago
-2. **Subir contenido** — primeros cursos grabados y organizados en la plataforma
-3. **Definir precios finales** de membresía
-4. **Prueba beta** con primeros estudiantes reales (feedback y ajustes)
+1. **Subir contenido educativo** — primeros cursos grabados y organizados en la plataforma
+2. **Prueba beta** con primeros estudiantes reales (feedback y ajustes antes del lanzamiento)
+3. **Wyoming LLC** → Mercury bank → activar Stripe para pagos con tarjeta internacional
 
 ### Mediano plazo
 
-5. **Main page + Sales page** — rediseño enfocado en conversión
-6. **Lanzamiento público** — campaña desde la comunidad de Telegram
+4. **Landing principal + Sales page** — rediseño orientado a conversión real
+5. **Lanzamiento público** — campaña desde la comunidad de Telegram
+6. **Emails de renovación** — recordatorios automáticos 30/7/1 días antes del vencimiento
 7. **Planes institucionales** — acceso exclusivo para grupos privados
-8. **Sitio web personal** — marca personal de la fundadora (Daniela Hernández)
 
 ### Largo plazo
 
-9. **Cuentas auditadas** — transparencia pública del proceso de trading
-10. **Escalabilidad** — cuando supere ~500 estudiantes, migrar workers a servidor dedicado
-11. **Métodos de pago alternativos** — cripto (evaluar demanda real primero)
+8. **Cuentas auditadas** — transparencia pública del proceso de trading del instructor
+9. **Sitio web personal** — marca personal del fundador
+10. **Escalabilidad** — cuando supere ~500 estudiantes, infraestructura dedicada
 
 ---
 
@@ -344,10 +409,10 @@ Descubre AMI          Se registra         Paga membresía       Acceso total
 **AMI es una plataforma educativa de trading construida para ser el recurso más completo y honesto del mercado hispano.**
 
 - **Producto diferenciado:** trading journal + educación + comunidad en un solo lugar
-- **Modelo sostenible:** suscripción recurrente, sin comisiones externas
-- **Infraestructura propia:** plataforma construida a medida, control total
+- **Modelo sostenible:** suscripción recurrente ($29.99/mes o $249.99/año), sin comisiones externas
+- **Infraestructura propia:** plataforma construida a medida, en producción, operativa hoy
 - **Filosofía sólida:** educación real, sin promesas vacías
-- **Estado:** plataforma lista, en proceso de activación comercial
+- **Estado:** plataforma 100% funcional, en proceso de activación comercial
 
 La pregunta no es si hay mercado — hay millones de personas en Latinoamérica interesadas en mercados financieros. La pregunta es cómo capturar ese mercado con la propuesta correcta.
 
@@ -355,5 +420,4 @@ La pregunta no es si hay mercado — hay millones de personas en Latinoamérica 
 
 ---
 
-*Documento generado: Mayo 2026*
-*Versión: 1.0 — Pre-lanzamiento*
+*Documento actualizado: Mayo 2026 — Versión 2.0*

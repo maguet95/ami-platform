@@ -26,6 +26,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Password rules: min 8 chars, at least 1 letter + 1 number
+        Password::defaults(fn () => Password::min(8)->letters()->numbers());
+
         // Prevent lazy loading in development (catches N+1 queries)
         Model::preventLazyLoading(! app()->isProduction());
 
